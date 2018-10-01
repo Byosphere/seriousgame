@@ -8,16 +8,18 @@ server.listen(8081, function () {
 });
 
 server.players = [];
+server.instructor = false;
 
 io.on('connection', function (socket) {
 
     socket.on('init', function () {
-        if (server.players.length) {
+        if (server.instructor) {
             socket.emit('init', 'player');
-            server.players.push({ role: 'player', name: 'device ' + server.players.length + 1 });
+            server.players.push({ role: '', name: 'Joueur ' + (server.players.length + 1) });
+            socket.broadcast.emit('playerupdate', server.players);
         } else {
             socket.emit('init', 'instructor');
-            server.players.push({ role: 'instructor', name: 'device 1' });
+            server.instructor = true; //TRUE
         }
         console.log(server.players);
     });

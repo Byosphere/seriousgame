@@ -1,0 +1,11 @@
+{
+    "instructor": {
+        "title": "Interface du maitre du jeu",
+        "list": "Liste des joueurs",
+        "player": {
+            "no-role": "Sélectionne son rôle...",
+            "role": "Rôle : ",
+            "no-player": "Aucun joueur connecté"
+        }
+    }
+}

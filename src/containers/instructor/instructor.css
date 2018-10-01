@@ -1,0 +1,9 @@
+.connected-list {
+    width: 280px;
+    margin-top: 5px;
+    height: calc(100% - 70px);
+}
+
+.no-player {
+    opacity: 0.5;
+}
