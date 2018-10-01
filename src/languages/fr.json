@@ -7,5 +7,8 @@
             "role": "Rôle : ",
             "no-player": "Aucun joueur connecté"
         }
+    },
+    "player": {
+        "titleselect": "Sélectionne un rôle pour la partie"
     }
 }

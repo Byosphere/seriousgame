@@ -12,15 +12,33 @@ server.instructor = false;
 
 io.on('connection', function (socket) {
 
-    socket.on('init', function () {
+    socket.on('init', () => {
         if (server.instructor) {
             socket.emit('init', 'player');
-            server.players.push({ role: '', name: 'Joueur ' + (server.players.length + 1) });
+            socket.player = { id: server.players.length, roleId: 0, name: 'Joueur ' + (server.players.length + 1) };
+            server.players[socket.player.id] = socket.player;
             socket.broadcast.emit('playerupdate', server.players);
         } else {
             socket.emit('init', 'instructor');
-            server.instructor = true; //TRUE
+            server.instructor = true;
         }
         console.log(server.players);
+    });
+
+    socket.on('selectrole', (roleId) => {
+        let open = true;
+        server.players.forEach(player => {
+            if (player.roleId === roleId) {
+                open = false;
+            }
+        });
+        if (open) {
+            socket.player.roleId = roleId;
+            server.players[socket.player.id].roleId = roleId;
+            socket.broadcast.emit('playerupdate', server.players);
+            socket.emit('selectrole', true);
+        } else {
+            socket.emit('selectrole', false);
+        }
     });
 });

@@ -1,7 +1,22 @@
 {
     "roles": [
-        {},
-        {},
-        {}
+        {
+            "id": 1,
+            "name": "Role Fictif 1",
+            "description": "lorem isdfoiqsdhf qlksdjqkldj qksl jqslk jqks jqld",
+            "disabled": false
+        },
+        {
+            "id": 2,
+            "name": "Role Fictif 2",
+            "description": "lorem isdfoiqsdhf qlksdjqkldj qksl jqslk jqks jqld",
+            "disabled": false
+        },
+        {
+            "id": 3,
+            "name": "Role Fictif 3",
+            "description": "lorem isdfoiqsdhf qlksdjqkldj qksl jqslk jqks jqld",
+            "disabled": false
+        }
     ]
 }

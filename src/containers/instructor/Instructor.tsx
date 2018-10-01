@@ -2,7 +2,6 @@ import * as React from 'react';
 import './instructor.css';
 import { AppBar, Toolbar, Typography, Card, List, ListItemText, ListItem, ListItemIcon, CardHeader, Divider } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
-import { ORANGE } from '../../utils/constants';
 import T from 'i18n-react';
 import { onPlayerUpdate } from '../../utils/api';
 
@@ -15,7 +14,7 @@ interface State {
 
 interface Player {
 	name: string,
-	role: string
+	roleId: number
 }
 
 class Instructor extends React.Component<Props, State> {
@@ -42,7 +41,7 @@ class Instructor extends React.Component<Props, State> {
 	public render() {
 		return (
 			<div className="instructor">
-				<AppBar position="static" color="primary" classes={{ colorPrimary: ORANGE }}>
+				<AppBar position="static" color="primary">
 					<Toolbar>
 						<Typography variant="title" color="inherit">
 							{T.translate('instructor.title')}
@@ -66,7 +65,7 @@ class Instructor extends React.Component<Props, State> {
 									</ListItemIcon>
 									<ListItemText
 										primary={player.name}
-										secondary={player.role ? T.translate('instructor.player.role') + player.role : T.translate('instructor.player.no-role')} />
+										secondary={player.roleId ? T.translate('instructor.player.role') + player.roleId.toString() : T.translate('instructor.player.no-role')} />
 								</ListItem>);
 						})}
 					</List>

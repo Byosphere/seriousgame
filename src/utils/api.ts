@@ -9,3 +9,8 @@ export function gameConnect(response: any) {
 export function onPlayerUpdate(response: any) {
     socket.on('playerupdate', (players: Array<Object>) => response(null, players));
 }
+
+export function selectRole(roleId: number, response: any) {
+    socket.on('selectrole', (selected: boolean) => response(null, selected));
+    socket.emit('selectrole', roleId);
+}
