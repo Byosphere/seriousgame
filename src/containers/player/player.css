@@ -13,44 +13,49 @@ h1 {
     text-align: center;
 }
 
+.player>div.disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 .player>div {
     transition: all 0.3s;
     cursor: pointer;
 }
-.player .card-1 {
+.player .card-0 {
     grid-column: 2 / 3;
+    grid-row: 3 / 3;
+}
+
+.player .card-1 {
+    grid-column: 4 / 4;
     grid-row: 3 / 3;
 }
 
 .player .card-2 {
-    grid-column: 4 / 4;
+    grid-column: 6 / 6;
     grid-row: 3 / 3;
 }
 
 .player .card-3 {
-    grid-column: 6 / 6;
-    grid-row: 3 / 3;
-}
-
-.player .card-4 {
     grid-column: 2 / 3;
     grid-row: 5 / 5;
 }
 
-.player .card-5 {
+.player .card-4 {
     grid-column: 4 / 4;
     grid-row: 5 / 5;
 }
 
-.player .card-6 {
+.player .card-5 {
     grid-column: 6 / 6;
     grid-row: 5 / 5;
 }
 
-.player .card-1.large, .player .card-2.large, .player .card-3.large {
+.player .card-0.large, .player .card-1.large, .player .card-2.large {
     grid-row: 3 / 6;
 }
 
-.player>div:hover {
+.player>div:not(.disabled):hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }

@@ -4,17 +4,13 @@ import { AppBar, Toolbar, Typography, Card, List, ListItemText, ListItem, ListIt
 import { Person } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate } from '../../utils/api';
+import { Player } from '../../interfaces/Player';
 
 interface Props {
 
 }
 interface State {
 	players: Array<Player>
-}
-
-interface Player {
-	name: string,
-	roleId: number
 }
 
 class Instructor extends React.Component<Props, State> {
@@ -55,7 +51,7 @@ class Instructor extends React.Component<Props, State> {
 					<Divider />
 					<List>
 						{!this.state.players.length && <ListItem >
-							<ListItemText primary={T.translate('instructor.player.no-player')} className="no-player"/>
+							<ListItemText primary={T.translate('instructor.player.no-player')} className="no-player" />
 						</ListItem>}
 						{this.state.players.map(player => {
 							return (
@@ -65,7 +61,7 @@ class Instructor extends React.Component<Props, State> {
 									</ListItemIcon>
 									<ListItemText
 										primary={player.name}
-										secondary={player.roleId ? T.translate('instructor.player.role') + player.roleId.toString() : T.translate('instructor.player.no-role')} />
+										secondary={player.roleIndex > -1 ? T.translate('instructor.player.role') + player.roleIndex.toString() : T.translate('instructor.player.no-role')} />
 								</ListItem>);
 						})}
 					</List>
