@@ -3,15 +3,11 @@
 ## Table of Contents
 
 - [Structure de fichiers](#structure-de-fichiers)
-- [Sending Feedback](#sending-feedback)
-- [Folder Structure](#folder-structure)
-- [Available Scripts](#available-scripts)
-  - [npm start](#npm-start)
-  - [npm test](#npm-test)
+- [Données modifiables](#donnees-modifiables)
 
 
 ## Structure de fichiers
 
-
+## Données modifiables
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
