@@ -1,25 +1,28 @@
 import * as React from 'react';
-import './player.css';
+import './roleselect.css';
 import { Card, CardHeader } from '@material-ui/core';
 import T from 'i18n-react';
 import { Role } from '../../interfaces/Role';
 import { selectRole, getRoles } from '../../utils/api';
+import { Redirect } from 'react-router';
 
 interface Props {
 
 }
 interface State {
     roles: Array<Role>
-    selectable: boolean
+    selectable: boolean,
+    redirect: boolean
 }
 
-class Player extends React.Component<Props, State> {
+class RoleSelect extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
         this.state = {
             roles: [],
-            selectable: true
+            selectable: true,
+            redirect: false
         }
 
         getRoles((err: any, roles: Array<Role>) => {
@@ -47,7 +50,7 @@ class Player extends React.Component<Props, State> {
             selectRole(parseInt(evt.target.dataset.index), (err: any, response: boolean) => {
                 if (response) {
                     // le role a été choisi
-
+                    this.setState({ redirect: true });
                 } else {
                     // le role ne peut etre choisi
                 }
@@ -55,27 +58,32 @@ class Player extends React.Component<Props, State> {
         } else {
             //TODO error message
         }
-
     }
 
     public render() {
-        let cpt = 0;
-        return (
-            <div className="player">
-                <h1>{T.translate('player.titleselect')}</h1>
-                {this.state.roles.map(role => {
-                    return (
-                        <Card data-index={cpt} key={role.id} onClick={this.handleSelect} className={"card-" + cpt++ + (this.state.roles.length > 3 ? "" : " large") + (role.disabled ? " disabled" : "")}>
-                            <CardHeader
-                                title={role.name}
-                                subheader={role.description}
-                            />
-                        </Card>
-                    );
-                })}
-            </div>
-        );
+
+        if (this.state.redirect) {
+            return (<Redirect to='gamescene' />);
+        } else {
+
+            let cpt = 0;
+            return (
+                <div className="player">
+                    <h1>{T.translate('player.titleselect')}</h1>
+                    {this.state.roles.map(role => {
+                        return (
+                            <Card data-index={cpt} key={role.id} onClick={this.handleSelect} className={"card-" + cpt++ + (this.state.roles.length > 3 ? "" : " large") + (role.disabled ? " disabled" : "")}>
+                                <CardHeader
+                                    title={role.name}
+                                    subheader={role.description}
+                                />
+                            </Card>
+                        );
+                    })}
+                </div>
+            );
+        }
     }
 }
 
-export default Player;
+export default RoleSelect;

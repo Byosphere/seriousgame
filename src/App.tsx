@@ -1,10 +1,12 @@
 import * as React from 'react';
 import './style/App.css';
-import Instructor from './containers/instructor/Instructor';
-import Player from './containers/player/Player';
+import MasterBoard from './containers/masterboard/MasterBoard';
+import GameScene from './containers/gamescene/GameScene';
+import RoleSelect from './containers/roleselect/RoleSelect';
 import { gameConnect } from './utils/api';
 import { INSTRUCTOR, PLAYER, ORANGE } from './utils/constants';
 import { GridLoader } from 'halogenium';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 interface Props { store: any }
 interface State {
@@ -30,6 +32,7 @@ class App extends React.Component<Props, State> {
 					instructorInterface: true,
 					loading: false
 				});
+
 			} else if (role == PLAYER) {
 				this.setState({
 					playerInterface: true,
@@ -43,12 +46,20 @@ class App extends React.Component<Props, State> {
 	}
 
 	public render() {
+
 		return (
-			<div className="app">
-				{this.state.loading && <GridLoader className="loader" color={ORANGE} size="50px" />}
-				{this.state.instructorInterface && <Instructor />}
-				{this.state.playerInterface && <Player />}
-			</div>
+			<HashRouter>
+				<div className="app">
+					{this.state.loading && <GridLoader className="loader" color={ORANGE} size="50px" />}
+					<Switch>
+						<Route exact path='/masterboard' component={MasterBoard} />
+						<Route exact path='/roleselect' component={RoleSelect} />
+						<Route exact path='/gamescene' component={GameScene} />
+						{this.state.instructorInterface && <Redirect to="/masterboard" />}
+						{this.state.playerInterface && <Redirect to="/roleselect" />}
+					</Switch>
+				</div>
+			</HashRouter>
 		);
 	}
 }

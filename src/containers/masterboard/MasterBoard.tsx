@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './instructor.css';
+import './masterboard.css';
 import { AppBar, Toolbar, Typography, Card, List, ListItemText, ListItem, ListItemIcon, CardHeader, Divider } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
 import T from 'i18n-react';
@@ -13,7 +13,7 @@ interface State {
 	players: Array<Player>
 }
 
-class Instructor extends React.Component<Props, State> {
+class MasterBoard extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
@@ -36,7 +36,7 @@ class Instructor extends React.Component<Props, State> {
 
 	public render() {
 		return (
-			<div className="instructor">
+			<div className="masterboard">
 				<AppBar position="static" color="primary">
 					<Toolbar>
 						<Typography variant="title" color="inherit">
@@ -71,4 +71,4 @@ class Instructor extends React.Component<Props, State> {
 	}
 }
 
-export default Instructor;
+export default MasterBoard;
