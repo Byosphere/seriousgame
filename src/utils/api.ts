@@ -7,10 +7,10 @@ const socket = io('http://localhost:8081');
 
 /**
  * Initialisation de la connexion au server
- * @param response : fonction retournant err et le type de joueur
+ * @param response : fonction retournant err et le type de joueur + id
  */
 export function gameConnect(response: any) {
-    socket.on('init', (resp: string) => response(null, resp));
+    socket.on('init', (resp: any) => response(null, resp));
     socket.emit('init');
 }
 
@@ -55,4 +55,12 @@ export function startStory(storyId: number) {
 
 export function startGame(response: any) {
     socket.on('startgame', (story: Story) => response(story));
+}
+
+export function onDisconnect(playerId: number, response: any) {
+
+    socket.on('disconnect', () => {
+        socket.emit('disconnect');
+        response();
+    });
 }

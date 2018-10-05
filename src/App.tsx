@@ -3,7 +3,7 @@ import './style/App.css';
 import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
 import RoleSelect from './containers/roleselect/RoleSelect';
-import { gameConnect } from './utils/api';
+import { gameConnect, onDisconnect } from './utils/api';
 import { INSTRUCTOR, PLAYER, ORANGE } from './utils/constants';
 import { GridLoader } from 'halogenium';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
@@ -14,6 +14,8 @@ interface State {
 	instructorInterface: boolean,
 	playerInterface: boolean,
 	loading: boolean
+	disconnected: boolean
+	playerId: number
 }
 
 class App extends React.Component<Props, State> {
@@ -25,7 +27,9 @@ class App extends React.Component<Props, State> {
 		this.state = {
 			instructorInterface: false,
 			playerInterface: false,
-			loading: true
+			loading: true,
+			disconnected: false,
+			playerId: -1
 		}
 		gameConnect((err: any, resp: any) => {
 			if (resp.type == INSTRUCTOR) {
@@ -39,12 +43,22 @@ class App extends React.Component<Props, State> {
 				localStorage.setItem('gameparams', resp.params);
 				this.setState({
 					playerInterface: true,
-					loading: false
+					loading: false,
+					playerId: resp.id
 				});
+
 			} else {
 				//TODO error message
 				console.log(err);
 			}
+			this.checkDisconnect(this.state.playerId);
+		});
+
+	}
+
+	public checkDisconnect(playerId: number) {
+		onDisconnect(this.state.playerId, () => {
+			this.setState({ disconnected: true });
 		});
 	}
 
@@ -57,6 +71,16 @@ class App extends React.Component<Props, State> {
 						<div>
 							<GridLoader className="loader" color={ORANGE} size="50px" />
 							<p className="sub-loader">{T.translate('loader.serverwait')}</p>
+						</div>
+					</div>
+				</HashRouter >
+			);
+		} else if (this.state.disconnected) {
+			return (
+				<HashRouter>
+					<div className="app">
+						<div>
+							<p className="sub-loader">{T.translate('loader.disconnected')}</p>
 						</div>
 					</div>
 				</HashRouter >

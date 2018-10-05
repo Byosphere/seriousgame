@@ -13,7 +13,7 @@ interface Props {
 interface State {
 	players: Array<Player>
 	stories: Array<Story>
-	storyStarted: boolean
+	selectedStory: Story
 }
 
 class MasterBoard extends React.Component<Props, State> {
@@ -24,12 +24,12 @@ class MasterBoard extends React.Component<Props, State> {
 		this.state = {
 			players: [],
 			stories: [],
-			storyStarted: false
+			selectedStory: { id: 1, name: "test" } //null
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
 				this.setState({
-					players: response
+					players: response.filter(el => el != null)
 				});
 			} else {
 				//TODO error message
@@ -49,14 +49,15 @@ class MasterBoard extends React.Component<Props, State> {
 		console.log(id);
 	}
 
-	public startStory(id: number) {
-		startStory(id);
-		this.setState({ storyStarted: true });
+	public startStory(story: Story) {
+		startStory(story.id);
+
+		this.setState({ selectedStory: story });
 	}
 
 	public getPlayerStatus(player: Player): string {
 		let status: string = '';
-		if (!this.state.storyStarted) {
+		if (!this.state.selectedStory) {
 			status = T.translate('instructor.player.waitingstory').toString();
 		} else if (player.roleId === -1) {
 			status = T.translate('instructor.player.no-role').toString();
@@ -105,8 +106,8 @@ class MasterBoard extends React.Component<Props, State> {
 							})}
 						</List>
 					</Card>
-					<Paper className="table-paper">
-						<Typography variant="title" className="table-title">
+					{!this.state.selectedStory && <Paper className="table-paper">
+						<Typography variant="title" className="title">
 							{T.translate('instructor.tabletitle')}
 						</Typography>
 						<Table>
@@ -127,13 +128,18 @@ class MasterBoard extends React.Component<Props, State> {
 											</TableCell>
 											<TableCell>{story.description}</TableCell>
 											<TableCell className={this.state.players.length !== story.nbPlayers ? 'red' : 'green'} numeric>{this.state.players.length} / {story.nbPlayers}</TableCell>
-											<TableCell><Button onClick={() => this.startStory(story.id)} disabled={this.state.players.length !== story.nbPlayers} color="primary">{T.translate('story.launch')}</Button></TableCell>
+											<TableCell><Button onClick={() => this.startStory(story)} disabled={this.state.players.length !== story.nbPlayers} color="primary">{T.translate('story.launch')}</Button></TableCell>
 										</TableRow>
 									);
 								})}
 							</TableBody>
 						</Table>
-					</Paper>
+					</Paper>}
+					{this.state.selectedStory && <Paper className="table-paper">
+						<Typography variant="title" className="title">
+							{T.translate('instructor.tabletitle')}
+						</Typography>
+					</Paper>}
 				</div>
 			</div >
 		);

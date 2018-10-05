@@ -1,6 +1,6 @@
 export interface Story {
     id: number
     name: string
-    description: string
-    nbPlayers: number
+    description?: string
+    nbPlayers?: number
 }

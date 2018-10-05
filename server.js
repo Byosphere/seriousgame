@@ -20,15 +20,16 @@ io.on('connection', function (socket) {
      * Initialisation lors de l'arrivée d'un nouveau joueur
      */
     socket.on('init', () => {
+
         if (server.instructor) {
-            socket.emit('init', { type: 'player', params: server.parameters });
             let player = { id: server.players.length, roleId: -1, name: 'Joueur ' + (server.players.length + 1) };
             socket.id = server.players.length;
             server.players[player.id] = player;
+            socket.emit('init', { id: player.id, type: 'player', params: server.parameters });
             socket.broadcast.emit('playerupdate', server.players);
             console.log('Un nouveau joueur a rejoint la partie : ', player);
         } else {
-            socket.emit('init', { type: 'instructor', params: server.parameters });
+            socket.emit('init', { id: socket.id, type: 'instructor', params: server.parameters });
             server.instructor = true;
             console.log('L\'instructeur a rejoint la partie');
         }
@@ -60,7 +61,7 @@ io.on('connection', function (socket) {
             server.players.forEach(player => {
                 if (player.roleId < 0) playersReady = false;
             });
-            if(playersReady) {
+            if (playersReady) {
                 socket.broadcast.emit('startgame', server.selectedStory);
             }
 
@@ -80,6 +81,14 @@ io.on('connection', function (socket) {
         });
         server.selectedStory = story;
         socket.broadcast.emit('startstory', { roles: roles, story: story });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('player ' + socket.id + ' disconnected');
+        if (server.players[socket.id]) {
+            server.players[socket.id] = null;
+            socket.broadcast.emit('playerupdate', server.players);
+        }
     });
 });
 
