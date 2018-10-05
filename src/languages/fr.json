@@ -6,9 +6,20 @@
             "no-role": "Sélectionne son rôle...",
             "role": "Rôle : ",
             "no-player": "Aucun joueur connecté"
-        }
+        },
+        "tabletitle": "Liste des scénarios"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie"
+    },
+    "story": {
+        "name": "Intitulé",
+        "description": "Description",
+        "nbplayers": "Joueurs requis",
+        "action": "Action"
+    },
+    "loader": {
+        "serverwait": "En attente du serveur...",
+        "gamemasterwait": "Connecté. En attente du maître du jeu..."
     }
 }

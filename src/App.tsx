@@ -7,6 +7,7 @@ import { gameConnect } from './utils/api';
 import { INSTRUCTOR, PLAYER, ORANGE } from './utils/constants';
 import { GridLoader } from 'halogenium';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+import T from 'i18n-react';
 
 interface Props { store: any }
 interface State {
@@ -26,14 +27,16 @@ class App extends React.Component<Props, State> {
 			playerInterface: false,
 			loading: true
 		}
-		gameConnect((err: any, role: string) => {
-			if (role == INSTRUCTOR) {
+		gameConnect((err: any, resp: any) => {
+			if (resp.type == INSTRUCTOR) {
+				localStorage.setItem('gameparams', resp.params);
 				this.setState({
 					instructorInterface: true,
 					loading: false
 				});
 
-			} else if (role == PLAYER) {
+			} else if (resp.type == PLAYER) {
+				localStorage.setItem('gameparams', resp.params);
 				this.setState({
 					playerInterface: true,
 					loading: false
@@ -47,20 +50,32 @@ class App extends React.Component<Props, State> {
 
 	public render() {
 
-		return (
-			<HashRouter>
-				<div className="app">
-					{this.state.loading && <GridLoader className="loader" color={ORANGE} size="50px" />}
-					<Switch>
-						<Route exact path='/masterboard' component={MasterBoard} />
-						<Route exact path='/roleselect' component={RoleSelect} />
-						<Route exact path='/gamescene' component={GameScene} />
-						{this.state.instructorInterface && <Redirect to="/masterboard" />}
-						{this.state.playerInterface && <Redirect to="/roleselect" />}
-					</Switch>
-				</div>
-			</HashRouter>
-		);
+		if (this.state.loading) {
+			return (
+				<HashRouter>
+					<div className="app">
+						<div>
+							<GridLoader className="loader" color={ORANGE} size="50px" />
+							<p className="sub-loader">{T.translate('loader.serverwait')}</p>
+						</div>
+					</div>
+				</HashRouter >
+			);
+		} else {
+			return (
+				<HashRouter>
+					<div className="app">
+						<Switch>
+							<Route exact path='/masterboard' component={MasterBoard} />
+							<Route exact path='/roleselect' component={RoleSelect} />
+							<Route exact path='/gamescene' component={GameScene} />
+							{this.state.instructorInterface && <Redirect to="/masterboard" />}
+							{this.state.playerInterface && <Redirect to="/roleselect" />}
+						</Switch>
+					</div>
+				</HashRouter>
+			);
+		}
 	}
 }
 

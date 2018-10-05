@@ -17,6 +17,12 @@
             "name": "Role Fictif 3",
             "description": "lorem isdfoiqsdhf qlksdjqkldj qksl jqslk jqks jqld",
             "disabled": false
+        },
+        {
+            "id": 4,
+            "name": "Role Fictif 4",
+            "description": "lorem isdfoiqsdhf qlksdjqkldj qksl jqslk jqks jqld",
+            "disabled": false
         }
     ]
 }

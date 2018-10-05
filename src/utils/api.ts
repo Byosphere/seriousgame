@@ -1,6 +1,7 @@
 import * as io from 'socket.io-client';
 import { Player } from '../interfaces/Player';
 import { Role } from '../interfaces/Role';
+import { Story } from '../interfaces/Story';
 
 const socket = io('http://localhost:8081');
 
@@ -9,8 +10,13 @@ const socket = io('http://localhost:8081');
  * @param response : fonction retournant err et le type de joueur
  */
 export function gameConnect(response: any) {
-    socket.on('init', (type: string) => response(null, type));
+    socket.on('init', (resp: string) => response(null, resp));
     socket.emit('init');
+}
+
+export function loadStories(response: any) {
+    socket.on('getstories', (resp: Array<Story>) => response(null, resp));
+    socket.emit('getstories');
 }
 
 /**
@@ -38,4 +44,12 @@ export function selectRole(roleId: number, response: any) {
 export function getRoles(response: any) {
     socket.on('getroles', (roles: Array<Role>) => response(null, roles));
     socket.emit('getroles');
+}
+
+export function getStory(response: any) {
+    socket.on('startstory', (data: any) => response(null, data));
+}
+
+export function startStory(storyId: number) {
+    socket.emit('startstory', storyId);
 }

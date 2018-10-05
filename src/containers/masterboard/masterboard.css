@@ -1,9 +1,34 @@
+.content {
+    margin: 5px 0;
+    height: calc(100% - 75px);
+    display: flex;
+    justify-content: stretch;
+}
+
 .connected-list {
     width: 280px;
-    margin-top: 5px;
-    height: calc(100% - 70px);
+    margin: 0 10px 0 5px;
 }
 
 .no-player {
     opacity: 0.5;
+}
+
+.table-paper {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.table-title {
+    margin: 20px !important;
+}
+
+td.green {
+    color: #689F38;
+    font-weight: bold;
+}
+
+td.red {
+    color: #D32F2F;
+    font-weight: bold;
 }
