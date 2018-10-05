@@ -12,6 +12,7 @@ server.instructor = false;
 server.roles = formatArrayJson(require('./data/roles.json').roles);
 server.params = require('./data/params.json').parameters;
 server.stories = formatArrayJson(require('./data/stories.json').stories);
+server.selectedStory = null;
 
 io.on('connection', function (socket) {
 
@@ -40,8 +41,8 @@ io.on('connection', function (socket) {
     /**
      * Retourne les roles possibles pour la partie (voir le fichier des roles)
      */
-    socket.on('getroles', () => {
-        socket.emit('getroles', server.roles);
+    socket.on('updaterole', (role) => {
+        socket.emit('updaterole', role);
     });
 
     /**
@@ -52,20 +53,32 @@ io.on('connection', function (socket) {
             server.players[socket.id].roleId = roleId;
             server.roles[roleId].disabled = true;
             socket.broadcast.emit('playerupdate', server.players);
-            socket.broadcast.emit('getroles', server.roles);
+            socket.broadcast.emit('updaterole', server.roles[roleId]);
             socket.emit('selectrole', true);
+
+            let playersReady = true
+            server.players.forEach(player => {
+                if (player.roleId < 0) playersReady = false;
+            });
+            if(playersReady) {
+                socket.broadcast.emit('startgame', server.selectedStory);
+            }
+
         } else {
             socket.emit('selectrole', false);
         }
     });
 
+    /**
+     * Lancement d'une story par le maître du jeu
+     */
     socket.on('startstory', (storyId) => {
         let story = server.stories[storyId];
         let roles = [];
         story.roles.forEach(roleId => {
             roles[roleId] = server.roles[roleId];
         });
-
+        server.selectedStory = story;
         socket.broadcast.emit('startstory', { roles: roles, story: story });
     });
 });

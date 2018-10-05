@@ -5,7 +5,8 @@
         "player": {
             "no-role": "Sélectionne son rôle...",
             "role": "Rôle : ",
-            "no-player": "Aucun joueur connecté"
+            "no-player": "Aucun joueur connecté",
+            "waitingstory": "En attente d'une story"
         },
         "tabletitle": "Liste des scénarios"
     },
@@ -13,6 +14,7 @@
         "titleselect": "Sélectionne un rôle pour la partie"
     },
     "story": {
+        "launch": "Lancer la partie",
         "name": "Intitulé",
         "description": "Description",
         "nbplayers": "Joueurs requis",
@@ -20,6 +22,7 @@
     },
     "loader": {
         "serverwait": "En attente du serveur...",
-        "gamemasterwait": "Connecté. En attente du maître du jeu..."
+        "gamemasterwait": "Connecté. En attente du maître du jeu...",
+        "playerswait": "En attente des autres joueurs..."
     }
 }

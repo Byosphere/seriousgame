@@ -41,9 +41,8 @@ export function selectRole(roleId: number, response: any) {
  * Fonction pour récupérer les roles
  * @param response 
  */
-export function getRoles(response: any) {
-    socket.on('getroles', (roles: Array<Role>) => response(null, roles));
-    socket.emit('getroles');
+export function updateRole(response: any) {
+    socket.on('updaterole', (role: Role) => response(null, role));
 }
 
 export function getStory(response: any) {
@@ -52,4 +51,8 @@ export function getStory(response: any) {
 
 export function startStory(storyId: number) {
     socket.emit('startstory', storyId);
+}
+
+export function startGame(response: any) {
+    socket.on('startgame', (story: Story) => response(story));
 }

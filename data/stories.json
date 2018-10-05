@@ -5,7 +5,65 @@
             "name": "Story 1",
             "description": "Story test pour commencer",
             "nbPlayers": 3,
-            "roles": [1, 17, 3],
+            "roles": [
+                1,
+                2,
+                3
+            ],
+            "interfaces": [
+                {
+                    "role": 1,
+                    "interface": {
+                        "pages": [
+                            {
+                                "id": 1,
+                                "background": "./image.png",
+                                "components": [
+                                    {
+                                        "id": "composant1",
+                                        "onclick": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "role": 2,
+                    "interface": {
+                        "pages": [
+                            {
+                                "id": 2,
+                                "background": "./image.png",
+                                "components": [
+                                    {
+                                        "id": "composant1",
+                                        "onclick": "action1"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "name": "action1",
+                    "condition": "",
+                    "goToPage": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Story 2",
+            "description": "Story test blablbas qdsd q",
+            "nbPlayers": 5,
+            "roles": [
+                1,
+                4,
+                3
+            ],
             "interfaces": [
                 {
                     "role": 1,

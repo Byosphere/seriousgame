@@ -13,6 +13,7 @@ interface Props {
 interface State {
 	players: Array<Player>
 	stories: Array<Story>
+	storyStarted: boolean
 }
 
 class MasterBoard extends React.Component<Props, State> {
@@ -22,7 +23,8 @@ class MasterBoard extends React.Component<Props, State> {
 
 		this.state = {
 			players: [],
-			stories: []
+			stories: [],
+			storyStarted: false
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -49,6 +51,19 @@ class MasterBoard extends React.Component<Props, State> {
 
 	public startStory(id: number) {
 		startStory(id);
+		this.setState({ storyStarted: true });
+	}
+
+	public getPlayerStatus(player: Player): string {
+		let status: string = '';
+		if (!this.state.storyStarted) {
+			status = T.translate('instructor.player.waitingstory').toString();
+		} else if (player.roleId === -1) {
+			status = T.translate('instructor.player.no-role').toString();
+		} else if (player.roleId > -1) {
+			status = T.translate('instructor.player.role') + player.roleId.toString();
+		}
+		return status;
 	}
 
 	public render() {
@@ -80,7 +95,7 @@ class MasterBoard extends React.Component<Props, State> {
 										</ListItemIcon>
 										<ListItemText
 											primary={player.name}
-											secondary={player.roleId > -1 ? T.translate('instructor.player.role') + player.roleId.toString() : T.translate('instructor.player.no-role')} />
+											secondary={this.getPlayerStatus(player)} />
 										<ListItemSecondaryAction>
 											<IconButton onClick={() => this.removePlayer(player.id)} color="secondary" aria-label="Delete">
 												<Delete />
