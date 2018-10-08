@@ -57,6 +57,24 @@ export function startGame(response: any) {
     socket.on('startgame', (story: Story) => response(story));
 }
 
+/**
+ * Fonction pour l'interface du maitre du jeu permettant de mettre le jeu en pause
+ * @param bool play/pause
+ * @param response retour du server
+ */
+export function setPlayPause(bool: boolean, response: any) {
+    socket.on('playpause', (bool: boolean) => response(bool));
+    socket.emit('playpause', bool);
+}
+
+/**
+ * Fonction d'écoute pour l'écran de jeu si le jeu doit se mettre en pause
+ * @param response fonction executée à la récupération de la réponse
+ */
+export function playPause(response: any) {
+    socket.on('playpause', (bool: boolean) => response(bool));
+}
+
 export function onDisconnect(playerId: number, response: any) {
 
     socket.on('disconnect', () => {

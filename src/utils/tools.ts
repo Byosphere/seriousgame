@@ -7,3 +7,11 @@ export function getNavigatorLanguage(raw?: string) {
 
     return language;
 }
+
+export function convertToCss(n: number) {
+    let str = "";
+    for (let index = 0; index < n; index++) {
+        str+= " 1fr";
+    }
+    return str;
+}

@@ -2,13 +2,18 @@
     "instructor": {
         "title": "Interface du maitre du jeu",
         "list": "Liste des joueurs",
+        "pause": "Mettre la partie en pause",
+        "play": "Reprendre la partie",
+        "restart" : "Recommencer la partie",
         "player": {
             "no-role": "Sélectionne son rôle...",
             "role": "Rôle : ",
             "no-player": "Aucun joueur connecté",
             "waitingstory": "En attente d'une story"
         },
-        "tabletitle": "Liste des scénarios"
+        "tabletitle": "Liste des scénarios",
+        "gametitle": "Partie en cours : ",
+        "actionstitle": "Actions disponibles"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie"

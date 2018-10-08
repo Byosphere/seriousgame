@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Toolbar, Typography, Card, List, ListItemText, ListItemSecondaryAction, ListItem, ListItemIcon, CardHeader, Divider, Paper, Table, TableHead, TableCell, TableRow, TableBody, Button, IconButton } from '@material-ui/core';
-import { Person, Delete } from '@material-ui/icons';
+import { AppBar, Tooltip, Toolbar, Typography, Card, List, ListItemText, ListItemSecondaryAction, ListItem, ListItemIcon, CardHeader, Divider, Paper, Table, TableHead, TableCell, TableRow, TableBody, Button, IconButton } from '@material-ui/core';
+import { Person, Delete, PauseCircleOutline, PlayCircleOutline, Cached, LabelImportant } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause } from '../../utils/api';
 import { Player } from '../../interfaces/Player';
 import { Story } from '../../interfaces/Story';
 
@@ -13,7 +13,8 @@ interface Props {
 interface State {
 	players: Array<Player>
 	stories: Array<Story>
-	selectedStory: Story
+	selectedStory: Story,
+	togglePause: boolean
 }
 
 class MasterBoard extends React.Component<Props, State> {
@@ -24,7 +25,8 @@ class MasterBoard extends React.Component<Props, State> {
 		this.state = {
 			players: [],
 			stories: [],
-			selectedStory: { id: 1, name: "test" } //null
+			selectedStory: null,
+			togglePause: false
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -49,6 +51,14 @@ class MasterBoard extends React.Component<Props, State> {
 		console.log(id);
 	}
 
+	public togglePause() {
+		setPlayPause(!this.state.togglePause, (bool: boolean) => {
+			this.setState({
+				togglePause: bool
+			});
+		});
+	}
+
 	public startStory(story: Story) {
 		startStory(story.id);
 
@@ -71,11 +81,20 @@ class MasterBoard extends React.Component<Props, State> {
 
 		return (
 			<div className="masterboard">
-				<AppBar position="static" color="primary">
+				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
-						<Typography variant="title" color="inherit">
+						<Typography variant="title" color="inherit" className="app-title">
 							{T.translate('instructor.title')}
 						</Typography>
+						{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
+							<IconButton onClick={() => { this.togglePause() }} color="inherit"><PlayCircleOutline /></IconButton>
+						</Tooltip>}
+						{(!this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.pause')}>
+							<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
+						</Tooltip>}
+						{this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
+							<IconButton color="inherit"><Cached /></IconButton>
+						</Tooltip>}
 					</Toolbar>
 				</AppBar>
 				<div className="content">
@@ -135,11 +154,30 @@ class MasterBoard extends React.Component<Props, State> {
 							</TableBody>
 						</Table>
 					</Paper>}
-					{this.state.selectedStory && <Paper className="table-paper">
-						<Typography variant="title" className="title">
-							{T.translate('instructor.tabletitle')}
-						</Typography>
-					</Paper>}
+					{this.state.selectedStory && <div className="game-dashboard">
+						<Paper className="user-timeline">
+							<Typography variant="title" className="title">
+								{T.translate('instructor.gametitle') + this.state.selectedStory.name}
+							</Typography>
+							<Divider />
+						</Paper>
+						<Paper className="actions-list">
+							<Typography variant="title" className="title">
+								{T.translate('instructor.actionstitle')}
+							</Typography>
+							<Divider />
+							{this.state.selectedStory.actions.map(action => {
+								return (
+									<Tooltip key={action.name} title={action.description}>
+										<Button variant="extendedFab" aria-label={action.name}>
+											{action.name}
+											<LabelImportant />
+										</Button>
+									</Tooltip>
+								);
+							})}
+						</Paper>
+					</div>}
 				</div>
 			</div >
 		);

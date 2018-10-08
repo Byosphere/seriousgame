@@ -83,6 +83,17 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('startstory', { roles: roles, story: story });
     });
 
+    /**
+     * 
+     */
+    socket.on("playpause", (bool) => {
+        socket.emit('playpause', bool);
+        socket.broadcast.emit('playpause', bool);
+    });
+
+    /**
+     * Action lorsqu'un joueur se déconnecte
+     */
     socket.on('disconnect', () => {
         console.log('player ' + socket.id + ' disconnected');
         if (server.players[socket.id]) {
