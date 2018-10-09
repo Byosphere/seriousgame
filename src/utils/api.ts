@@ -45,16 +45,45 @@ export function updateRole(response: any) {
     socket.on('updaterole', (role: Role) => response(null, role));
 }
 
-export function getStory(response: any) {
+/**
+ * Récupère les infos de la story pour le joueur
+ * @param response 
+ */
+export function getPlayerStory(response: any) {
     socket.on('startstory', (data: any) => response(null, data));
 }
 
+/**
+ * Active une story pour les joueurs
+ * @param storyId : id de la story à lancer
+ */
 export function startStory(storyId: number) {
     socket.emit('startstory', storyId);
 }
 
+/**
+ * Fonction d'écoute de lancement d'une story
+ * @param response : fonction déclenchée lors du lancement d'une story
+ */
 export function startGame(response: any) {
     socket.on('startgame', (story: Story) => response(story));
+}
+
+/**
+ * Fonction permettant de donner l'ordre au server de broadcaster une action à tout le monde
+ * @param action string de l'action à broadcaster
+ */
+export function sendAction(action: string) {
+    socket.emit('dynamicaction', action);
+}
+
+/**
+ * Fonction permettant d'écouter une action particulère
+ * @param action : action à écouter
+ * @param response : fonction lorsque l'action est déclenchée
+ */
+export function listenAction(action: string, response: any) {
+    socket.on(action, () => response(action));
 }
 
 /**
@@ -75,6 +104,11 @@ export function playPause(response: any) {
     socket.on('playpause', (bool: boolean) => response(bool));
 }
 
+/**
+ * 
+ * @param playerId 
+ * @param response 
+ */
 export function onDisconnect(playerId: number, response: any) {
 
     socket.on('disconnect', () => {

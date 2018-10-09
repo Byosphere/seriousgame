@@ -7,7 +7,7 @@
     grid-template-rows: 60px 100px auto 40px auto 60px;
 }
 
-h1 {
+.player h1 {
     grid-column: 2 / 7;
     grid-row: 2 / 2;
     text-align: center;

@@ -1,0 +1,15 @@
+.actions-dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.action-grid {
+    display: grid;
+    flex: 1;
+}
+
+.master-action {
+    margin: 10px;
+    padding: 0 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+}

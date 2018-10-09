@@ -1,0 +1,8 @@
+.players-list {
+    margin-right: 5px;
+    grid-row: 1 / 3;
+}
+
+.no-player {
+    opacity: 0.5;
+}

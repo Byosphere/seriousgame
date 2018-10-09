@@ -1,0 +1,22 @@
+.story-list {
+    grid-row: 1 / 3;
+}
+
+.story-list .title {
+    margin: 20px;
+}
+
+.table-wrapper {
+    height: calc(100% - 64px);
+    overflow: auto;
+}
+
+.story-list td.green {
+    color: #689F38;
+    font-weight: bold;
+}
+
+.story-list td.red {
+    color: #D32F2F;
+    font-weight: bold;
+}

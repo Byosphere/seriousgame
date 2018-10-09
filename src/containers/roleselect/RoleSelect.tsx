@@ -3,7 +3,7 @@ import './roleselect.css';
 import { Card, CardHeader } from '@material-ui/core';
 import T from 'i18n-react';
 import { Role } from '../../interfaces/Role';
-import { selectRole, getStory, updateRole } from '../../utils/api';
+import { selectRole, getPlayerStory, updateRole } from '../../utils/api';
 import { Redirect } from 'react-router';
 import { Story } from '../../interfaces/Story';
 import Loader from '../../components/loader/Loader';
@@ -31,7 +31,7 @@ class RoleSelect extends React.Component<Props, State> {
             selectedRoleId: null
         }
 
-        getStory((err: any, response: any) => {
+        getPlayerStory((err: any, response: any) => {
             this.setState({
                 roles: response.roles.filter((el: any) => el != null),
                 story: response.story

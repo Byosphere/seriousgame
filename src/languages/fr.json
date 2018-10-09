@@ -11,9 +11,9 @@
             "no-player": "Aucun joueur connecté",
             "waitingstory": "En attente d'une story"
         },
-        "tabletitle": "Liste des scénarios",
+        "tabletitle": "Liste des scénarios disponibles",
         "gametitle": "Partie en cours : ",
-        "actionstitle": "Actions disponibles"
+        "actionstitle": "Actions du maître du jeu"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie"

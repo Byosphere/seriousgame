@@ -83,8 +83,12 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('startstory', { roles: roles, story: story });
     });
 
+    socket.on('dynamicaction', (action) => {
+        socket.broadcast.emit(action);
+    });
+
     /**
-     * 
+     * Action pour mettre en pause la partie
      */
     socket.on("playpause", (bool) => {
         socket.emit('playpause', bool);

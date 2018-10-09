@@ -1,26 +1,9 @@
 .content {
-    margin: 5px 0;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 200px 1fr;
+    margin: 5px;
     height: calc(100% - 75px);
-    display: flex;
-    justify-content: stretch;
-}
-
-.connected-list {
-    width: 280px;
-    margin: 0 10px 0 5px;
-}
-
-.no-player {
-    opacity: 0.5;
-}
-
-.table-paper {
-    flex: 1;
-    margin-right: 5px;
-}
-
-.title {
-    margin: 20px !important;
 }
 
 td.green {
@@ -32,6 +15,43 @@ td.red {
     color: #D32F2F;
     font-weight: bold;
 }
+
+.app-title {
+    flex-grow: 1;
+}
+
+.actions-list {
+    grid-row: 2 / 3;
+}
+
+/* 
+
+
+
+.content {
+    margin: 5px 0;
+    height: calc(100% - 75px);
+    display: flex;
+    justify-content: stretch;
+}
+
+.connected-list {
+    width: 280px;
+    margin: 0 10px 0 5px;
+}
+
+
+
+.table-paper {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.title {
+    margin: 20px !important;
+}
+
+
 
 .app-title {
     flex-grow: 1;
@@ -71,4 +91,4 @@ td.red {
 
 .masterboard header.pause {
     background-color: #CFCFCF;
-}
+} */
