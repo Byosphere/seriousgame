@@ -20,7 +20,9 @@
                             "background": "./image.png",
                             "components": [
                                 {
-                                    "id": "composant1",
+                                    "name": "ImageClickable",
+                                    "rows": "1 / 2",
+                                    "cols": "1 / 2",
                                     "onclick": ""
                                 }
                             ]
@@ -37,7 +39,9 @@
                             "background": "./image.png",
                             "components": [
                                 {
-                                    "id": "composant1",
+                                    "name": "ImageClickable",
+                                    "rows": "3 / 4",
+                                    "cols": "3 / 5",
                                     "onclick": "action1"
                                 }
                             ]

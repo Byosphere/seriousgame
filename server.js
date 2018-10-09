@@ -8,7 +8,7 @@ server.listen(8081, function () {
 });
 
 server.players = [];
-server.instructor = false;
+server.instructor = null;
 server.roles = formatArrayJson(require('./data/roles.json').roles);
 server.params = require('./data/params.json').parameters;
 server.stories = formatArrayJson(require('./data/stories.json').stories);
@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
             console.log('Un nouveau joueur a rejoint la partie : ', player);
         } else {
             socket.emit('init', { id: socket.id, type: 'instructor', params: server.parameters });
-            server.instructor = true;
+            server.instructor = socket.id;
             console.log('L\'instructeur a rejoint la partie');
         }
     });
@@ -95,10 +95,17 @@ io.on('connection', function (socket) {
      * Action lorsqu'un joueur se déconnecte
      */
     socket.on('disconnect', () => {
-        console.log('player ' + socket.id + ' disconnected');
+
         if (server.players[socket.id]) {
+            console.log('player ' + socket.id + ' disconnected');
+            if (server.roles[server.players[socket.id].roleId] > -1) {
+                server.roles[server.players[socket.id].roleId].disabled = false;
+            }
             server.players[socket.id] = null;
             socket.broadcast.emit('playerupdate', server.players);
+        } else if (server.instructor === socket.id) {
+            console.log('L\'instructeur a quitté la partie');
+            server.instructor = null;
         }
     });
 });

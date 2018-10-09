@@ -1,12 +1,12 @@
 import * as React from 'react';
 import './gamescene.css';
-import { ORANGE, STORY_TEST } from '../../utils/constants';
+import Loader from '../../components/loader/Loader';
 import T from 'i18n-react';
-import { GridLoader } from 'halogenium';
 import { startGame, playPause } from '../../utils/api';
-import { convertToCss } from '../../utils/tools';
+import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import { Story } from '../../interfaces/Story';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
+import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
 
 interface Props {
     location: any
@@ -60,8 +60,8 @@ class GameScene extends React.Component<Props, State> {
 
         this.setState({
             gridStyle: {
-                gridTemplateColumns: convertToCss(cols),
-                gridTemplateRows: convertToCss(rows),
+                gridTemplateColumns: gridConvertToCss(cols),
+                gridTemplateRows: gridConvertToCss(rows),
             }
         });
     }
@@ -72,16 +72,15 @@ class GameScene extends React.Component<Props, State> {
                 <div className="game">
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
-
+                        {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp) => {
+                            return (<DynamicComponent componentName={cmp.name} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
+                        })}
                     </div>
                 </div>
             );
         } else {
             return (
-                <div>
-                    <GridLoader className="loader" color={ORANGE} size="50px" />
-                    <p className="sub-loader">{T.translate('loader.playerswait')}</p>
-                </div>
+                <Loader textKey="loader.playerswait" />
             );
         }
 

@@ -6,8 +6,7 @@ import { Role } from '../../interfaces/Role';
 import { selectRole, getStory, updateRole } from '../../utils/api';
 import { Redirect } from 'react-router';
 import { Story } from '../../interfaces/Story';
-import { ORANGE } from '../../utils/constants';
-import { GridLoader } from 'halogenium';
+import Loader from '../../components/loader/Loader';
 
 interface Props {
 
@@ -17,7 +16,6 @@ interface State {
     selectable: boolean,
     redirect: boolean,
     story: Story,
-    loaderText: string
     selectedRoleId: number
 }
 
@@ -30,7 +28,6 @@ class RoleSelect extends React.Component<Props, State> {
             roles: [],
             selectable: true,
             redirect: false,
-            loaderText: 'loader.gamemasterwait',
             selectedRoleId: null
         }
 
@@ -88,10 +85,7 @@ class RoleSelect extends React.Component<Props, State> {
             return (<Redirect to={{ pathname: "gamescene", state: this.state.selectedRoleId }} />);
         } else if (!this.state.story) {
             return (
-                <div>
-                    <GridLoader className="loader" color={ORANGE} size="50px" />
-                    <p className="sub-loader">{T.translate(this.state.loaderText)}</p>
-                </div>
+                <Loader textKey="loader.gamemasterwait" />
             );
         } else {
 

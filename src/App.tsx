@@ -4,10 +4,9 @@ import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
 import RoleSelect from './containers/roleselect/RoleSelect';
 import { gameConnect, onDisconnect } from './utils/api';
-import { INSTRUCTOR, PLAYER, ORANGE } from './utils/constants';
-import { GridLoader } from 'halogenium';
+import { INSTRUCTOR, PLAYER } from './utils/constants';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
-import T from 'i18n-react';
+import Loader from './components/loader/Loader';
 
 interface Props { store: any }
 interface State {
@@ -68,10 +67,7 @@ class App extends React.Component<Props, State> {
 			return (
 				<HashRouter>
 					<div className="app">
-						<div>
-							<GridLoader className="loader" color={ORANGE} size="50px" />
-							<p className="sub-loader">{T.translate('loader.serverwait')}</p>
-						</div>
+						<Loader textKey="loader.serverwait" />
 					</div>
 				</HashRouter >
 			);
@@ -79,9 +75,7 @@ class App extends React.Component<Props, State> {
 			return (
 				<HashRouter>
 					<div className="app">
-						<div>
-							<p className="sub-loader">{T.translate('loader.disconnected')}</p>
-						</div>
+						<Loader textKey="loader.disconnected" />
 					</div>
 				</HashRouter >
 			);

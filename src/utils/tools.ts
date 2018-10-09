@@ -8,10 +8,17 @@ export function getNavigatorLanguage(raw?: string) {
     return language;
 }
 
-export function convertToCss(n: number) {
+export function gridConvertToCss(n: number) {
     let str = "";
     for (let index = 0; index < n; index++) {
-        str+= " 1fr";
+        str += " 1fr";
     }
     return str;
+}
+
+export function positionConvertToCss(cols: string, rows: string) {
+    return {
+        gridColumn: cols,
+        gridRow: rows
+    }
 }

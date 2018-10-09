@@ -37,7 +37,11 @@ class MasterBoard extends React.Component<Props, State> {
 				//TODO error message
 				console.log(err);
 			}
-
+			if (this.state.selectedStory && this.state.players.length < this.state.selectedStory.nbPlayers) {
+				this.setState({
+					selectedStory: null
+				});
+			}
 		});
 
 		loadStories((err: any, stories: Array<Story>) => {

@@ -1,4 +1,6 @@
 interface Component {
-    id: string
+    name: string
     action: string
+    cols: string
+    rows: string
 }
