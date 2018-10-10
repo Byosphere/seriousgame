@@ -102,7 +102,7 @@ io.on('connection', function (socket) {
 
         if (server.players[socket.id]) {
             console.log('player ' + socket.id + ' disconnected');
-            if (server.roles[server.players[socket.id].roleId] > -1) {
+            if (server.players[socket.id].roleId > -1) {
                 server.roles[server.players[socket.id].roleId].disabled = false;
             }
             server.players[socket.id] = null;

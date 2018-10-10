@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Tooltip, Toolbar, Typography, Divider, Paper, Table, TableHead, TableCell, TableRow, TableBody, Button, IconButton } from '@material-ui/core';
-import { PauseCircleOutline, PlayCircleOutline, Cached, LabelImportant } from '@material-ui/icons';
+import { AppBar, Tooltip, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause } from '../../utils/api';
 import { Player } from '../../interfaces/Player';

@@ -1,5 +1,5 @@
 .game-grid {
     display: grid;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 75px);
 }

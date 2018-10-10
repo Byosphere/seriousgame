@@ -3,6 +3,7 @@ import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import T from 'i18n-react';
 import { startGame, playPause } from '../../utils/api';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import { Story } from '../../interfaces/Story';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -70,6 +71,13 @@ class GameScene extends React.Component<Props, State> {
         if (this.state.gameReady) {
             return (
                 <div className="game">
+                    <AppBar position="static" color="primary">
+                        <Toolbar>
+                            <Typography variant="title" component="h1" color="inherit" className="app-title">
+                                {this.state.story.name}
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
                         {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp) => {
