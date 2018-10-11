@@ -1,8 +1,10 @@
 import * as React from 'react';
+import ImageClickable from '../imageclickable/ImageClickable';
 
 interface Props {
-    componentName: string
+    component: Component
     style: any
+    lastAction: string
 }
 
 interface State {
@@ -16,9 +18,9 @@ class DynamicComponent extends React.Component<Props, State> {
     }
 
     public render() {
-        switch (this.props.componentName) {
+        switch (this.props.component.name) {
             case 'ImageClickable':
-                return (<div className={this.props.componentName} style={this.props.style}>Component à créer</div>);
+                return (<ImageClickable component={this.props.component} lastAction={this.props.lastAction} />);
 
             case '':
                 return (<div></div>);
@@ -30,7 +32,7 @@ class DynamicComponent extends React.Component<Props, State> {
                 return (<div></div>);
 
             default:
-                throw ("Le composant " + this.props.componentName + " n'existe pas.");
+                throw ("Le composant " + this.props.component.name + " n'existe pas.");
         }
 
     }

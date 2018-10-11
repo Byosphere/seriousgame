@@ -3,4 +3,5 @@ interface Component {
     action: string
     cols: string
     rows: string
+    actionToDisplay: string
 }

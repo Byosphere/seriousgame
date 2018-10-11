@@ -2,12 +2,14 @@ import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import T from 'i18n-react';
-import { startGame, playPause } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions } from '../../utils/api';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import { Story } from '../../interfaces/Story';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
+import { STORY_TEST } from '../../utils/constants';
+import Ia from '../../components/ia/Ia';
 
 interface Props {
     location: any
@@ -21,6 +23,8 @@ interface State {
     roleId: number
     interface: Interface
     gridStyle: any
+    displayIa: boolean
+    lastActionId: string
 }
 
 class GameScene extends React.Component<Props, State> {
@@ -28,6 +32,7 @@ class GameScene extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        // Vrai state : 
         this.state = {
             roleId: parseInt(props.location.state),
             gameReady: false,
@@ -35,8 +40,26 @@ class GameScene extends React.Component<Props, State> {
             paused: false,
             currentPage: 0,
             interface: null,
-            gridStyle: {}
+            gridStyle: {},
+            lastActionId: null,
+            displayIa: false
         };
+
+        // State de test
+        // this.state = {
+        //     roleId: 1,
+        //     gameReady: true,
+        //     story: STORY_TEST,
+        //     paused: false,
+        //     currentPage: 0,
+        //     interface: STORY_TEST.interfaces.find((el: Interface) => { return el.roleId === 1 }),
+        //     gridStyle: {
+        //         gridTemplateColumns: '1fr 1ft 1fr 1fr 1fr',
+        //         gridTemplateRows: '1fr 1ft 1fr 1fr 1fr'
+        //     },
+        //     displayIa: true,
+        //     lastActionId: "action1"
+        // }
 
         startGame((story: Story) => {
             this.setState({
@@ -53,6 +76,12 @@ class GameScene extends React.Component<Props, State> {
                 paused: action
             });
         });
+
+        listenDynamicActions((actionId: string) => {
+            this.setState({
+                lastActionId: actionId
+            });
+        });
     }
 
     public displayGrid() {
@@ -63,7 +92,8 @@ class GameScene extends React.Component<Props, State> {
             gridStyle: {
                 gridTemplateColumns: gridConvertToCss(cols),
                 gridTemplateRows: gridConvertToCss(rows),
-            }
+            },
+            displayIa: this.state.interface.displayIa
         });
     }
 
@@ -76,12 +106,13 @@ class GameScene extends React.Component<Props, State> {
                             <Typography variant="title" component="h1" color="inherit" className="app-title">
                                 {this.state.story.name}
                             </Typography>
+                            {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}
                         </Toolbar>
                     </AppBar>
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
                         {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp) => {
-                            return (<DynamicComponent componentName={cmp.name} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
+                            return (<DynamicComponent key={cmp.name} lastAction={this.state.lastActionId} component={cmp} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
                         })}
                     </div>
                 </div>

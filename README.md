@@ -92,5 +92,11 @@ Points abordés :
 - Ajout des boutons "reset" et "play/pause"
 - Discussion sur le suivi des actions/pages pour le maitre du jeu -> à creuser
 
+### Compte rendu du 11/10/2018
+Points abordés :
+- Liénarité d'une story (dans un premier temps en tout cas)
+- Discussion au sujet de l'IA sur l'écran de joueur
+- Présentation des derniers screenshots
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
 
             let playersReady = true
             server.players.forEach(player => {
-                if (player.roleId < 0) playersReady = false;
+                if (player && player.roleId < 0) playersReady = false;
             });
             if (playersReady) {
                 socket.broadcast.emit('startgame', server.selectedStory);
@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('dynamicaction', (action) => {
-        socket.broadcast.emit(action);
+        socket.broadcast.emit('dynamicaction', action);
     });
 
     /**

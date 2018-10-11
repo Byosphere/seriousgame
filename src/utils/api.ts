@@ -78,12 +78,11 @@ export function sendAction(action: string) {
 }
 
 /**
- * Fonction permettant d'écouter une action particulère
- * @param action : action à écouter
- * @param response : fonction lorsque l'action est déclenchée
+ * Ecoute les actions dynamique du server
+ * @param response 
  */
-export function listenAction(action: string, response: any) {
-    socket.on(action, () => response(action));
+export function listenDynamicActions(response: Function) {
+    socket.on('dynamicaction', (actionName: string) => response(actionName));
 }
 
 /**

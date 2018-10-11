@@ -1,0 +1,6 @@
+.ia-modal {
+    position: absolute;
+    top: 90px;
+    left: calc(50% - 30%);
+    width: 60%;
+}

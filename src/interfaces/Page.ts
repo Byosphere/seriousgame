@@ -1,7 +1,7 @@
 interface Page {
     id: number
     background: string
-    components: Array<Component>
+    components: Array<any>
     cols?: number
     rows?: number
 }

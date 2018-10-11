@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction } from '../../utils/api';
 import { Player } from '../../interfaces/Player';
 import { Story } from '../../interfaces/Story';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -72,6 +72,10 @@ class MasterBoard extends React.Component<Props, State> {
 		this.setState({ selectedStory: story });
 	}
 
+	public sendAction(actionId: string) {
+		sendAction(actionId);
+	}
+
 	public render() {
 
 		return (
@@ -96,7 +100,7 @@ class MasterBoard extends React.Component<Props, State> {
 					<PlayerList players={this.state.players} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={1} />}
-					{this.state.selectedStory && <ActionsDashboard story={this.state.selectedStory} />}
+					{this.state.selectedStory && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>
 			</div >
 		);

@@ -7,6 +7,7 @@ import { Story } from '../../interfaces/Story';
 
 interface Props {
     story: Story
+    sendAction: Function
 }
 
 interface State {
@@ -30,6 +31,11 @@ class ActionsDashboard extends React.Component<Props, State> {
         }
     }
 
+    public sendAction(evt: any, actionId: string) {
+        evt.currentTarget.disabled = true;
+        this.props.sendAction(actionId);
+    }
+
     public render() {
         return (
             <Card className="actions-dashboard">
@@ -43,7 +49,7 @@ class ActionsDashboard extends React.Component<Props, State> {
                             <div className="master-action" key={action.id}>
                                 <h3>{action.name}</h3>
                                 <p>{action.description}</p>
-                                <Button variant="outlined" color="primary">Envoyer</Button>
+                                <Button onClick={(evt) => { this.sendAction(evt, action.id) }} variant="outlined" color="primary">Envoyer</Button>
                             </div>
                         );
                     })}

@@ -11,5 +11,13 @@
 .master-action {
     margin: 10px;
     padding: 0 10px;
-    border: 1px solid rgba(0,0,0,0.12);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.master-action button:disabled {
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    color: rgba(0, 0, 0, 0.23);
+}
+.master-action button:disabled:hover {
+    background: none;
 }
