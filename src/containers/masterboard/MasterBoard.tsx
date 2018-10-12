@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame } from '../../utils/api';
 import { Player } from '../../interfaces/Player';
 import { Story } from '../../interfaces/Story';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -17,6 +17,8 @@ interface State {
 	stories: Array<Story>
 	selectedStory: Story,
 	togglePause: boolean
+	status: number
+	gameStarted: boolean
 }
 
 /**
@@ -31,7 +33,9 @@ class MasterBoard extends React.Component<Props, State> {
 			players: [],
 			stories: [],
 			selectedStory: null,
-			togglePause: false
+			togglePause: false,
+			status: 0,
+			gameStarted: false
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -52,6 +56,22 @@ class MasterBoard extends React.Component<Props, State> {
 		loadStories((err: any, stories: Array<Story>) => {
 			this.setState({
 				stories: stories
+			});
+		});
+
+		listenDynamicActions((actionId: string) => {
+			if (this.state.selectedStory) {
+				let actions = this.state.selectedStory.actions;
+				let step = actions.findIndex((a: Action) => { return a.id === actionId });
+				this.setState({
+					status: step + 1 // pour passer la selection de role
+				})
+			}
+		});
+
+		startGame((story: Story) => {
+			this.setState({
+				gameStarted: true
 			});
 		});
 
@@ -99,8 +119,8 @@ class MasterBoard extends React.Component<Props, State> {
 				<div className="content">
 					<PlayerList players={this.state.players} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
-					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={1} />}
-					{this.state.selectedStory && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
+					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
+					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>
 			</div >
 		);

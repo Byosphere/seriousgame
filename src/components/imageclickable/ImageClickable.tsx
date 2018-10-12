@@ -1,5 +1,4 @@
 import * as React from 'react';
-import GameComponent from '../gamecomponent/GameComponent';
 
 interface Props {
     component: Component
@@ -10,18 +9,14 @@ interface State {
 
 }
 
-class ImageClickable extends GameComponent {
+class ImageClickable extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
     }
 
     render() {
-        if(this.canRenderComponent()) {
-            return (<div>Image Clickable</div>);
-        } else {
-            return null;
-        }
+        return (<div>Image Clickable</div>);
     }
 }
 

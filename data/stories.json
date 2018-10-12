@@ -21,10 +21,18 @@
                             "background": "./image.png",
                             "components": [
                                 {
-                                    "name": "ImageClickable",
+                                    "name": "ActionButton",
                                     "rows": "1 / 2",
                                     "cols": "1 / 2",
-                                    "actionToDisplay": "action1"
+                                    "actionToDisplay": "action1",
+                                    "clickAction": "action2"
+                                },
+                                {
+                                    "name": "ActionButton",
+                                    "rows": "1 / 2",
+                                    "cols": "3 / 3",
+                                    "actionToDisplay": "action4",
+                                    "clickAction": "action5"
                                 }
                             ]
                         }
@@ -54,10 +62,11 @@
                             "background": "./image.png",
                             "components": [
                                 {
-                                    "name": "ImageClickable",
+                                    "name": "ActionButton",
                                     "rows": "3 / 4",
                                     "cols": "3 / 5",
-                                    "onclick": "action1"
+                                    "clickAction": "action4",
+                                    "actionToDisplay": "action3"
                                 }
                             ]
                         }
@@ -74,8 +83,7 @@
                 {
                     "id": "action2",
                     "name": "Une action 2",
-                    "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "description": "Action utilisée pour afficher tel composant"
                 },
                 {
                     "id": "action3",
@@ -86,14 +94,12 @@
                 {
                     "id": "action4",
                     "name": "Une action 4",
-                    "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "description": "Action utilisée pour afficher tel composant"
                 },
                 {
                     "id": "action5",
                     "name": "Une action 5",
-                    "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "description": "Action utilisée pour afficher tel composant"
                 },
                 {
                     "id": "action6",

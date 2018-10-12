@@ -13,7 +13,8 @@
         },
         "tabletitle": "Liste des scénarios disponibles",
         "gametitle": "Partie en cours : ",
-        "actionstitle": "Actions du maître du jeu"
+        "actionstitle": "Actions du maître du jeu",
+        "roleselect": "Sélection des rôles"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie"

@@ -85,6 +85,7 @@ io.on('connection', function (socket) {
 
     socket.on('dynamicaction', (action) => {
         socket.broadcast.emit('dynamicaction', action);
+        socket.emit('dynamicaction', action);
     });
 
     /**

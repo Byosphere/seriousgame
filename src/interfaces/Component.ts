@@ -1,7 +1,8 @@
 interface Component {
     name: string
-    action: string
     cols: string
     rows: string
-    actionToDisplay: string
+    actionToDisplay?: string
+    actionToHide?: string
+    clickAction?: string
 }

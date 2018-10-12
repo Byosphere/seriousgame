@@ -10,17 +10,25 @@ interface Props {
 }
 
 interface State {
-    activeStep: number
     steps: Array<Action>
+    initialActions: Array<Action>
 }
 
 class Timeline extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+
+        let init = [
+            {
+                id: "",
+                name: T.translate('instructor.roleselect').toString()
+            },
+        ];
+
         this.state = {
-            activeStep: 0,
-            steps: this.props.story.actions
+            initialActions: init,
+            steps: init.concat(this.props.story.actions)
         }
     }
 
@@ -31,7 +39,7 @@ class Timeline extends React.Component<Props, State> {
                     title={T.translate('instructor.gametitle') + this.props.story.name}
                     component="h2"
                 />
-                <Stepper activeStep={this.state.activeStep} alternativeLabel>
+                <Stepper activeStep={this.props.status} alternativeLabel>
                     {this.state.steps.map(action => {
                         return (
                             <Step key={action.id}>
