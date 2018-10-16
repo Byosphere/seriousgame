@@ -30,6 +30,8 @@
         "serverwait": "En attente du serveur...",
         "gamemasterwait": "Connecté. En attente du maître du jeu...",
         "playerswait": "En attente des autres joueurs...",
-        "disconnected": "La connexion au serveur a été perdue."
+        "disconnected": "La connexion au serveur a été perdue.",
+        "endgame": "Partie terminée !",
+        "quit": "quitter"
     }
 }

@@ -99,8 +99,13 @@ export function setPlayPause(bool: boolean, response: any) {
  * Fonction d'écoute pour l'écran de jeu si le jeu doit se mettre en pause
  * @param response fonction executée à la récupération de la réponse
  */
-export function playPause(response: any) {
+export function playPause(response: Function) {
     socket.on('playpause', (bool: boolean) => response(bool));
+}
+
+export function quitGame(response: Function) {
+    socket.on('quitgame', () => response());
+    socket.emit('quitgame');
 }
 
 /**

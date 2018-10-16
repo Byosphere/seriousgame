@@ -2,7 +2,7 @@ import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import T from 'i18n-react';
-import { startGame, playPause, listenDynamicActions } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions, quitGame } from '../../utils/api';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import { Story } from '../../interfaces/Story';
@@ -10,6 +10,8 @@ import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
 import { STORY_TEST } from '../../utils/constants';
 import Ia from '../../components/ia/Ia';
+import { Redirect } from 'react-router-dom';
+import { Role } from 'src/interfaces/Role';
 
 interface Props {
     location: any
@@ -20,11 +22,12 @@ interface State {
     story: Story
     paused: boolean
     currentPage: number
-    roleId: number
+    role: Role
     interface: Interface
     gridStyle: any
     displayIa: boolean
     lastActionId: string
+    redirect: string
 }
 
 class GameScene extends React.Component<Props, State> {
@@ -34,7 +37,7 @@ class GameScene extends React.Component<Props, State> {
 
         // Vrai state : 
         this.state = {
-            roleId: parseInt(props.location.state),
+            role: props.location.state,
             gameReady: false,
             story: null,
             paused: false,
@@ -42,7 +45,8 @@ class GameScene extends React.Component<Props, State> {
             interface: null,
             gridStyle: {},
             lastActionId: null,
-            displayIa: false
+            displayIa: false,
+            redirect: ''
         };
 
         // State de test
@@ -65,7 +69,7 @@ class GameScene extends React.Component<Props, State> {
             this.setState({
                 gameReady: true,
                 story: story,
-                interface: story.interfaces.find((el: Interface) => { return el.roleId === this.state.roleId }),
+                interface: story.interfaces.find((el: Interface) => { return el.roleId === this.state.role.id }),
                 currentPage: 0,
             });
             this.displayGrid();
@@ -82,6 +86,7 @@ class GameScene extends React.Component<Props, State> {
                 lastActionId: actionId
             });
         });
+        this.quitGame = this.quitGame.bind(this);
     }
 
     public displayGrid() {
@@ -97,14 +102,28 @@ class GameScene extends React.Component<Props, State> {
         });
     }
 
+    public quitGame() {
+        quitGame(() => {
+            this.setState({ redirect: '/' });
+        });
+    }
+
     public render() {
-        if (this.state.gameReady) {
+
+        let isLastAction: boolean = null;
+        if (this.state.story) isLastAction = this.state.story.actions[this.state.story.actions.length - 1].id === this.state.lastActionId;
+
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />;
+        } else if (isLastAction) {
+            return (<Loader buttonAction={this.quitGame} button="loader.quit" textKey="loader.endgame" />);
+        } else if (this.state.gameReady) {
             return (
                 <div className="game">
                     <AppBar position="static" color="primary">
                         <Toolbar>
                             <Typography variant="title" component="h1" color="inherit" className="app-title">
-                                {this.state.story.name}
+                                {this.state.story.name} - {this.state.role.name}
                             </Typography>
                             {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}
                         </Toolbar>
@@ -118,11 +137,8 @@ class GameScene extends React.Component<Props, State> {
                 </div>
             );
         } else {
-            return (
-                <Loader textKey="loader.playerswait" />
-            );
+            return (<Loader textKey="loader.playerswait" />);
         }
-
     }
 }
 

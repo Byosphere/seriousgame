@@ -16,3 +16,11 @@
     color: #ff7900;
     font-size: 2rem;
 }
+
+.load-button {
+    position: absolute;
+    top: 60%;
+    margin-top: 100px;
+    text-align: center;
+    width: 100%;
+}

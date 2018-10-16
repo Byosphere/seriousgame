@@ -13,10 +13,10 @@ interface Props {
 }
 interface State {
     roles: Array<Role>
+    role: Role
     selectable: boolean,
     redirect: boolean,
     story: Story,
-    selectedRoleId: number
 }
 
 class RoleSelect extends React.Component<Props, State> {
@@ -25,10 +25,10 @@ class RoleSelect extends React.Component<Props, State> {
         super(props);
         this.state = {
             story: null,
+            role: null,
             roles: [],
             selectable: true,
-            redirect: false,
-            selectedRoleId: null
+            redirect: false
         }
 
         getPlayerStory((err: any, response: any) => {
@@ -67,8 +67,8 @@ class RoleSelect extends React.Component<Props, State> {
             selectRole(role.id, (err: any, response: boolean) => {
                 if (response) {
                     // le role a été choisi on attend que tous les joueurs soient prets
-                    this.setState({ 
-                        selectedRoleId: role.id,
+                    this.setState({
+                        role: this.state.roles.find((r) => { return r.id === role.id }),
                         redirect: true
                     });
                 } else {
@@ -83,7 +83,7 @@ class RoleSelect extends React.Component<Props, State> {
     public render() {
 
         if (this.state.redirect) {
-            return (<Redirect to={{ pathname: "gamescene", state: this.state.selectedRoleId }} />);
+            return (<Redirect to={{ pathname: "gamescene", state: this.state.role }} />);
         } else if (!this.state.story) {
             return (
                 <Loader textKey="loader.gamemasterwait" />

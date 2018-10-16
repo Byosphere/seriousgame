@@ -10,7 +10,7 @@ server.listen(8081, function () {
 server.players = [];
 server.instructor = null;
 server.roles = formatArrayJson(require('./data/roles.json').roles);
-server.params = require('./data/params.json').parameters;
+server.params = require('./data/general.json').parameters;
 server.stories = formatArrayJson(require('./data/stories.json').stories);
 server.selectedStory = null;
 
@@ -94,6 +94,17 @@ io.on('connection', function (socket) {
     socket.on("playpause", (bool) => {
         socket.emit('playpause', bool);
         socket.broadcast.emit('playpause', bool);
+    });
+
+    socket.on('quitgame', () => {
+        if (server.players[socket.id].roleId > -1) {
+            server.roles[server.players[socket.id].roleId].disabled = false;
+            server.players[socket.id] = -1;
+        }
+
+        socket.broadcast.emit('playerupdate', server.players);
+        server.selectedStory = null;
+        socket.emit('quitgame');
     });
 
     /**
