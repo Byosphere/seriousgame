@@ -29,6 +29,7 @@
     "loader": {
         "serverwait": "En attente du serveur...",
         "gamemasterwait": "Connecté. En attente du maître du jeu...",
-        "playerswait": "En attente des autres joueurs..."
+        "playerswait": "En attente des autres joueurs...",
+        "disconnected": "La connexion au serveur a été perdue."
     }
 }

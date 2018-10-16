@@ -3,7 +3,7 @@ import './style/App.css';
 import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
 import RoleSelect from './containers/roleselect/RoleSelect';
-import { gameConnect, onDisconnect } from './utils/api';
+import { gameConnect, onDisconnect, serverFail } from './utils/api';
 import { INSTRUCTOR, PLAYER } from './utils/constants';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Loader from './components/loader/Loader';
@@ -56,8 +56,10 @@ class App extends React.Component<Props, State> {
 	}
 
 	public checkDisconnect(playerId: number) {
-		onDisconnect(this.state.playerId, () => {
-			this.setState({ disconnected: true });
+		onDisconnect((err: any) => {
+			this.setState({
+				disconnected: true
+			});
 		});
 	}
 

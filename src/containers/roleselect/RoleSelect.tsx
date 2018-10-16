@@ -54,22 +54,23 @@ class RoleSelect extends React.Component<Props, State> {
 
     public handleSelect(evt: any) {
         if (!this.state.selectable) return;
-        this.setState({ selectable: false });
 
         let roles = this.state.roles
         let role = roles[evt.target.dataset.index];
 
-        if (role) {
+        if (role && !role.disabled) {
             role.disabled = true;
-
             this.setState({
-                roles: roles
+                roles: roles,
+                selectable: false
             });
             selectRole(role.id, (err: any, response: boolean) => {
                 if (response) {
                     // le role a été choisi on attend que tous les joueurs soient prets
-                    this.setState({ selectedRoleId: role.id })
-                    this.setState({ redirect: true });
+                    this.setState({ 
+                        selectedRoleId: role.id,
+                        redirect: true
+                    });
                 } else {
                     // le role ne peut etre choisi
                 }

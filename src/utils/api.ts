@@ -104,14 +104,10 @@ export function playPause(response: any) {
 }
 
 /**
- * 
+ * Action retournée si le joueur se déconnecte
  * @param playerId 
  * @param response 
  */
-export function onDisconnect(playerId: number, response: any) {
-
-    socket.on('disconnect', () => {
-        socket.emit('disconnect');
-        response();
-    });
+export function onDisconnect(response: Function) {
+    socket.on('disconnect', (err: any) => response(err));
 }
