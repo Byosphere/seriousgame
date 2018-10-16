@@ -20,7 +20,7 @@ class ActionsDashboard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        let masterActions = this.props.story.actions.filter((a: Action) => { return a.masterOnly });
+        let masterActions = this.props.story.actions.filter((a: Action) => { return a.master });
         let gridSize = gridConvertToCss(Math.ceil(Math.sqrt(masterActions.length)));
         this.state = {
             masterActions: masterActions,

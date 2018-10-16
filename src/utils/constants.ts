@@ -76,37 +76,37 @@ export const STORY_TEST: Story = {
             "id": "action1",
             "name": "Une action 1",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         },
         {
             "id": "action2",
             "name": "Une action 2",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         },
         {
             "id": "action3",
             "name": "Une action 3",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         },
         {
             "id": "action4",
             "name": "Une action 4",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         },
         {
             "id": "action5",
             "name": "Une action 5",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         },
         {
             "id": "action6",
             "name": "Une action 6",
             "description": "Action utilisée pour afficher tel composant",
-            "masterOnly": true
+            "master": true
         }
     ]
 };

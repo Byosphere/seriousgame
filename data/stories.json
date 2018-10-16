@@ -78,7 +78,7 @@
                     "id": "action1",
                     "name": "Une action 1",
                     "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "master": true
                 },
                 {
                     "id": "action2",
@@ -89,7 +89,7 @@
                     "id": "action3",
                     "name": "Une action 3",
                     "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "master": true
                 },
                 {
                     "id": "action4",
@@ -105,7 +105,7 @@
                     "id": "action6",
                     "name": "Une action 6",
                     "description": "Action utilisée pour afficher tel composant",
-                    "masterOnly": true
+                    "master": true
                 }
             ]
         }
