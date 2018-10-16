@@ -22,7 +22,12 @@ io.on('connection', function (socket) {
     socket.on('init', () => {
 
         if (server.instructor) {
-            let player = { id: server.players.length, roleId: -1, name: 'Joueur ' + (server.players.length + 1) };
+            let player = {
+                id: server.players.length,
+                roleId: -1,
+                name: 'Joueur ' + (server.players.length + 1),
+                status: 0
+            };
             socket.id = server.players.length;
             server.players[player.id] = player;
             socket.emit('init', { id: player.id, type: 'player', params: server.parameters });
@@ -53,7 +58,7 @@ io.on('connection', function (socket) {
         if (!server.roles[roleId].disabled) {
             server.players[socket.id].roleId = roleId;
             server.roles[roleId].disabled = true;
-            socket.broadcast.emit('playerupdate', server.players);
+            server.players[socket.id].status = 0;
             socket.broadcast.emit('updaterole', server.roles[roleId]);
             socket.emit('selectrole', true);
 
@@ -62,8 +67,15 @@ io.on('connection', function (socket) {
                 if (player && player.roleId < 0) playersReady = false;
             });
             if (playersReady) {
+                server.players.forEach(player => {
+                    if (player) {
+                        player.status = 2;
+                    }
+                });
+
                 socket.broadcast.emit('startgame', server.selectedStory);
             }
+            socket.broadcast.emit('playerupdate', server.players);
 
         } else {
             socket.emit('selectrole', false);
@@ -99,11 +111,12 @@ io.on('connection', function (socket) {
     socket.on('quitgame', () => {
         if (server.players[socket.id].roleId > -1) {
             server.roles[server.players[socket.id].roleId].disabled = false;
-            server.players[socket.id] = -1;
+            server.players[socket.id].roleId = -1;
         }
 
         socket.broadcast.emit('playerupdate', server.players);
         server.selectedStory = null;
+        socket.broadcast.emit('adminquit');
         socket.emit('quitgame');
     });
 

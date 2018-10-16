@@ -108,6 +108,10 @@ export function quitGame(response: Function) {
     socket.emit('quitgame');
 }
 
+export function playerQuit(response: Function) {
+    socket.on('adminquit', () => response());
+}
+
 /**
  * Action retournée si le joueur se déconnecte
  * @param playerId 

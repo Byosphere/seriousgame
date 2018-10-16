@@ -46,8 +46,7 @@ class playerList extends React.Component<Props, State> {
                                     <Person />
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={player.name}
-                                    secondary={this.getPlayerStatus(player)} />
+                                    primary={player.name} />
                                 <ListItemSecondaryAction>
                                     <IconButton onClick={() => this.removePlayer(player.id)} color="secondary" aria-label="Delete">
                                         <Delete />

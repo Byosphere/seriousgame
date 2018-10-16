@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit } from '../../utils/api';
 import { Player } from '../../interfaces/Player';
 import { Story } from '../../interfaces/Story';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -48,7 +48,10 @@ class MasterBoard extends React.Component<Props, State> {
 			}
 			if (this.state.selectedStory && this.state.players.length < this.state.selectedStory.nbPlayers) {
 				this.setState({
-					selectedStory: null
+					selectedStory: null,
+					status: 0,
+					gameStarted: false,
+					togglePause: false
 				});
 			}
 		});
@@ -73,6 +76,16 @@ class MasterBoard extends React.Component<Props, State> {
 			this.setState({
 				gameStarted: true
 			});
+		});
+
+		playerQuit(() => {
+			if (!this.state.selectedStory) return;
+			this.setState({
+				gameStarted: false,
+				selectedStory: null,
+				status: 0,
+				togglePause: false
+			})
 		});
 
 		this.startStory = this.startStory.bind(this);

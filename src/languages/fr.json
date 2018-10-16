@@ -17,7 +17,12 @@
         "roleselect": "Sélection des rôles"
     },
     "player": {
-        "titleselect": "Sélectionne un rôle pour la partie"
+        "titleselect": "Sélectionne un rôle pour la partie",
+        "status": {
+            "0":"En attente",
+            "1":"Choisi son rôle",
+            "2": "En partie"
+        }
     },
     "story": {
         "launch": "Lancer la partie",
