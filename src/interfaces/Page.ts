@@ -1,6 +1,6 @@
 interface Page {
     id: number
-    background: string
+    background?: string
     components: Array<any>
     cols?: number
     rows?: number

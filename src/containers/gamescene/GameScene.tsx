@@ -130,8 +130,8 @@ class GameScene extends React.Component<Props, State> {
                     </AppBar>
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
-                        {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp) => {
-                            return (<DynamicComponent key={cmp.name} lastAction={this.state.lastActionId} component={cmp} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
+                        {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp, i) => {
+                            return (<DynamicComponent key={i} lastAction={this.state.lastActionId} component={cmp} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
                         })}
                     </div>
                 </div>

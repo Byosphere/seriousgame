@@ -1,17 +1,11 @@
 import * as React from 'react';
 import { Button } from '@material-ui/core';
 
-interface Props {
-    component: Component
-    lastAction: string
-    clickAction: Function
-}
-
 interface State {
     disabled: boolean
 }
 
-class ActionButton extends React.Component<Props, State> {
+class ActionButton extends React.Component<Props, State> implements GameComponent {
 
     constructor(props: Props) {
         super(props);
@@ -24,7 +18,7 @@ class ActionButton extends React.Component<Props, State> {
         this.setState({
             disabled: true
         });
-        this.props.clickAction(this.props.component.clickAction);
+        this.props.sendAction(this.props.component.clickAction);
     }
 
     render() {

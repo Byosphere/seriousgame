@@ -5,4 +5,5 @@ interface Component {
     actionToDisplay?: string
     actionToHide?: string
     clickAction?: string
+    params?: any
 }

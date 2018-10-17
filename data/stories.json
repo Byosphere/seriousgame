@@ -21,6 +21,37 @@
                             "background": "./image.png",
                             "components": [
                                 {
+                                    "name": "QuizzButton",
+                                    "rows": "3 / 4",
+                                    "cols": "2 / 3",
+                                    "clickAction": "",
+                                    "params": {
+                                        "question": "Question test du quizz : Lorem Ipsum bla bla bla bla bla bla bla bla",
+                                        "answers": [
+                                            {
+                                                "label": "Reponse 1",
+                                                "correct": false,
+                                                "details": "C'est faux parce que bla bla bla bla"
+                                            },
+                                            {
+                                                "label": "Reponse 2",
+                                                "correct": true,
+                                                "details":"C'est correct parce que bla bla bla bla"
+                                            },
+                                            {
+                                                "label": "Reponse 3",
+                                                "correct": false,
+                                                "details": "C'est faux parce que bla bla bla bla"
+                                            },
+                                            {
+                                                "label": "Reponse 4",
+                                                "correct": false,
+                                                "details": "C'est faux parce que bla bla bla bla"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
                                     "name": "ActionButton",
                                     "rows": "1 / 2",
                                     "cols": "1 / 2",

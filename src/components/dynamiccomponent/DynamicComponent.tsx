@@ -2,6 +2,7 @@ import * as React from 'react';
 import ImageClickable from '../imageclickable/ImageClickable';
 import ActionButton from '../actionbutton/ActionButton';
 import { sendAction } from 'src/utils/api';
+import QuizzButton from '../quizzbutton/QuizzButton';
 
 interface Props {
     component: Component
@@ -50,13 +51,13 @@ class DynamicComponent extends React.Component<Props, State> {
     public selectComponent() {
         switch (this.props.component.name) {
             case 'ImageClickable':
-                return (<ImageClickable component={this.props.component} lastAction={this.props.lastAction} />);
+                return (<ImageClickable component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
 
             case 'ActionButton':
-                return (<ActionButton component={this.props.component} lastAction={this.props.lastAction} clickAction={this.dispatchAction} />);
+                return (<ActionButton component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
 
-            case '':
-                return (<div></div>);
+            case 'QuizzButton':
+                return (<QuizzButton component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
 
             case '':
                 return (<div></div>);

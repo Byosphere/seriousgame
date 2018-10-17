@@ -1,15 +1,10 @@
 import * as React from 'react';
 
-interface Props {
-    component: Component
-    lastAction: string
-}
-
 interface State {
-
+    disabled: boolean
 }
 
-class ImageClickable extends React.Component<Props, State> {
+class ImageClickable extends React.Component<Props, State> implements GameComponent {
 
     constructor(props: Props) {
         super(props);

@@ -38,5 +38,6 @@
         "disconnected": "La connexion au serveur a été perdue.",
         "endgame": "Partie terminée !",
         "quit": "quitter"
-    }
+    },
+    "quizztitle": "Répondez à ce quizz pour continuer"
 }
