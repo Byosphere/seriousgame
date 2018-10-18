@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
+const fs = require('fs');
 
 server.listen(8081, function () {
     console.log('Listening on ' + server.address().port);
@@ -11,7 +12,11 @@ server.players = [];
 server.instructor = null;
 server.roles = formatArrayJson(require('./data/roles.json').roles);
 server.params = require('./data/general.json').parameters;
-server.stories = formatArrayJson(require('./data/stories.json').stories);
+server.stories = [];
+fs.readdirSync('./data/stories/').forEach(file => {
+    let story = require('./data/stories/' + file);
+    server.stories[story.id] = story;
+});
 server.selectedStory = null;
 
 io.on('connection', function (socket) {
