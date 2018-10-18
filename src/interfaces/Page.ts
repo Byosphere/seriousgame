@@ -4,4 +4,5 @@ interface Page {
     components: Array<any>
     cols?: number
     rows?: number
+    actionToDisplay?: string
 }

@@ -82,9 +82,18 @@ class GameScene extends React.Component<Props, State> {
         });
 
         listenDynamicActions((actionId: string) => {
-            this.setState({
-                lastActionId: actionId
-            });
+            let nextPage = this.state.interface.pages[this.state.currentPage + 1];
+            if (nextPage.actionToDisplay === actionId) {
+                this.setState({
+                    lastActionId: actionId,
+                    currentPage: this.state.currentPage + 1
+                });
+            } else {
+                this.setState({
+                    lastActionId: actionId
+                });
+            }
+
         });
         this.quitGame = this.quitGame.bind(this);
     }
@@ -136,7 +145,7 @@ class GameScene extends React.Component<Props, State> {
                     </AppBar>
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
-                        {this.state.interface && this.state.interface.pages[this.state.currentPage].components.map((cmp, i) => {
+                        {this.state.interface && this.state.interface.pages[this.state.currentPage] && this.state.interface.pages[this.state.currentPage].components.map((cmp, i) => {
                             return (<DynamicComponent key={i} lastAction={this.state.lastActionId} component={cmp} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
                         })}
                     </div>
