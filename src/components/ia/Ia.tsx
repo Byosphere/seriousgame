@@ -23,7 +23,14 @@ class Ia extends React.Component<Props, State> {
             displayMessage: false,
             vu: false
         }
+    }
 
+    public componentDidUpdate(prevProps: Props) {
+        if (this.props.lastAction !== prevProps.lastAction) {
+            this.setState({
+                vu: false
+            });
+        }
     }
 
     public getCurrentMessage(messages: Array<Message>, lastAction: string): Message {

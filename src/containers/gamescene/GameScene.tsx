@@ -90,13 +90,19 @@ class GameScene extends React.Component<Props, State> {
     }
 
     public displayGrid() {
-        let cols = this.state.interface.pages[this.state.currentPage].cols || this.state.interface.cols;
-        let rows = this.state.interface.pages[this.state.currentPage].rows || this.state.interface.rows;
+        let currentPage = this.state.interface.pages[this.state.currentPage];
+        let cols = currentPage.cols || this.state.interface.cols;
+        let rows = currentPage.rows || this.state.interface.rows;
+        let bg = '';
+        if (currentPage.background) {
+            bg = "url('" + currentPage.background + "')";
+        }
 
         this.setState({
             gridStyle: {
                 gridTemplateColumns: gridConvertToCss(cols),
                 gridTemplateRows: gridConvertToCss(rows),
+                backgroundImage: bg
             },
             displayIa: this.state.interface.displayIa
         });

@@ -1,5 +1,8 @@
 .game-grid {
     display: grid;
     width: 100%;
-    height: calc(100% - 75px);
+    height: calc(100% - 64px);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }

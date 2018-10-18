@@ -5,10 +5,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.5);
     top: 0;
+    z-index: 9999999;
 }
 
 .pause-overlay svg {
     font-size: 160px;
+    color: white;
 }

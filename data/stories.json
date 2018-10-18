@@ -18,7 +18,7 @@
                     "pages": [
                         {
                             "id": 1,
-                            "background": "./image.png",
+                            "background": "./images/milkyway.jpeg",
                             "components": [
                                 {
                                     "name": "QuizzButton",
