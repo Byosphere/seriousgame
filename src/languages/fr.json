@@ -1,7 +1,8 @@
 {
     "instructor": {
         "title": "Interface de jeu",
-        "edittitle": "Créateur de story",
+        "storycreator": "Créateur de story",
+        "rolecreator": "Créateur de Role",
         "list": "Liste des joueurs",
         "pause": "Mettre la partie en pause",
         "play": "Reprendre la partie",
@@ -31,6 +32,14 @@
         "description": "Description",
         "nbplayers": "Joueurs requis",
         "action": "Action"
+    },
+    "role": {
+        "list": "Liste des rôles",
+        "name": "Nom",
+        "description": "Description",
+        "image": "Image",
+        "soustitre": "Sous Titre",
+        "color": "Thème de couleur"
     },
     "loader": {
         "serverwait": "En attente du serveur...",

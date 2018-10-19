@@ -19,6 +19,16 @@ export function loadStories(response: any) {
     socket.emit('getstories');
 }
 
+export function loadRoles(response: Function) {
+    socket.on('getroles', (resp: Array<Role>) => response(resp));
+    socket.emit('getroles');
+}
+
+export function saveRoles(roles: Array<Role>, response: Function) {
+    socket.on('saveroles', (err: any) => response(err));
+    socket.emit('saveroles', roles);
+}
+
 /**
  * Ecouteur pour l'instructeur. Est appelée lorsqu'un joueur est mis à jour
  * @param response : fonction retournant err et la liste des joueurs

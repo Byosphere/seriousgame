@@ -11,6 +11,7 @@ import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
 import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard';
 import StoryCreator from '../storycreator/StoryCreator';
+import RoleCreator from '../rolecreator/RoleCreator';
 
 interface Props { }
 interface State {
@@ -124,7 +125,8 @@ class MasterBoard extends React.Component<Props, State> {
 					<Toolbar>
 						<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
 							<Tab label={T.translate('instructor.title')} />
-							<Tab label={T.translate('instructor.edittitle')} disabled={this.state.selectedStory !== null} />
+							<Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />
+							<Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />
 						</Tabs>
 						<div>
 							{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
@@ -146,6 +148,7 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator />}
+				{this.state.tabValue === 2 && <RoleCreator />}
 			</div >
 		);
 	}
