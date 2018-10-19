@@ -1,22 +1,17 @@
 import * as React from 'react';
+import './quizzdialog.css';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Slide, List, ListItem, ListItemIcon, ListItemText, Divider, DialogActions, Button } from '@material-ui/core';
 import { LooksOne, LooksTwo, Looks3, Looks4, Looks5, Looks6, Lens } from '@material-ui/icons';
 import T from 'i18n-react';
-
-interface Props {
-    onClose: Function
-    open: boolean
-    question: string
-    answers: Array<Answer>
-}
 
 interface State {
     open: boolean
     displayText: string
     finished: boolean
+    visible: boolean
 }
 
-class QuizzDialog extends React.Component<Props, State> {
+class QuizzDialog extends React.Component<Props, State> implements GameComponent {
 
     constructor(props: Props) {
         super(props);
@@ -24,8 +19,14 @@ class QuizzDialog extends React.Component<Props, State> {
         this.state = {
             open: false,
             displayText: "",
-            finished: false
+            finished: false,
+            visible: true
         }
+        if (!this.props.component.params || !this.props.component.params.answers)
+            throw ("Parameter 'answer' not found");
+
+        if (!this.props.component.params || !this.props.component.params.question)
+            throw ("Parameter 'question' not found");
     }
 
     public transition(props: Props) {
@@ -34,15 +35,15 @@ class QuizzDialog extends React.Component<Props, State> {
 
     public checkResponse(i: number) {
 
-        if (this.props.answers[i].details) {
+        if (this.props.component.params.answers[i].details) {
             this.setState({
-                finished: this.props.answers[i].correct,
-                displayText: this.props.answers[i].details,
+                finished: this.props.component.params.answers[i].correct,
+                displayText: this.props.component.params.answers[i].details,
                 open: true
             });
-            this.props.answers[i].checked = true;
-        } else if (this.props.answers[i].correct) {
-            this.props.onClose();
+            this.props.component.params.answers[i].checked = true;
+        } else if (this.props.component.params.answers[i].correct) {
+            this.onClose();
         }
     }
 
@@ -67,21 +68,30 @@ class QuizzDialog extends React.Component<Props, State> {
 
     public closePop() {
         this.setState({ open: false, finished: false });
-        if (this.state.finished) this.props.onClose();
+        if (this.state.finished) this.onClose();
 
+    }
+
+    public onClose() {
+        this.setState({visible: false});
+        if (this.props.component.clickAction) {
+            this.props.sendAction(this.props.component.clickAction);
+        }
     }
 
     render() {
 
+        if(!this.state.visible) return null;
+
         return (
-            <Dialog TransitionComponent={this.transition} aria-labelledby="quizz-dialog" open={this.props.open}>
+            <Dialog TransitionComponent={this.transition} aria-labelledby="quizz-dialog" open={this.state.visible}>
                 <DialogTitle>{T.translate('quizztitle')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {this.props.question}
+                        {this.props.component.params.question}
                     </DialogContentText>
                     <List component="nav" className="quizz-list">
-                        {this.props.answers.map((answer, i) => {
+                        {this.props.component.params.answers.map((answer: Answer, i: number) => {
                             let classes = answer.checked ? 'checked ' : '';
                             classes += answer.correct ? 'v' : 'f'
 

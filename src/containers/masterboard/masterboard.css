@@ -27,3 +27,8 @@ td.red {
 .masterboard header.pause {
     background-color: #CFCFCF;
 }
+
+.masterboard>header>div {
+    min-height: 48px;
+    justify-content: space-between;
+}

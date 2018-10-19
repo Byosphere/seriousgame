@@ -1,6 +1,7 @@
 {
     "instructor": {
-        "title": "Interface du maitre du jeu",
+        "title": "Interface de jeu",
+        "edittitle": "Créateur de story",
         "list": "Liste des joueurs",
         "pause": "Mettre la partie en pause",
         "play": "Reprendre la partie",

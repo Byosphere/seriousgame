@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Tooltip, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { AppBar, Tooltip, Toolbar, Typography, IconButton, Tabs, Tab } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit } from '../../utils/api';
@@ -10,6 +10,7 @@ import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
 import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard';
+import StoryCreator from '../storycreator/StoryCreator';
 
 interface Props { }
 interface State {
@@ -19,6 +20,7 @@ interface State {
 	togglePause: boolean
 	status: number
 	gameStarted: boolean
+	tabValue: number
 }
 
 /**
@@ -35,7 +37,8 @@ class MasterBoard extends React.Component<Props, State> {
 			selectedStory: null,
 			togglePause: false,
 			status: 0,
-			gameStarted: false
+			gameStarted: false,
+			tabValue: 0
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -109,32 +112,40 @@ class MasterBoard extends React.Component<Props, State> {
 		sendAction(actionId);
 	}
 
+	public handleChange(value: number) {
+		this.setState({ tabValue: value });
+	}
+
 	public render() {
 
 		return (
 			<div className="masterboard">
 				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
-						<Typography variant="title" component="h1" color="inherit" className="app-title">
-							{T.translate('instructor.title')}
-						</Typography>
-						{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
-							<IconButton onClick={() => { this.togglePause() }} color="inherit"><PlayCircleOutline /></IconButton>
-						</Tooltip>}
-						{(!this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.pause')}>
-							<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
-						</Tooltip>}
-						{this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
-							<IconButton color="inherit"><Cached /></IconButton>
-						</Tooltip>}
+						<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
+							<Tab label={T.translate('instructor.title')} />
+							<Tab label={T.translate('instructor.edittitle')} disabled={this.state.selectedStory !== null} />
+						</Tabs>
+						<div>
+							{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
+								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PlayCircleOutline /></IconButton>
+							</Tooltip>}
+							{(!this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.pause')}>
+								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
+							</Tooltip>}
+							{this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
+								<IconButton color="inherit"><Cached /></IconButton>
+							</Tooltip>}
+						</div>
 					</Toolbar>
 				</AppBar>
-				<div className="content">
+				{this.state.tabValue === 0 && <div className="content">
 					<PlayerList players={this.state.players} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
-				</div>
+				</div>}
+				{this.state.tabValue === 1 && <StoryCreator />}
 			</div >
 		);
 	}
