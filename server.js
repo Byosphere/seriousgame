@@ -10,7 +10,7 @@ server.listen(8081, function () {
 
 server.players = [];
 server.instructor = null;
-server.roles = formatArrayJson(require('./data/roles.json').roles);
+server.roles = formatArrayJson(require('./data/roles.json'));
 server.params = require('./data/general.json').parameters;
 server.stories = [];
 fs.readdirSync('./data/stories/').forEach(file => {
@@ -47,6 +47,18 @@ io.on('connection', function (socket) {
 
     socket.on('getstories', () => {
         socket.emit('getstories', server.stories);
+    });
+
+    socket.on('getroles', () => {
+        socket.emit('getroles', server.roles);
+    });
+
+    socket.on('saveroles', (roles) => {
+        let json = JSON.stringify(roles);
+        fs.writeFile('./data/roles.json', json, null, (err) => {
+            socket.emit('saveroles', err);
+            server.roles = roles;
+        });
     });
 
     /**
