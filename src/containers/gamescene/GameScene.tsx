@@ -83,7 +83,7 @@ class GameScene extends React.Component<Props, State> {
 
         listenDynamicActions((actionId: string) => {
             let nextPage = this.state.interface.pages[this.state.currentPage + 1];
-            if (nextPage.actionToDisplay === actionId) {
+            if (nextPage && nextPage.actionToDisplay === actionId) {
                 this.setState({
                     lastActionId: actionId,
                     currentPage: this.state.currentPage + 1
@@ -135,7 +135,7 @@ class GameScene extends React.Component<Props, State> {
         } else if (this.state.gameReady) {
             return (
                 <div className="game">
-                    <AppBar position="static" color="primary">
+                    <AppBar position="static" style={{ backgroundColor: this.state.role.color }}>
                         <Toolbar>
                             <Typography variant="title" component="h1" color="inherit" className="app-title">
                                 {this.state.story.name} - {this.state.role.name}
