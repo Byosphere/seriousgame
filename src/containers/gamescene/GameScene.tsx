@@ -3,7 +3,7 @@ import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import T from 'i18n-react';
 import { startGame, playPause, listenDynamicActions, quitGame } from '../../utils/api';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import { Story } from '../../interfaces/Story';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -137,9 +137,9 @@ class GameScene extends React.Component<Props, State> {
                 <div className="game">
                     <AppBar position="static" style={{ backgroundColor: this.state.role.color }}>
                         <Toolbar>
-                            <Typography variant="title" component="h1" color="inherit" className="app-title">
+                            <h1 className="app-title">
                                 {this.state.story.name} - {this.state.role.name}
-                            </Typography>
+                            </h1>
                             {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}
                         </Toolbar>
                     </AppBar>

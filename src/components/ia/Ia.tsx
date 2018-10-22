@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './ia.css';
-import { Card, IconButton, Avatar, Badge, Typography, CardContent, CardHeader, Icon } from '@material-ui/core';
+import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core';
 import { Close, Textsms } from '@material-ui/icons';
 import AvatarImage from '../../images/avatar.jpg';
 
@@ -57,9 +57,7 @@ class Ia extends React.Component<Props, State> {
                         <IconButton onClick={() => { this.setState({ displayMessage: false }) }}>
                             <Close />
                         </IconButton>
-                        <Typography component="p">
-                            {currentMessage.text}
-                        </Typography>
+                        <p>{currentMessage.text}</p>
                     </CardContent>
                 </Card>
             );

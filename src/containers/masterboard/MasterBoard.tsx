@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Tooltip, Toolbar, Typography, IconButton, Tabs, Tab } from '@material-ui/core';
+import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
