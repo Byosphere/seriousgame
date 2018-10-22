@@ -57,7 +57,8 @@
     "generic": {
         "save": "Sauver",
         "reset": "Annuler",
-        "interfaceof": "Interface de"
+        "interfaceof": "Interface de",
+        "loading": "Chargement..."
     },
     "ia": {
         "activate": "Activer l'IA"

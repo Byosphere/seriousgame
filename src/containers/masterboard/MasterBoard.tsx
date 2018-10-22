@@ -13,6 +13,7 @@ import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard'
 import StoryCreator from '../storycreator/StoryCreator';
 import RoleCreator from '../rolecreator/RoleCreator';
 import { Role } from 'src/interfaces/Role';
+import Loader from 'src/components/loader/Loader';
 
 interface Props { }
 interface State {
@@ -36,13 +37,13 @@ class MasterBoard extends React.Component<Props, State> {
 
 		this.state = {
 			players: [],
-			stories: [],
+			stories: null,
 			selectedStory: null,
 			togglePause: false,
 			status: 0,
 			gameStarted: false,
 			tabValue: 0,
-			roles: []
+			roles: null
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -128,14 +129,18 @@ class MasterBoard extends React.Component<Props, State> {
 
 	public render() {
 
+		if (!this.state.stories || !this.state.roles) {
+			return (<Loader textKey='generic.loading' />);
+		}
+
 		return (
 			<div className="masterboard">
 				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
 						<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
 							<Tab label={T.translate('instructor.title')} />
-							{this.state.stories && <Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />}
-							{this.state.roles && <Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />}
+							<Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />
+							<Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />
 						</Tabs>
 						<div>
 							{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
@@ -157,7 +162,7 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
-				{this.state.tabValue === 2 && <RoleCreator />}
+				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} />}
 			</div >
 		);
 	}

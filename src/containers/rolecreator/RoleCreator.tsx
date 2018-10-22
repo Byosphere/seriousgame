@@ -6,7 +6,9 @@ import { loadRoles, saveRoles } from 'src/utils/api';
 import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import { Save, Create, Delete, Brightness1 } from '@material-ui/icons';
 
-interface Props { }
+interface Props {
+    roles: Array<Role>
+}
 
 interface State {
     roles: Array<Role>
