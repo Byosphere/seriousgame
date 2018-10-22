@@ -9,3 +9,11 @@
 .role-creator button:last-child {
     margin-left: 5px;
 }
+
+.role-creator .colors {
+    max-width: 200px;
+}
+
+.role-creator table td {
+    padding: 5px;
+}

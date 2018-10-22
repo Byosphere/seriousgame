@@ -1,7 +1,26 @@
 .story-creator {
     display: grid;
-    /* grid-template-columns: 280px 1fr; */
-    /* grid-template-rows: 200px 1fr; */
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 100px 1fr 1fr 100px;
     margin: 5px;
-    height: calc(100% - 75px);
+    height: calc(100% - 60px);
+}
+
+.story-details {
+    grid-row: 1 / 3;
+    margin-right: 5px;
+}
+
+.simple-story-list {
+    grid-row: 3 / 6;
+    margin-top: 5px;
+}
+
+.player-interfaces {
+    grid-row: 1 / 4;
+}
+
+.actions-timeline {
+    margin-top: 5px;
+    grid-row: 4 / 6;
 }

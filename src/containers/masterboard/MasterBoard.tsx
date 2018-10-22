@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, Typography, IconButton, Tabs, Tab } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
 import { Player } from '../../interfaces/Player';
 import { Story } from '../../interfaces/Story';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -12,6 +12,7 @@ import Timeline from '../../components/timeline/Timeline';
 import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard';
 import StoryCreator from '../storycreator/StoryCreator';
 import RoleCreator from '../rolecreator/RoleCreator';
+import { Role } from 'src/interfaces/Role';
 
 interface Props { }
 interface State {
@@ -22,6 +23,7 @@ interface State {
 	status: number
 	gameStarted: boolean
 	tabValue: number
+	roles: Array<Role>
 }
 
 /**
@@ -39,7 +41,8 @@ class MasterBoard extends React.Component<Props, State> {
 			togglePause: false,
 			status: 0,
 			gameStarted: false,
-			tabValue: 0
+			tabValue: 0,
+			roles: []
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -65,6 +68,12 @@ class MasterBoard extends React.Component<Props, State> {
 				stories: stories
 			});
 		});
+
+		loadRoles((roles: Array<Role>) => {
+			this.setState({
+				roles
+			});
+		})
 
 		listenDynamicActions((actionId: string) => {
 			if (this.state.selectedStory) {
@@ -125,8 +134,8 @@ class MasterBoard extends React.Component<Props, State> {
 					<Toolbar>
 						<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
 							<Tab label={T.translate('instructor.title')} />
-							<Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />
-							<Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />
+							{this.state.stories && <Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />}
+							{this.state.roles && <Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />}
 						</Tabs>
 						<div>
 							{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
@@ -147,7 +156,7 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
-				{this.state.tabValue === 1 && <StoryCreator />}
+				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator />}
 			</div >
 		);

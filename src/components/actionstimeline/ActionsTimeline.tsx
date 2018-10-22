@@ -1,43 +1,32 @@
 import * as React from 'react';
-import './timeline.css';
+import './actionstimeline.css';
 import T from 'i18n-react';
 import { Card, CardHeader, Stepper, Step, StepLabel } from '@material-ui/core';
 import { Story } from '../../interfaces/Story';
 
 interface Props {
-    story: Story
-    status: number
+    actions: Array<Action>
+    status?: number
 }
 
 interface State {
     steps: Array<Action>
 }
 
-class Timeline extends React.Component<Props, State> {
+class ActionsTimeline extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
 
-        let init = [
-            {
-                id: "",
-                name: T.translate('instructor.roleselect').toString()
-            },
-        ];
-
         this.state = {
-            steps: init.concat(this.props.story.actions)
+            steps: null
         }
     }
 
     public render() {
         return (
-            <Card className="timeline">
-                <CardHeader
-                    title={T.translate('instructor.gametitle') + this.props.story.name}
-                    component="h2"
-                />
-                <Stepper activeStep={this.props.status} alternativeLabel>
+            <Card className="actions-timeline">
+                {/* <Stepper activeStep={this.props.status} alternativeLabel>
                     {this.state.steps.map(action => {
                         return (
                             <Step key={action.id}>
@@ -45,10 +34,10 @@ class Timeline extends React.Component<Props, State> {
                             </Step>
                         );
                     })}
-                </Stepper>
+                </Stepper> */}
             </Card>
         );
     }
 }
 
-export default Timeline;
+export default ActionsTimeline;

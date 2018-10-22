@@ -24,14 +24,17 @@
             "0":"En attente",
             "1":"Choisi son rôle",
             "2": "En partie"
-        }
+        },
+        "player": "Joueur"
     },
     "story": {
         "launch": "Lancer la partie",
         "name": "Intitulé",
         "description": "Description",
         "nbplayers": "Joueurs requis",
-        "action": "Action"
+        "action": "Action",
+        "list": "Liste des stories",
+        "add": "Nouvelle Story"
     },
     "role": {
         "list": "Liste des rôles",
@@ -39,7 +42,8 @@
         "description": "Description",
         "image": "Image",
         "soustitre": "Sous Titre",
-        "color": "Thème de couleur"
+        "color": "Thème de couleur",
+        "load": "Chargement des rôles..."
     },
     "loader": {
         "serverwait": "En attente du serveur...",
@@ -49,5 +53,12 @@
         "endgame": "Partie terminée !",
         "quit": "quitter"
     },
-    "quizztitle": "Répondez à ce quizz pour continuer"
+    "quizztitle": "Répondez à ce quizz pour continuer",
+    "generic": {
+        "save": "Sauver",
+        "reset": "Annuler"
+    },
+    "ia": {
+        "activate": "Activer l'IA"
+    }
 }

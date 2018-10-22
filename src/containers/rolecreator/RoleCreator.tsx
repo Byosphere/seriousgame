@@ -132,9 +132,10 @@ class RoleCreator extends React.Component<Props, State> {
                                                 margin="normal"
                                                 variant="outlined"
                                                 fullWidth
+                                                multiline
                                             />
                                         </TableCell>
-                                        <TableCell scope="row">
+                                        <TableCell scope="row" className="colors">
                                             <TextField
                                                 id="color"
                                                 label={T.translate('role.color')}

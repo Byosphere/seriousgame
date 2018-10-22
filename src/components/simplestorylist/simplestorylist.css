@@ -1,0 +1,12 @@
+.simple-story-list {
+    margin-right: 5px;
+}
+
+.simple-story-list ul {
+    height: calc(100% - 64px);
+    overflow: auto;
+}
+
+.simple-story-list .add-story svg, .simple-story-list .add-story span {
+    color: #ff7900 !important;
+}

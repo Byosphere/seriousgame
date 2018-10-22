@@ -21,7 +21,7 @@ class Loader extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div>
+            <div className="loader-wrapper">
                 <GridLoader className="loader" color={this.props.color || ORANGE} size="50px" />
                 <p className="sub-loader">{T.translate(this.props.textKey)}</p>
                 {this.props.button && <div className="load-button"><Button variant="contained" onClick={() => { this.props.buttonAction() }} color="primary" >{T.translate(this.props.button)}</Button></div>}
