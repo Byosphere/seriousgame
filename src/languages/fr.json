@@ -56,7 +56,8 @@
     "quizztitle": "Répondez à ce quizz pour continuer",
     "generic": {
         "save": "Sauver",
-        "reset": "Annuler"
+        "reset": "Annuler",
+        "interfaceof": "Interface de"
     },
     "ia": {
         "activate": "Activer l'IA"

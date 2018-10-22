@@ -30,6 +30,11 @@ class StoryCreator extends React.Component<Props, State> {
     public handleChange(event: any, name: string) {
         let selectedStory = this.state.selectedStory;
         selectedStory[name] = event.target.value;
+
+        if (name === "nbPlayers" && selectedStory.interfaces.length > event.target.value) {
+            selectedStory.interfaces.length = event.target.value;
+        }
+
         this.setState({
             selectedStory
         });
@@ -80,7 +85,7 @@ class StoryCreator extends React.Component<Props, State> {
                     </CardContent>
                 </Card>
                 <SimpleStoryList stories={this.props.stories} select={(story: Story) => { this.selectStory(story) }} />
-                <PlayerInterfaces story={this.state.selectedStory} />
+                <PlayerInterfaces story={this.state.selectedStory} roles={this.props.roles} />
                 <ActionsTimeline actions={this.state.selectedStory.actions} />
             </div>
         );
