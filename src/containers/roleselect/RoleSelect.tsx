@@ -88,15 +88,13 @@ class RoleSelect extends React.Component<Props, State> {
             return (
                 <Loader textKey="loader.gamemasterwait" />
             );
-        } else {
-
-            let cpt = 0;
+        } else if (this.state.roles.length && this.state.story) {
             return (
                 <div className="player">
                     <h1>{T.translate('player.titleselect')}</h1>
-                    {this.state.roles.map(role => {
+                    {this.state.roles.map((role, i) => {
                         return (
-                            <Card data-index={cpt} key={role.id} onClick={this.handleSelect} className={"card-" + cpt++ + (this.state.roles.length > 3 ? "" : " large") + (role.disabled ? " disabled" : "")}>
+                            <Card data-index={i} key={i} onClick={this.handleSelect} className={"card-" + i + (this.state.roles.length > 3 ? "" : " large") + (role.disabled ? " disabled" : "")}>
                                 <CardHeader
                                     title={role.name}
                                     subheader={role.description}
@@ -106,6 +104,8 @@ class RoleSelect extends React.Component<Props, State> {
                     })}
                 </div>
             );
+        } else {
+            return null;
         }
     }
 }

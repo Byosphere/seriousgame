@@ -38,7 +38,7 @@ class StoryList extends React.Component<Props, State> {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.stories.filter(el => el != null).map(story => {
+                            {this.props.stories.map(story => {
                                 return (
                                     <TableRow key={story.id}>
                                         <TableCell component="th" scope="row">

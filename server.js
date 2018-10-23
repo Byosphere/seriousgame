@@ -15,7 +15,7 @@ server.params = require('./data/general.json').parameters;
 server.stories = [];
 fs.readdirSync('./data/stories/').forEach(file => {
     let story = require('./data/stories/' + file);
-    server.stories[story.id] = story;
+    server.stories.push(story);
 });
 server.selectedStory = null;
 
@@ -105,7 +105,7 @@ io.on('connection', function (socket) {
      * Lancement d'une story par le maître du jeu
      */
     socket.on('startstory', (storyId) => {
-        let story = server.stories[storyId];
+        let story = server.stories.find(story => { return story.id === storyId });
         let roles = [];
         story.interfaces.forEach(interface => {
             roles.push(server.roles.find(role => { return role.id === interface.roleId }));
@@ -159,11 +159,3 @@ io.on('connection', function (socket) {
         }
     });
 });
-
-function formatArrayJson(data) {
-    let formattedData = [];
-    data.forEach(element => {
-        formattedData[element.id] = element;
-    });
-    return formattedData;
-}
