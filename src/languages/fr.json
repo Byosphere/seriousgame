@@ -43,7 +43,8 @@
         "image": "Image",
         "soustitre": "Sous Titre",
         "color": "Thème de couleur",
-        "load": "Chargement des rôles..."
+        "load": "Chargement des rôles...",
+        "no-role": "Aucun rôle configuré. Créez un rôle en cliquant sur l'icone en haut à droite."
     },
     "loader": {
         "serverwait": "En attente du serveur...",

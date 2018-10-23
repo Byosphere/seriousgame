@@ -10,7 +10,7 @@ server.listen(8081, function () {
 
 server.players = [];
 server.instructor = null;
-server.roles = formatArrayJson(require('./data/roles.json'));
+server.roles = require('./data/roles.json');
 server.params = require('./data/general.json').parameters;
 server.stories = [];
 fs.readdirSync('./data/stories/').forEach(file => {
@@ -72,11 +72,13 @@ io.on('connection', function (socket) {
      * Met à jour la liste des rôles et les attribut aux joueurs
      */
     socket.on('selectrole', (roleId) => {
-        if (!server.roles[roleId].disabled) {
+        let selectedRole = server.roles.find(role => { return role.id === roleId });
+
+        if (!selectedRole.disabled) {
             server.players[socket.id].roleId = roleId;
-            server.roles[roleId].disabled = true;
+            selectedRole.disabled = true;
             server.players[socket.id].status = 0;
-            socket.broadcast.emit('updaterole', server.roles[roleId]);
+            socket.broadcast.emit('updaterole', selectedRole);
             socket.emit('selectrole', true);
 
             let playersReady = true
@@ -105,8 +107,8 @@ io.on('connection', function (socket) {
     socket.on('startstory', (storyId) => {
         let story = server.stories[storyId];
         let roles = [];
-        story.roles.forEach(roleId => {
-            roles[roleId] = server.roles[roleId];
+        story.interfaces.forEach(interface => {
+            roles.push(server.roles.find(role => { return role.id === interface.roleId }));
         });
         server.selectedStory = story;
         socket.broadcast.emit('startstory', { roles: roles, story: story });
@@ -127,7 +129,8 @@ io.on('connection', function (socket) {
 
     socket.on('quitgame', () => {
         if (server.players[socket.id].roleId > -1) {
-            server.roles[server.players[socket.id].roleId].disabled = false;
+            let role = server.roles.find(role => { return role.id === server.players[socket.id].roleId });
+            role.disabled = false;
             server.players[socket.id].roleId = -1;
         }
 
@@ -145,7 +148,8 @@ io.on('connection', function (socket) {
         if (server.players[socket.id]) {
             console.log('player ' + socket.id + ' disconnected');
             if (server.players[socket.id].roleId > -1) {
-                server.roles[server.players[socket.id].roleId].disabled = false;
+                let role = server.roles.find(role => { return role.id === server.players[socket.id].roleId });
+                role.disabled = false;
             }
             server.players[socket.id] = null;
             socket.broadcast.emit('playerupdate', server.players);

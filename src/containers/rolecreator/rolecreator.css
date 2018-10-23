@@ -17,3 +17,13 @@
 .role-creator table td {
     padding: 5px;
 }
+.role-creator .table-wrapper {
+    height: calc(100% - 70px);
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.role-creator .no-role {
+    text-align: center;
+    margin-top: 20%;
+    opacity: 0.6;
+}

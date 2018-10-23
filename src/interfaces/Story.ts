@@ -4,6 +4,5 @@ export interface Story {
     description?: string
     nbPlayers: number
     actions: Array<Action>
-    roles: Array<number>
     interfaces: Array<Interface>
 }

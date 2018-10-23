@@ -11,8 +11,6 @@ interface Props {
 }
 
 interface State {
-    roles: Array<Role>
-    selectedRole: Role
     saving: boolean
 }
 
@@ -22,38 +20,22 @@ class RoleCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            roles: [],
-            selectedRole: null,
             saving: false
         };
-
-        loadRoles((roles: Array<Role>) => {
-            this.setState({
-                roles: roles.filter(el => el != null)
-            });
-        });
     }
 
-    public select(role: Role) {
-        this.setState({ selectedRole: role });
-    }
-
-    public handleChange(event: any, name: string) {
-        let selectedRole = this.state.selectedRole;
-        selectedRole[name] = event.target.value;
-        this.setState({
-            selectedRole
-        });
+    public handleChange(event: any, index: number, name: string) {
+        this.props.roles[index][name] = event.target.value;
+        this.forceUpdate();
     }
 
     public addRole() {
-        let roles = this.state.roles;
         let id = 0;
         do {
             id = Math.floor(Math.random() * 100000);
-        } while (roles.find(role => { return role.id === id }));
+        } while (this.props.roles.find(role => { return role.id === id }));
 
-        roles[id] = {
+        this.props.roles.push({
             id: id,
             name: "",
             description: "",
@@ -61,30 +43,27 @@ class RoleCreator extends React.Component<Props, State> {
             disabled: false,
             soustitre: "",
             image: ""
-        }
-        this.setState({ roles: roles.filter(el => el != null) });
+        });
+        this.forceUpdate();
     }
 
     public save() {
         this.setState({ saving: true });
-        saveRoles(this.state.roles, (err: any) => {
+        saveRoles(this.props.roles, (err: any) => {
             console.log(err);
             this.setState({ saving: false });
         });
     }
 
     public delete(i: number) {
-        let roles = this.state.roles;
-        roles[i] = null;
-        this.setState({
-            roles: roles.filter(el => el != null)
-        });
+        this.props.roles.splice(i, 1);
+        this.forceUpdate();
     }
 
     public render() {
         return (
             <div className="role-creator">
-                <Card className="list" style={{ gridColumn: '1 / 3', marginRight: '5px' }}>
+                <Card className="list" style={{ gridColumn: '1 / 3' }}>
                     <CardHeader
                         title={T.translate('role.list')}
                         component="h2"
@@ -100,16 +79,17 @@ class RoleCreator extends React.Component<Props, State> {
                         }
                     />
                     <div className="table-wrapper">
+                        {!this.props.roles.length && <p className="no-role">{T.translate('role.no-role')}</p>}
                         <Table>
                             <TableBody>
-                                {this.state.roles.map((role, i) => {
-                                    return (<TableRow hover key={role.id} onClick={() => { this.select(role) }}>
+                                {this.props.roles.map((role, i) => {
+                                    return (<TableRow hover key={role.id}>
                                         <TableCell style={{ width: '200px' }} component="th" scope="row">
                                             <TextField
                                                 id="name"
                                                 label={T.translate('role.name')}
                                                 value={role.name}
-                                                onChange={evt => this.handleChange(evt, 'name')}
+                                                onChange={evt => this.handleChange(evt, i, 'name')}
                                                 margin="normal"
                                                 variant="outlined"
                                             />
@@ -119,7 +99,7 @@ class RoleCreator extends React.Component<Props, State> {
                                                 id="soustitre"
                                                 label={T.translate('role.soustitre')}
                                                 value={role.soustitre}
-                                                onChange={evt => this.handleChange(evt, 'soustitre')}
+                                                onChange={evt => this.handleChange(evt, i, 'soustitre')}
                                                 margin="normal"
                                                 variant="outlined"
                                                 fullWidth
@@ -130,7 +110,7 @@ class RoleCreator extends React.Component<Props, State> {
                                                 id="description"
                                                 label={T.translate('role.description')}
                                                 value={role.description}
-                                                onChange={evt => this.handleChange(evt, 'description')}
+                                                onChange={evt => this.handleChange(evt, i, 'description')}
                                                 margin="normal"
                                                 variant="outlined"
                                                 fullWidth
@@ -142,7 +122,7 @@ class RoleCreator extends React.Component<Props, State> {
                                                 id="color"
                                                 label={T.translate('role.color')}
                                                 value={role.color}
-                                                onChange={evt => this.handleChange(evt, 'color')}
+                                                onChange={evt => this.handleChange(evt, i, 'color')}
                                                 margin="normal"
                                                 variant="outlined"
                                                 fullWidth
@@ -156,7 +136,7 @@ class RoleCreator extends React.Component<Props, State> {
                                                 id="image"
                                                 label={T.translate('role.image')}
                                                 value={role.image}
-                                                onChange={evt => this.handleChange(evt, 'image')}
+                                                onChange={evt => this.handleChange(evt, i, 'image')}
                                                 margin="normal"
                                                 variant="outlined"
                                                 fullWidth
