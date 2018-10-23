@@ -33,7 +33,7 @@ class RoleSelect extends React.Component<Props, State> {
 
         getPlayerStory((err: any, response: any) => {
             this.setState({
-                roles: response.roles.filter((el: any) => el != null),
+                roles: response.roles,
                 story: response.story
             });
         });

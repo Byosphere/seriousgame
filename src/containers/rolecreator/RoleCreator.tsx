@@ -8,6 +8,7 @@ import { Save, Create, Delete, Brightness1 } from '@material-ui/icons';
 
 interface Props {
     roles: Array<Role>
+    snackbar: Function
 }
 
 interface State {
@@ -51,6 +52,7 @@ class RoleCreator extends React.Component<Props, State> {
         this.setState({ saving: true });
         saveRoles(this.props.roles, (err: any) => {
             console.log(err);
+            this.props.snackbar('Roles sauvegardés');
             this.setState({ saving: false });
         });
     }

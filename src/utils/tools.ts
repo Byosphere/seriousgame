@@ -22,3 +22,7 @@ export function positionConvertToCss(cols: string, rows: string) {
         gridRow: rows
     }
 }
+
+export function getObject(arr: Array<any>, objectId: number) {
+    return arr.find(el => { return el.id === objectId });
+}

@@ -14,6 +14,7 @@ import StoryCreator from '../storycreator/StoryCreator';
 import RoleCreator from '../rolecreator/RoleCreator';
 import { Role } from 'src/interfaces/Role';
 import Loader from 'src/components/loader/Loader';
+import MasterSnackbar from 'src/components/mastersnackbar/MasterSnackbar';
 
 interface Props { }
 interface State {
@@ -25,6 +26,7 @@ interface State {
 	gameStarted: boolean
 	tabValue: number
 	roles: Array<Role>
+	snackbarMessage: string
 }
 
 /**
@@ -43,7 +45,8 @@ class MasterBoard extends React.Component<Props, State> {
 			status: 0,
 			gameStarted: false,
 			tabValue: 0,
-			roles: null
+			roles: null,
+			snackbarMessage: ''
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -105,6 +108,14 @@ class MasterBoard extends React.Component<Props, State> {
 		this.startStory = this.startStory.bind(this);
 	}
 
+	public openSnackbar(message: string) {
+		this.setState({ snackbarMessage: message });
+	}
+
+	public snackbarClose() {
+		this.setState({ snackbarMessage: '' });
+	}
+
 	public togglePause() {
 		setPlayPause(!this.state.togglePause, (bool: boolean) => {
 			this.setState({
@@ -162,7 +173,8 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
-				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} />}
+				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} snackbar={(message: string) => { this.openSnackbar(message) }} />}
+				<MasterSnackbar open={this.state.snackbarMessage !== ''} message={this.state.snackbarMessage} onClose={() => { this.snackbarClose() }} />
 			</div >
 		);
 	}

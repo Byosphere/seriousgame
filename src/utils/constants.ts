@@ -12,10 +12,6 @@ export const STORY_TEST: Story = {
     "name": "Story 1",
     "description": "Story test pour commencer",
     "nbPlayers": 2,
-    "roles": [
-        1,
-        2
-    ],
     "interfaces": [
         {
             "roleId": 1,
