@@ -2,3 +2,7 @@
     width: 100%;
     height: calc(100% - 48px);
 }
+
+.remove-red span {
+    color: #F44336;
+}

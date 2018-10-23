@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './playerinterfaces.css';
 import T from 'i18n-react';
-import { Card, Tabs, Tab, AppBar, Toolbar, FormControlLabel, Switch, InputBase } from '@material-ui/core';
+import { Card, Tabs, Tab } from '@material-ui/core';
 import { Story } from 'src/interfaces/Story';
 import InterfaceCreator from '../interfacecreator/InterfaceCreator';
 import { Role } from 'src/interfaces/Role';
@@ -21,7 +21,7 @@ class PlayerInterfaces extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            tab: 0,
+            tab: 0
         }
     }
 
@@ -47,9 +47,25 @@ class PlayerInterfaces extends React.Component<Props, State> {
         return tabs;
     }
 
+    public handleClose() {
+
+    }
+
+    public getSelectedRoles() {
+        let selectedRoles: Array<number> = [];
+        this.props.story.interfaces.forEach(i => {
+            selectedRoles.push(i.roleId);
+        });
+        return selectedRoles;
+    }
+    
+    public update() {
+        this.forceUpdate();
+    }
+
     public render() {
 
-        if(!this.props.story.interfaces[this.state.tab]) {
+        if (!this.props.story.interfaces[this.state.tab]) {
             this.props.story.interfaces[this.state.tab] = this.createInterface();
         }
 
@@ -64,7 +80,7 @@ class PlayerInterfaces extends React.Component<Props, State> {
                         return (<Tab key={i} label={t} />);
                     })}
                 </Tabs>
-                <InterfaceCreator interface={this.props.story.interfaces[this.state.tab]} roles={this.props.roles} />
+                <InterfaceCreator update={() => {this.update()}} selectedRoles={this.getSelectedRoles()} interface={this.props.story.interfaces[this.state.tab]} roles={this.props.roles} />
             </Card>
         );
     }

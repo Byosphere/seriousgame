@@ -23,7 +23,7 @@ class StoryCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            selectedStory: props.stories.filter(el => el != null)[0]
+            selectedStory: props.stories[0]
         }
     }
 
