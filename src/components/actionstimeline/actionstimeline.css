@@ -6,3 +6,7 @@
     height: calc(100% - 42px);
     overflow: auto;
 }
+
+.actions-timeline .stepper>div {
+    flex: none;
+}

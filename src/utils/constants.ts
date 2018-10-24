@@ -7,6 +7,12 @@ export const ORANGE = '#ff7900';
 export const HAUT = 'haut';
 export const BAS = 'bas';
 
+export const COMPONENTS_LIST = [
+    'Quizz',
+    'QuizzButton',
+    'ActionButton'
+];
+
 export const STORY_TEST: Story = {
     "id": 1,
     "name": "Story 1",

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './interfacecreator.css';
 import T from 'i18n-react';
-import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField, Button, Input } from '@material-ui/core';
 import { Role } from 'src/interfaces/Role';
-import { Edit } from '@material-ui/icons';
+import { Edit, Add, Label } from '@material-ui/icons';
 import { ORANGE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
 import PageCreator from '../pagecreator/PageCreator';
@@ -28,8 +28,9 @@ class InterfaceCreator extends React.Component<Props, State> {
         }
     }
 
-    public handleChange(event: any, name: string) {
-        this.props.interface[name] = event.target.checked;
+    public handleChange(event: any, name: string, check?: boolean) {
+        if (check) this.props.interface[name] = event.target.checked;
+        else this.props.interface[name] = event.target.value;
         this.forceUpdate();
     }
 
@@ -63,13 +64,33 @@ class InterfaceCreator extends React.Component<Props, State> {
                                 <Edit />
                             </IconButton>
                         </h3>
+                        <label>{T.translate('interface.cols')} : </label>
+                        <Input
+                            inputProps={{
+                                'aria-label': 'columns',
+                            }}
+                            type="number"
+                            value={this.props.interface.cols}
+                            style={{ color: "white", width: "2em", margin: "0 20px 0 5px" }}
+                            onChange={event => { this.handleChange(event, 'cols') }}
+                        />
+                        <label>{T.translate('interface.rows')} : </label>
+                        <Input
+                            inputProps={{
+                                'aria-label': 'rows',
+                            }}
+                            type="number"
+                            value={this.props.interface.rows}
+                            style={{ color: "white", width: "2em", margin: "0 20px 0 5px" }}
+                            onChange={event => { this.handleChange(event, 'rows') }}
+                        />
                         <FormControlLabel
                             control={
                                 <Switch
                                     checked={this.props.interface.displayIa}
                                     value="displayIa"
                                     color="primary"
-                                    onChange={(evt) => { this.handleChange(evt, "displayIa") }}
+                                    onChange={(evt) => { this.handleChange(evt, "displayIa", true) }}
                                 />
                             }
                             classes={{ label: "white" }}
@@ -78,34 +99,11 @@ class InterfaceCreator extends React.Component<Props, State> {
                     </Toolbar>
                 </AppBar>
                 <div className="interface-creator-content" style={contentStyle}>
-                    <div className="form-top">
-                        <TextField
-                            id="cols-number"
-                            label={T.translate('interface.cols')}
-                            value={this.props.interface.cols}
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="normal"
-                            variant="outlined"
-                            style={{ backgroundColor: "white" }}
-                        />
-                        <TextField
-                            id="rows-number"
-                            label={T.translate('interface.rows')}
-                            value={this.props.interface.rows}
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="normal"
-                            variant="outlined"
-                            style={{ marginLeft: "10px", backgroundColor: "white" }}
-                        />
-                    </div>
                     {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
                     <PageCreator pages={this.props.interface.pages} />
+                    <div className="float-button">
+                        <Button variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>
+                    </div>
                 </div>
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>

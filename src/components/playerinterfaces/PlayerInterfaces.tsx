@@ -72,6 +72,8 @@ class PlayerInterfaces extends React.Component<Props, State> {
                         onChange={(event, value) => { this.handleChange(value) }}
                         value={this.state.tab}
                         indicatorColor="primary"
+                        scrollable
+                        scrollButtons="auto"
                         textColor="primary">
                         {this.getTabs().map((t, i) => {
                             return (<Tab key={i} label={t} />);

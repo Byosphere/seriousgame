@@ -17,15 +17,18 @@ class ActionsTimeline extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            step: 0
+            step: -1
         }
     }
 
     public handleStep(index: number) {
-        this.setState({ step: index });
+        if (index !== this.state.step) {
+            this.setState({ step: index });
+        }
+
     }
 
-    handleChange(arg0: string): any {
+    public handleChange(arg0: string): any {
         //throw new Error("Method not implemented.");
     }
 
@@ -36,7 +39,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                 <Stepper className="stepper" activeStep={this.state.step} nonLinear orientation="vertical">
                     {this.props.actions.map((action, i) => {
                         return (
-                            <Step style={{cursor:"pointer"}} onClick={() => { this.handleStep(i) }} key={action.id}>
+                            <Step style={{ cursor: "pointer" }} onClick={() => { this.handleStep(i) }} key={i}>
                                 <StepLabel>{action.name}</StepLabel>
                                 <StepContent>
                                     <div>

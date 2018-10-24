@@ -63,15 +63,26 @@
     },
     "quizztitle": "Répondez à ce quizz pour continuer",
     "generic": {
-        "save": "Sauver",
+        "save": "Enregistrer",
         "reset": "Annuler",
         "interfaceof": "Interface de",
         "loading": "Chargement...",
         "page": "Page",
-        "addpage": "Ajouter une nouvelle page"
+        "addpage": "Ajouter une page"
     },
     "ia": {
         "activate": "Activer l'IA",
-        "message": "Message de l'IA"
+        "message": "Message de l'IA",
+        "position": "Position du message",
+        "text": "Texte",
+        "haut": "Haut",
+        "bas": "Bas"
+    },
+    "interface": {
+        "action": "Actif pour l'action courante",
+        "cols": "Nombre de colonnes",
+        "rows": "Nombre de lignes",
+        "components": "Composants",
+        "background": "Fond d'écran"
     }
 }

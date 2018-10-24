@@ -1,6 +1,7 @@
 .interface-creator {
     width: 100%;
     height: calc(100% - 48px);
+    position: relative;
 }
 
 .remove-red span {
@@ -11,19 +12,37 @@
     width: 100%;
     display: grid;
     height: calc(100% - 60px);
-    grid-template-rows: 80px 1fr;
+    grid-template-rows: 1fr;
+}
+
+.interface-creator-content .float-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 255px);
+    text-align: center;
 }
 
 .ia-creator {
     grid-column: 2;
-    grid-row: 1 / 3;
 }
 
 .page-creator {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
 }
 
 .interface-creator-content .form-top {
     margin: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.interface-creator-content .form-top>div>div {
+    max-width: 150px;
+} 
+
+.interface-creator-content .form-top>button {
+
 }
