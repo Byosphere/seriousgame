@@ -47,10 +47,6 @@ class PlayerInterfaces extends React.Component<Props, State> {
         return tabs;
     }
 
-    public handleClose() {
-
-    }
-
     public getSelectedRoles() {
         let selectedRoles: Array<number> = [];
         this.props.story.interfaces.forEach(i => {
@@ -58,7 +54,7 @@ class PlayerInterfaces extends React.Component<Props, State> {
         });
         return selectedRoles;
     }
-    
+
     public update() {
         this.forceUpdate();
     }
@@ -70,18 +66,20 @@ class PlayerInterfaces extends React.Component<Props, State> {
         }
 
         return (
-            <Card className="player-interfaces">
-                <Tabs
-                    onChange={(event, value) => { this.handleChange(value) }}
-                    value={this.state.tab}
-                    indicatorColor="primary"
-                    textColor="primary">
-                    {this.getTabs().map((t, i) => {
-                        return (<Tab key={i} label={t} />);
-                    })}
-                </Tabs>
-                <InterfaceCreator update={() => {this.update()}} selectedRoles={this.getSelectedRoles()} interface={this.props.story.interfaces[this.state.tab]} roles={this.props.roles} />
-            </Card>
+            <div className="player-interfaces">
+                <Card>
+                    <Tabs
+                        onChange={(event, value) => { this.handleChange(value) }}
+                        value={this.state.tab}
+                        indicatorColor="primary"
+                        textColor="primary">
+                        {this.getTabs().map((t, i) => {
+                            return (<Tab key={i} label={t} />);
+                        })}
+                    </Tabs>
+                </Card>
+                <InterfaceCreator update={() => { this.update() }} selectedRoles={this.getSelectedRoles()} interface={this.props.story.interfaces[this.state.tab]} roles={this.props.roles} />
+            </div>
         );
     }
 }

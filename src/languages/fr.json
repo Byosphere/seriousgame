@@ -1,4 +1,9 @@
 {
+    "action": {
+        "name": "Intitulé",
+        "description": "Description",
+        "master": "Activable par le Maître du jeu"
+    },
     "instructor": {
         "title": "Interface de jeu",
         "storycreator": "Créateur de story",
@@ -61,9 +66,12 @@
         "save": "Sauver",
         "reset": "Annuler",
         "interfaceof": "Interface de",
-        "loading": "Chargement..."
+        "loading": "Chargement...",
+        "page": "Page",
+        "addpage": "Ajouter une nouvelle page"
     },
     "ia": {
-        "activate": "Activer l'IA"
+        "activate": "Activer l'IA",
+        "message": "Message de l'IA"
     }
 }

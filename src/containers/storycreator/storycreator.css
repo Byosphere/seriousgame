@@ -1,7 +1,7 @@
 .story-creator {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    grid-template-rows: 100px 1fr 1fr 100px;
+    grid-template-columns: 280px 1fr 280px;
+    grid-template-rows: 100px 1fr 1fr;
     margin: 5px;
     height: calc(100% - 60px);
 }
@@ -21,6 +21,7 @@
 }
 
 .actions-timeline {
-    margin-top: 5px;
-    grid-row: 4 / 6;
+    margin-left: 5px;
+    grid-row: 1 / 4;
+    grid-column: 3 / 4;
 }

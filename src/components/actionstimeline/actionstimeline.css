@@ -1,0 +1,8 @@
+.actions-timeline h3 {
+    margin: 20px 0 0 20px;
+}
+
+.actions-timeline .stepper {
+    height: calc(100% - 42px);
+    overflow: auto;
+}

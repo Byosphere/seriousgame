@@ -6,3 +6,24 @@
 .remove-red span {
     color: #F44336;
 }
+
+.interface-creator-content {
+    width: 100%;
+    display: grid;
+    height: calc(100% - 60px);
+    grid-template-rows: 80px 1fr;
+}
+
+.ia-creator {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+
+.page-creator {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.interface-creator-content .form-top {
+    margin: 0 10px;
+}

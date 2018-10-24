@@ -1,10 +1,12 @@
 import * as React from 'react';
 import './interfacecreator.css';
 import T from 'i18n-react';
-import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
+import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField } from '@material-ui/core';
 import { Role } from 'src/interfaces/Role';
 import { Edit } from '@material-ui/icons';
 import { ORANGE } from 'src/utils/constants';
+import IaCreator from '../iacreator/IaCreator';
+import PageCreator from '../pagecreator/PageCreator';
 
 interface Props {
     interface: Interface
@@ -49,6 +51,7 @@ class InterfaceCreator extends React.Component<Props, State> {
     public render() {
 
         let selectedRole = this.props.roles.find((role) => { return role && this.props.interface.roleId === role.id });
+        let contentStyle = this.props.interface.displayIa ? { gridTemplateColumns: '1fr 250px' } : { gridTemplateColumns: '1fr' };
 
         return (
             <div className="interface-creator">
@@ -74,6 +77,36 @@ class InterfaceCreator extends React.Component<Props, State> {
                         />
                     </Toolbar>
                 </AppBar>
+                <div className="interface-creator-content" style={contentStyle}>
+                    <div className="form-top">
+                        <TextField
+                            id="cols-number"
+                            label={T.translate('interface.cols')}
+                            value={this.props.interface.cols}
+                            type="number"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal"
+                            variant="outlined"
+                            style={{ backgroundColor: "white" }}
+                        />
+                        <TextField
+                            id="rows-number"
+                            label={T.translate('interface.rows')}
+                            value={this.props.interface.rows}
+                            type="number"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal"
+                            variant="outlined"
+                            style={{ marginLeft: "10px", backgroundColor: "white" }}
+                        />
+                    </div>
+                    {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
+                    <PageCreator pages={this.props.interface.pages} />
+                </div>
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>
                     <div>
