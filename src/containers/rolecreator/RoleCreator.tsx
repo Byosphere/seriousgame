@@ -1,14 +1,15 @@
 import * as React from 'react';
 import './rolecreator.css';
 import T from 'i18n-react';
-import { Role } from 'src/interfaces/Role';
-import { loadRoles, saveRoles } from 'src/utils/api';
+import { saveRoles } from 'src/utils/api';
 import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import { Save, Create, Delete, Brightness1 } from '@material-ui/icons';
+import { connect } from 'react-redux';
+import { displaySnackbar } from 'src/actions/snackbarActions';
 
 interface Props {
     roles: Array<Role>
-    snackbar: Function
+    displaySnackbar: Function
 }
 
 interface State {
@@ -51,8 +52,7 @@ class RoleCreator extends React.Component<Props, State> {
     public save() {
         this.setState({ saving: true });
         saveRoles(this.props.roles, (err: any) => {
-            console.log(err);
-            this.props.snackbar('Roles sauvegardés');
+            this.props.displaySnackbar(T.translate('role.saved').toString());
             this.setState({ saving: false });
         });
     }
@@ -160,4 +160,4 @@ class RoleCreator extends React.Component<Props, State> {
     }
 }
 
-export default RoleCreator;
+export default connect(null, { displaySnackbar })(RoleCreator);

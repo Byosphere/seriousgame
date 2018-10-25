@@ -24,7 +24,7 @@ class playerList extends React.Component<Props, State> {
     }
 
     public removePlayer(playerId: number): void {
-
+        // TODO
     }
 
     public render() {

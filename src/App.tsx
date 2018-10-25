@@ -47,7 +47,6 @@ class App extends React.Component<Props, State> {
 				});
 
 			} else {
-				//TODO error message
 				console.log(err);
 			}
 			this.checkDisconnect(this.state.playerId);

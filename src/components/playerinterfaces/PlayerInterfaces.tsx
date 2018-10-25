@@ -3,6 +3,8 @@ import './playerinterfaces.css';
 import T from 'i18n-react';
 import { Card, Tabs, Tab } from '@material-ui/core';
 import InterfaceCreator from '../interfacecreator/InterfaceCreator';
+import Story from 'src/interfaces/Story';
+import Interface from 'src/interfaces/Interface';
 
 interface Props {
     story: Story
@@ -20,16 +22,6 @@ class PlayerInterfaces extends React.Component<Props, State> {
 
         this.state = {
             tab: 0
-        }
-    }
-
-    public createInterface(): Interface {
-        return {
-            roleId: null,
-            cols: 1,
-            rows: 1,
-            pages: [],
-            displayIa: true
         }
     }
 
@@ -53,6 +45,16 @@ class PlayerInterfaces extends React.Component<Props, State> {
         return selectedRoles;
     }
 
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.story.nbPlayers < state.tab) {
+            return {
+                tab: props.story.nbPlayers - 1
+            }
+        } else {
+            return null;
+        }
+    }
+
     public update() {
         this.forceUpdate();
     }
@@ -60,7 +62,7 @@ class PlayerInterfaces extends React.Component<Props, State> {
     public render() {
 
         if (!this.props.story.interfaces[this.state.tab]) {
-            this.props.story.interfaces[this.state.tab] = this.createInterface();
+            this.props.story.interfaces[this.state.tab] = new Interface();
         }
 
         return (

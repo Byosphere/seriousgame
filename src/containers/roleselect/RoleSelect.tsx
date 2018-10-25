@@ -5,6 +5,7 @@ import T from 'i18n-react';
 import { selectRole, getPlayerStory, updateRole } from '../../utils/api';
 import { Redirect } from 'react-router';
 import Loader from '../../components/loader/Loader';
+import Story from 'src/interfaces/Story';
 
 interface Props {
 

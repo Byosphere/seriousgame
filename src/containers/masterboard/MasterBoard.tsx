@@ -4,29 +4,34 @@ import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/co
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
-import { Player } from '../../interfaces/Player';
-import { Story } from '../../interfaces/Story';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
 import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard';
 import StoryCreator from '../storycreator/StoryCreator';
 import RoleCreator from '../rolecreator/RoleCreator';
-import { Role } from 'src/interfaces/Role';
 import Loader from 'src/components/loader/Loader';
 import MasterSnackbar from 'src/components/mastersnackbar/MasterSnackbar';
+import { connect } from 'react-redux';
+import { hideSnackbar, displaySnackbar } from 'src/actions/snackbarActions';
+import Story from 'src/interfaces/Story';
+import Action from 'src/interfaces/Action';
 
-interface Props { }
+interface Props {
+	openSnackbar: boolean
+	snackbarMessage: string
+	hideSnackbar: Function
+	displaySnackbar: Function
+}
 interface State {
 	players: Array<Player>
 	stories: Array<Story>
-	selectedStory: Story,
+	selectedStory: Story
 	togglePause: boolean
 	status: number
 	gameStarted: boolean
 	tabValue: number
 	roles: Array<Role>
-	snackbarMessage: string
 }
 
 /**
@@ -45,17 +50,16 @@ class MasterBoard extends React.Component<Props, State> {
 			status: 0,
 			gameStarted: false,
 			tabValue: 0,
-			roles: null,
-			snackbarMessage: ''
+			roles: null
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
+				this.props.displaySnackbar(T.translate('player.update'));
 				this.setState({
 					players: response.filter(el => el != null)
 				});
 			} else {
-				//TODO error message
-				console.log(err);
+				this.props.displaySnackbar(err);
 			}
 			if (this.state.selectedStory && this.state.players.length < this.state.selectedStory.nbPlayers) {
 				this.setState({
@@ -108,12 +112,8 @@ class MasterBoard extends React.Component<Props, State> {
 		this.startStory = this.startStory.bind(this);
 	}
 
-	public openSnackbar(message: string) {
-		this.setState({ snackbarMessage: message });
-	}
-
 	public snackbarClose() {
-		this.setState({ snackbarMessage: '' });
+		this.props.hideSnackbar();
 	}
 
 	public togglePause() {
@@ -173,11 +173,17 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
-				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} snackbar={(message: string) => { this.openSnackbar(message) }} />}
-				<MasterSnackbar open={this.state.snackbarMessage !== ''} message={this.state.snackbarMessage} onClose={() => { this.snackbarClose() }} />
+				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} />}
+				<MasterSnackbar open={this.props.openSnackbar} message={this.props.snackbarMessage} onClose={() => { this.snackbarClose() }} />
 			</div >
 		);
 	}
 }
+function mapStateToProps(state: any) {
+	return {
+		snackbarMessage: state.snackbar.message,
+		openSnackbar: state.snackbar.open
+	}
+}
 
-export default MasterBoard;
+export default connect(mapStateToProps, { hideSnackbar, displaySnackbar })(MasterBoard);

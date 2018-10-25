@@ -1,7 +1,10 @@
 import * as React from 'react';
 import './iacreator.css';
 import T from 'i18n-react';
-import { Card, TextField, FormControl, InputLabel, Select, MenuItem, OutlinedInput, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { HAUT } from 'src/utils/constants';
+import Action from 'src/interfaces/Action';
 
 interface State {
     currentMessage: Message
@@ -9,6 +12,7 @@ interface State {
 
 interface Props {
     messages: Array<Message>
+    currentAction: Action
 }
 
 class IaCreator extends React.Component<Props, State> {
@@ -17,8 +21,18 @@ class IaCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            currentMessage: this.props.messages ? this.props.messages[0] : { text: '', position: 'haut', force: 1 }
+            currentMessage: { text: '', position: HAUT, force: 1, action: null }
         }
+
+        // if (!this.props.currentAction) {
+        //     this.state = {
+        //         currentMessage: this.props.messages.find((message: Message) => { return !message.action })
+        //     }
+        // } else {
+        //     this.state = {
+        //         currentMessage: this.props.messages.find((message: Message) => { return this.props.currentAction.id === message.action })
+        //     }
+        // }
     }
 
     handleChange(evt: any, name: string): any {
@@ -29,7 +43,27 @@ class IaCreator extends React.Component<Props, State> {
         });
     }
 
+    static getDerivedStateFromProps(props: Props, state: State) {
+        let message = null;
+        if (props.currentAction) {
+            if (props.currentAction.id !== state.currentMessage.action) {
+                message = props.messages.find((message: Message) => { return props.currentAction.id === message.action })
+            }
+        } else {
+            message = props.messages.find((message: Message) => { return !message.action })
+        }
+
+        if (!message) {
+            message = { text: '', position: HAUT, force: 1, action: props.currentAction ? props.currentAction.id : null }
+        }
+
+        return {
+            currentMessage: message
+        };
+    }
+
     public render() {
+
         return (
             <Card className="ia-creator">
                 <h3>{T.translate('ia.message')}</h3>
@@ -61,7 +95,12 @@ class IaCreator extends React.Component<Props, State> {
             </Card>
         );
     }
-
 }
 
-export default IaCreator;
+function mapStateToProps(state: any) {
+    return {
+        currentAction: state.story.action
+    }
+}
+
+export default connect(mapStateToProps, {})(IaCreator);

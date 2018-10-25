@@ -6,6 +6,7 @@ import { Edit, Add, Label } from '@material-ui/icons';
 import { ORANGE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
 import PageCreator from '../pagecreator/PageCreator';
+import Interface from 'src/interfaces/Interface';
 
 interface Props {
     interface: Interface
@@ -98,7 +99,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                     </Toolbar>
                 </AppBar>
                 <div className="interface-creator-content" style={contentStyle}>
-                    {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages || []} />}
+                    {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
                     <PageCreator pages={this.props.interface.pages} />
                     <div className="float-button">
                         <Button variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>

@@ -4,13 +4,16 @@ import T from 'i18n-react';
 import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, List, ListItem, ListItemIcon, ListItemText, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { COMPONENTS_LIST } from 'src/utils/constants';
+import Action from 'src/interfaces/Action';
+import { connect } from 'react-redux';
 
 interface Props {
     pages: Array<Page>
+    selectedAction: Action
 }
 
 interface State {
-    selectedPage: string
+    selectedPage: number
     selectedComponent: Array<Component>
 }
 
@@ -20,13 +23,19 @@ class PageCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            selectedPage: '0',
+            selectedPage: 0,
             selectedComponent: []
         }
     }
 
-    public onChangeRadio(evt: any) {
-        this.setState({ selectedPage: evt.target.value });
+    public onChangeRadio(evt: any, index: number) {
+        if(this.props.selectedAction) {
+            this.props.pages[index].actionToDisplay = this.props.selectedAction.id;
+        } else {
+            this.props.pages[index].actionToDisplay = null;
+        }
+
+        this.forceUpdate();
     }
 
     public selectComponent(i: number, cmp: Component) {
@@ -43,14 +52,23 @@ class PageCreator extends React.Component<Props, State> {
         return (
             <div className="page-creator">
                 {this.props.pages.map((page, i) => {
+
+                    let selected = false;
+                    if (this.props.pages[i].actionToDisplay && this.props.selectedAction && this.props.pages[i].actionToDisplay === this.props.selectedAction.id) {
+                        selected = true;
+                    }
+                    if (!this.props.pages[i].actionToDisplay && !this.props.selectedAction) {
+                        selected = true;
+                    }
+
                     return (
-                        <ExpansionPanel className={this.state.selectedPage === i.toString() ? 'on' : 'off'}>
+                        <ExpansionPanel key={i} className={this.state.selectedPage === i ? 'on' : 'off'}>
                             <ExpansionPanelSummary className="panel-summary" expandIcon={<ExpandMore />}>
                                 <Typography>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
                                 <FormControl component="fieldset">
                                     <FormControlLabel
                                         value={i.toString()}
-                                        control={<Radio onChange={evt => { this.onChangeRadio(evt) }} checked={this.state.selectedPage === i.toString()} name="page-action" color="primary" />}
+                                        control={<Radio onChange={evt => { this.onChangeRadio(evt, i) }} checked={selected} name="page-action" color="primary" />}
                                         label={T.translate('interface.action')}
                                         labelPlacement="end"
                                     /></FormControl>
@@ -95,9 +113,9 @@ class PageCreator extends React.Component<Props, State> {
                                         <legend>{T.translate('interface.components')}</legend>
                                         <div>
                                             <List dense className="components-list">
-                                                {page.components.map((cmp: Component) => {
+                                                {page.components.map((cmp: Component, i: number) => {
                                                     return (
-                                                        <ListItem selected={this.state.selectedComponent[i] && this.state.selectedComponent[i].id === cmp.id} onClick={() => { this.selectComponent(i, cmp) }} button>
+                                                        <ListItem key={i} selected={this.state.selectedComponent[i] && this.state.selectedComponent[i].id === cmp.id} onClick={() => { this.selectComponent(i, cmp) }} button>
                                                             <ListItemText primary={cmp.name} secondary={'cols: ' + cmp.cols + ' - rows: ' + cmp.rows} />
                                                         </ListItem>
                                                     );
@@ -142,4 +160,10 @@ class PageCreator extends React.Component<Props, State> {
     }
 }
 
-export default PageCreator;
+function mapStateToProps(state: any) {
+    return {
+        selectedAction: state.story.action
+    }
+}
+
+export default connect(mapStateToProps, {})(PageCreator);

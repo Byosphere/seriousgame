@@ -2,7 +2,11 @@
     "action": {
         "name": "Intitulé",
         "description": "Description",
-        "master": "Activable par le Maître du jeu"
+        "master": "Activable par le Maître du jeu",
+        "initial": "Etat initial",
+        "add": "Ajouter une action",
+        "delete": "Supprimer",
+        "defaultname": "Nouvelle action"
     },
     "instructor": {
         "title": "Interface de jeu",
@@ -30,7 +34,8 @@
             "1":"Choisi son rôle",
             "2": "En partie"
         },
-        "player": "Joueur"
+        "player": "Joueur",
+        "update": "Liste des joueurs mise à jour"
     },
     "story": {
         "launch": "Lancer la partie",
@@ -39,7 +44,11 @@
         "nbplayers": "Joueurs requis",
         "action": "Action",
         "list": "Liste des stories",
-        "add": "Nouvelle Story"
+        "add": "Nouvelle Story",
+        "defaultname": "Story",
+        "change": "Changer de Story",
+        "stay": "Rester sur cette story",
+        "notsaved": "Un changement de story entrainera une perte des modifications réalisées sur la story en cours. Êtes-vous sûr de vouloir changer ?"
     },
     "role": {
         "list": "Liste des rôles",
@@ -51,7 +60,8 @@
         "load": "Chargement des rôles...",
         "no-role": "Aucun rôle configuré. Créez un rôle en cliquant sur l'icone en haut à droite.",
         "choose": "Choisis le rôle pour cette interface",
-        "none": "Retirer le rôle"
+        "none": "Retirer le rôle",
+        "saved": "Rôles sauvegardés !"
     },
     "loader": {
         "serverwait": "En attente du serveur...",
@@ -68,7 +78,8 @@
         "interfaceof": "Interface de",
         "loading": "Chargement...",
         "page": "Page",
-        "addpage": "Ajouter une page"
+        "addpage": "Ajouter une page",
+        "warning": "Attention !"
     },
     "ia": {
         "activate": "Activer l'IA",

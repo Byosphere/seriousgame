@@ -3,10 +3,17 @@
 }
 
 .actions-timeline .stepper {
-    height: calc(100% - 42px);
+    height: calc(100% - 87px);
     overflow: auto;
+    border-bottom: 1px solid rgba(0,0,0,0.24);
+    margin-bottom: 5px
 }
 
 .actions-timeline .stepper>div {
     flex: none;
+}
+
+.actions-timeline>button {
+    display: block;
+    margin: 0 auto;
 }

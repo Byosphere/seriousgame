@@ -3,7 +3,7 @@
     grid-template-columns: 250px calc(100% - 550px) 300px;
     grid-template-rows: 70px 1fr 1fr;
     padding: 5px;
-    height: calc(100% - 60px);
+    height: calc(100% - 48px);
     width: 100%;
 }
 

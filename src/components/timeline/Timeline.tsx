@@ -2,6 +2,8 @@ import * as React from 'react';
 import './timeline.css';
 import T from 'i18n-react';
 import { Card, CardHeader, Stepper, Step, StepLabel } from '@material-ui/core';
+import Story from 'src/interfaces/Story';
+import Action from 'src/interfaces/Action';
 
 interface Props {
     story: Story

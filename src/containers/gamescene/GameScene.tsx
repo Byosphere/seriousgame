@@ -8,6 +8,8 @@ import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
 import Ia from '../../components/ia/Ia';
 import { Redirect } from 'react-router-dom';
+import Story from 'src/interfaces/Story';
+import Interface from 'src/interfaces/Interface';
 
 interface Props {
     location: any

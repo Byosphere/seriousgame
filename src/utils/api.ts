@@ -1,4 +1,5 @@
 import * as io from 'socket.io-client';
+import Story from 'src/interfaces/Story';
 
 const socket = io('http://localhost:8081');
 
