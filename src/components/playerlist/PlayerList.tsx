@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Card, CardHeader, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
+import { Card, CardHeader, List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import { Person, Delete } from '@material-ui/icons';
-import { Player } from '../../interfaces/Player';
 import T from 'i18n-react';
 import './playerlist.css';
 

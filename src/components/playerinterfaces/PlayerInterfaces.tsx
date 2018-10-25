@@ -2,9 +2,7 @@ import * as React from 'react';
 import './playerinterfaces.css';
 import T from 'i18n-react';
 import { Card, Tabs, Tab } from '@material-ui/core';
-import { Story } from 'src/interfaces/Story';
 import InterfaceCreator from '../interfacecreator/InterfaceCreator';
-import { Role } from 'src/interfaces/Role';
 
 interface Props {
     story: Story

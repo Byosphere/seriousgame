@@ -2,10 +2,8 @@ import * as React from 'react';
 import './roleselect.css';
 import { Card, CardHeader } from '@material-ui/core';
 import T from 'i18n-react';
-import { Role } from '../../interfaces/Role';
 import { selectRole, getPlayerStory, updateRole } from '../../utils/api';
 import { Redirect } from 'react-router';
-import { Story } from '../../interfaces/Story';
 import Loader from '../../components/loader/Loader';
 
 interface Props {

@@ -1,17 +1,13 @@
 import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
-import T from 'i18n-react';
 import { startGame, playPause, listenDynamicActions, quitGame } from '../../utils/api';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
-import { Story } from '../../interfaces/Story';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
-import { STORY_TEST } from '../../utils/constants';
 import Ia from '../../components/ia/Ia';
 import { Redirect } from 'react-router-dom';
-import { Role } from 'src/interfaces/Role';
 
 interface Props {
     location: any
@@ -48,22 +44,6 @@ class GameScene extends React.Component<Props, State> {
             displayIa: false,
             redirect: ''
         };
-
-        // State de test
-        // this.state = {
-        //     roleId: 1,
-        //     gameReady: true,
-        //     story: STORY_TEST,
-        //     paused: false,
-        //     currentPage: 0,
-        //     interface: STORY_TEST.interfaces.find((el: Interface) => { return el.roleId === 1 }),
-        //     gridStyle: {
-        //         gridTemplateColumns: '1fr 1ft 1fr 1fr 1fr',
-        //         gridTemplateRows: '1fr 1ft 1fr 1fr 1fr'
-        //     },
-        //     displayIa: true,
-        //     lastActionId: "action1"
-        // }
 
         startGame((story: Story) => {
             this.setState({

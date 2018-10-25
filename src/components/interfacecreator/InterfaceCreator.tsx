@@ -2,7 +2,6 @@ import * as React from 'react';
 import './interfacecreator.css';
 import T from 'i18n-react';
 import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField, Button, Input } from '@material-ui/core';
-import { Role } from 'src/interfaces/Role';
 import { Edit, Add, Label } from '@material-ui/icons';
 import { ORANGE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
@@ -99,7 +98,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                     </Toolbar>
                 </AppBar>
                 <div className="interface-creator-content" style={contentStyle}>
-                    {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
+                    {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages || []} />}
                     <PageCreator pages={this.props.interface.pages} />
                     <div className="float-button">
                         <Button variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>

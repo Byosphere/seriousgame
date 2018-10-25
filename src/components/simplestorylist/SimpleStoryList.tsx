@@ -2,7 +2,6 @@ import * as React from 'react';
 import './simplestorylist.css';
 import { CardHeader, Card, List, ListItem, ListItemText, ListItemIcon, Button } from '@material-ui/core';
 import T from 'i18n-react';
-import { Story } from '../../interfaces/Story';
 import { PlaylistAdd } from '@material-ui/icons';
 
 interface Props {

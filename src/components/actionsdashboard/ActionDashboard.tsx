@@ -3,7 +3,6 @@ import './actionsdashboard.css';
 import T from 'i18n-react';
 import { Card, CardHeader, CardContent, Button } from '@material-ui/core';
 import { gridConvertToCss } from '../../utils/tools';
-import { Story } from '../../interfaces/Story';
 
 interface Props {
     story: Story

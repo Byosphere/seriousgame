@@ -1,7 +1,4 @@
 import * as io from 'socket.io-client';
-import { Player } from '../interfaces/Player';
-import { Role } from '../interfaces/Role';
-import { Story } from '../interfaces/Story';
 
 const socket = io('http://localhost:8081');
 

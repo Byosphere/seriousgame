@@ -2,7 +2,6 @@ import * as React from 'react';
 import './storylist.css';
 import { CardHeader, Paper, Table, TableHead, TableCell, TableRow, TableBody, Button } from '@material-ui/core';
 import T from 'i18n-react';
-import { Story } from '../../interfaces/Story';
 
 interface Props {
     stories: Array<Story>

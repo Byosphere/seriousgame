@@ -1,12 +1,10 @@
 import * as React from 'react';
 import './storycreator.css';
 import T from 'i18n-react';
-import { Story } from 'src/interfaces/Story';
 import SimpleStoryList from 'src/components/simplestorylist/SimpleStoryList';
 import PlayerInterfaces from 'src/components/playerinterfaces/PlayerInterfaces';
 import ActionsTimeline from 'src/components/actionstimeline/ActionsTimeline';
 import { Card, TextField, Button } from '@material-ui/core';
-import { Role } from 'src/interfaces/Role';
 import { Save } from '@material-ui/icons';
 
 interface Props {
