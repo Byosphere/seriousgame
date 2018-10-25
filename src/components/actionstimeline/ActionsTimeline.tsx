@@ -2,6 +2,7 @@ import * as React from 'react';
 import './actionstimeline.css';
 import T from 'i18n-react';
 import { Card, Stepper, StepLabel, StepButton, Step, StepContent, Button, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
+import { ACTION_INITIAL } from 'src/utils/constants';
 
 interface Props {
     actions: Array<Action>
@@ -17,8 +18,10 @@ class ActionsTimeline extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            step: -1
+            step: 0
         }
+
+        this.props.actions.unshift({ id: ACTION_INITIAL, name: T.translate('action.initial').toString() });
     }
 
     public handleStep(index: number) {
@@ -41,7 +44,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                         return (
                             <Step style={{ cursor: "pointer" }} onClick={() => { this.handleStep(i) }} key={i}>
                                 <StepLabel>{action.name}</StepLabel>
-                                <StepContent>
+                                {action.id !== ACTION_INITIAL && <StepContent>
                                     <div>
                                         <TextField
                                             id="action-name"
@@ -75,7 +78,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                                             label={T.translate('action.master')}
                                         />
                                     </div>
-                                </StepContent>
+                                </StepContent>}
                             </Step>
                         );
                     })}

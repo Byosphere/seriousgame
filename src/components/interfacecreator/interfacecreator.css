@@ -21,6 +21,11 @@
     left: 0;
     width: calc(100% - 255px);
     text-align: center;
+    pointer-events: none;
+}
+
+.interface-creator-content .float-button button {
+    pointer-events: visible;
 }
 
 .ia-creator {

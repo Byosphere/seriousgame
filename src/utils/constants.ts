@@ -7,6 +7,8 @@ export const ORANGE = '#ff7900';
 export const HAUT = 'haut';
 export const BAS = 'bas';
 
+export const ACTION_INITIAL = 'initial_action';
+
 export const COMPONENTS_LIST = [
     'Quizz',
     'QuizzButton',
