@@ -2,6 +2,7 @@ import T from 'i18n-react';
 import Interface from './Interface';
 import Action from './Action';
 import { ACTION_INITIAL } from 'src/utils/constants';
+import { saveStory } from 'src/utils/api';
 
 interface Story {
     id: number
@@ -24,20 +25,66 @@ class Story {
         this.description = description || '';
     }
 
-    public validate(): boolean {
-        return false;
+    public isValid(): boolean {
+        return true;
         // TODO
     }
 
-    public static compare(story1: Story, story2: Story): boolean {
-        let isDirty = false;
+    public toJsonData(): StoryData {
 
-        isDirty = story1.id !== story2.id
-            || story1.name !== story2.name
-            || story1.nbPlayers !== story2.nbPlayers
-            || story1.description !== story2.description;
+        let actions: Array<ActionData> = [];
+        this.actions.forEach(action => {
+            actions.push(action.toJsonData());
+        });
 
-        return isDirty;
+        let interfaces: Array<InterfaceData> = [];
+        this.interfaces.forEach(int => {
+            interfaces.push(int.toJsonData());
+        });
+
+        return {
+            id: this.id,
+            name: this.name,
+            nbPlayers: this.nbPlayers,
+            actions,
+            interfaces,
+            description: this.description
+        };
+    }
+
+    public equalsTo(story: Story): boolean {
+        let isEqual = true;
+
+        isEqual = this.id === story.id
+            || this.name === story.name
+            || this.nbPlayers === story.nbPlayers
+            || this.description !== story.description;
+
+        return isEqual;
+        // TODO
+    }
+
+    public save(callback?: Function) {
+        saveStory(this.toJsonData(), (err: any) => callback(err));
+    }
+
+    public static fromData(data: StoryData): Story {
+        let { id, name, nbPlayers, actions, interfaces, description } = data;
+        let actionsObject: Array<Action> = [];
+        let interfacesObject: Array<Interface> = [];
+        if (actions) {
+            actions.forEach(a => {
+                actionsObject.push(Action.fromData(a));
+            });
+        }
+
+        if (interfaces) {
+            interfaces.forEach(a => {
+                interfacesObject.push(Interface.fromData(a));
+            });
+        }
+
+        return new this(id, name, nbPlayers, actionsObject, interfacesObject, description);
     }
 }
 

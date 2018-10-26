@@ -9,16 +9,19 @@ import { Save } from '@material-ui/icons';
 import Story from 'src/interfaces/Story';
 import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
+import { displaySnackbar } from 'src/actions/snackbarActions';
 
 interface Props {
     stories: Array<Story>
     roles: Array<Role>
     selectCurrentStory: Function
     selectedStory: Story
+    displaySnackbar: Function
 }
 
 interface State {
     selectedStory: Story
+    saving: boolean
 }
 
 class StoryCreator extends React.Component<Props, State> {
@@ -27,7 +30,8 @@ class StoryCreator extends React.Component<Props, State> {
         super(props);
         this.props.selectCurrentStory(props.stories[0]);
         this.state = {
-            selectedStory: null
+            selectedStory: null,
+            saving: false
         }
     }
 
@@ -45,14 +49,24 @@ class StoryCreator extends React.Component<Props, State> {
     static getDerivedStateFromProps(props: Props, state: State) {
         if (!state.selectedStory || state.selectedStory.id !== props.selectedStory.id) {
             return {
-                selectedStory: Object.assign({}, props.selectedStory)
+                selectedStory: props.selectedStory
             }
         }
         return null;
     }
 
     public saveStory() {
-        // TODO
+        if (this.props.selectedStory.isValid()) {
+            this.setState({ saving: true });
+            this.props.selectedStory.save((err: any) => {
+                this.setState({ saving: false });
+                if(err) {
+                    this.props.displaySnackbar(err);
+                } else {
+                    this.props.displaySnackbar(T.translate('story.saved'));
+                }
+            });
+        }
     }
 
     public render() {
@@ -89,7 +103,7 @@ class StoryCreator extends React.Component<Props, State> {
                         />
                     </div>
                     <div>
-                        <Button onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
+                        <Button disabled={this.state.saving} onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
                     </div>
                 </Card>
                 <PlayerInterfaces story={this.state.selectedStory} roles={this.props.roles} />
@@ -104,4 +118,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, { selectCurrentStory })(StoryCreator);
+export default connect(mapStateToProps, { selectCurrentStory, displaySnackbar })(StoryCreator);

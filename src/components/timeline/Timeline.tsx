@@ -20,10 +20,7 @@ class Timeline extends React.Component<Props, State> {
         super(props);
 
         let init = [
-            {
-                id: "",
-                name: T.translate('instructor.roleselect').toString()
-            },
+            new Action(null, T.translate('instructor.roleselect').toString())
         ];
 
         this.state = {

@@ -114,9 +114,22 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('startstory', { roles: roles, story: story });
     });
 
-    socket.on('dynamicaction', (action) => {
-        socket.broadcast.emit('dynamicaction', action);
-        socket.emit('dynamicaction', action);
+    socket.on('savestory', story => {
+        let json = JSON.stringify(story);
+        fs.writeFile('./data/stories/story' + story.id + '.json', json, null, (err) => {
+            socket.emit('savestory', err);
+            let storyIndex = server.stories.findIndex(st => { return st.id === story.id });
+            if (storyIndex) {
+                server.stories[storyIndex] = story;
+            } else {
+                server.stories.push(story);
+            }
+        });
+    });
+
+    socket.on('dynamicaction', (actionId) => {
+        socket.broadcast.emit('dynamicaction', actionId);
+        socket.emit('dynamicaction', actionId);
     });
 
     /**

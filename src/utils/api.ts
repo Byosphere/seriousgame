@@ -12,19 +12,42 @@ export function gameConnect(response: any) {
     socket.emit('init');
 }
 
+/**
+ * Chargement de l'ensemble des stories trouvées coté serveur
+ */
 export function loadStories(response: any) {
-    socket.on('getstories', (resp: Array<Story>) => response(null, resp));
+    socket.on('getstories', (resp: Array<Story>) => {
+        let storyList: Array<Story> = [];
+        resp.forEach(story => {
+            storyList.push(Story.fromData(story));
+        });
+        response(storyList);
+    });
     socket.emit('getstories');
 }
 
+/**
+ * 
+ * @param response 
+ */
 export function loadRoles(response: Function) {
     socket.on('getroles', (resp: Array<Role>) => response(resp));
     socket.emit('getroles');
 }
 
+/**
+ * 
+ * @param roles 
+ * @param response 
+ */
 export function saveRoles(roles: Array<Role>, response: Function) {
     socket.on('saveroles', (err: any) => response(err));
     socket.emit('saveroles', roles);
+}
+
+export function saveStory(story: StoryData, response: Function) {
+    socket.on('savestory', (err: any) => response(err));
+    socket.emit('savestory', story);
 }
 
 /**
@@ -74,15 +97,15 @@ export function startStory(storyId: number) {
  * @param response : fonction déclenchée lors du lancement d'une story
  */
 export function startGame(response: any) {
-    socket.on('startgame', (story: Story) => response(story));
+    socket.on('startgame', (story: Story) => response(Story.fromData(story)));
 }
 
 /**
  * Fonction permettant de donner l'ordre au server de broadcaster une action à tout le monde
- * @param action string de l'action à broadcaster
+ * @param actionId string de l'action à broadcaster
  */
-export function sendAction(action: string) {
-    socket.emit('dynamicaction', action);
+export function sendAction(actionId: string) {
+    socket.emit('dynamicaction', actionId);
 }
 
 /**
@@ -90,7 +113,7 @@ export function sendAction(action: string) {
  * @param response 
  */
 export function listenDynamicActions(response: Function) {
-    socket.on('dynamicaction', (actionName: string) => response(actionName));
+    socket.on('dynamicaction', (actionId: string) => response(actionId));
 }
 
 /**

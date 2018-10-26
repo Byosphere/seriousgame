@@ -5,6 +5,7 @@ import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, 
 import { connect } from 'react-redux';
 import { HAUT } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
+import Message from 'src/interfaces/Message';
 
 interface State {
     currentMessage: Message
@@ -21,18 +22,8 @@ class IaCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            currentMessage: { text: '', position: HAUT, force: 1, action: null }
+            currentMessage: new Message()
         }
-
-        // if (!this.props.currentAction) {
-        //     this.state = {
-        //         currentMessage: this.props.messages.find((message: Message) => { return !message.action })
-        //     }
-        // } else {
-        //     this.state = {
-        //         currentMessage: this.props.messages.find((message: Message) => { return this.props.currentAction.id === message.action })
-        //     }
-        // }
     }
 
     handleChange(evt: any, name: string): any {

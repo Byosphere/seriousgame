@@ -48,7 +48,7 @@
         "defaultname": "Story",
         "change": "Changer de Story",
         "stay": "Rester sur cette story",
-        "notsaved": "Un changement de story entrainera une perte des modifications réalisées sur la story en cours. Êtes-vous sûr de vouloir changer ?"
+        "saved": "Story sauvegardée !"
     },
     "role": {
         "list": "Liste des rôles",

@@ -6,6 +6,7 @@ import { ExpandMore } from '@material-ui/icons';
 import { COMPONENTS_LIST } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
+import Page from 'src/interfaces/Page';
 
 interface Props {
     pages: Array<Page>
@@ -45,7 +46,7 @@ class PageCreator extends React.Component<Props, State> {
     }
 
     handleChange(event: any, arg1: string): any {
-        throw new Error("Method not implemented.");
+        // TODO
     }
 
     public render() {

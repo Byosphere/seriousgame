@@ -71,7 +71,7 @@ class MasterBoard extends React.Component<Props, State> {
 			}
 		});
 
-		loadStories((err: any, stories: Array<Story>) => {
+		loadStories((stories: Array<Story>) => {
 			this.setState({
 				stories: stories
 			});

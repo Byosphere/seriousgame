@@ -3,6 +3,7 @@ import './ia.css';
 import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core';
 import { Close, Textsms } from '@material-ui/icons';
 import AvatarImage from '../../images/avatar.jpg';
+import Message from 'src/interfaces/Message';
 
 interface State {
     displayMessage: boolean
