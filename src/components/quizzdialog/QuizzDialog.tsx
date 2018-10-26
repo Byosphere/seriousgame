@@ -3,6 +3,7 @@ import './quizzdialog.css';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Slide, List, ListItem, ListItemIcon, ListItemText, Divider, DialogActions, Button } from '@material-ui/core';
 import { LooksOne, LooksTwo, Looks3, Looks4, Looks5, Looks6, Lens } from '@material-ui/icons';
 import T from 'i18n-react';
+import { GameProps, GameComponent } from 'src/interfaces/GameComponent';
 
 interface State {
     open: boolean
@@ -11,9 +12,9 @@ interface State {
     visible: boolean
 }
 
-class QuizzDialog extends React.Component<Props, State> implements GameComponent {
+class QuizzDialog extends React.Component<GameProps, State> implements GameComponent {
 
-    constructor(props: Props) {
+    constructor(props: GameProps) {
         super(props);
 
         this.state = {
@@ -29,7 +30,7 @@ class QuizzDialog extends React.Component<Props, State> implements GameComponent
             throw ("Parameter 'question' not found");
     }
 
-    public transition(props: Props) {
+    public transition(props: any) {
         return <Slide direction="down" {...props} />
     }
 

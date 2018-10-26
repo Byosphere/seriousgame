@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Button } from '@material-ui/core';
+import { GameComponent, GameProps } from 'src/interfaces/GameComponent';
 
 interface State {
     disabled: boolean
 }
 
-class ActionButton extends React.Component<Props, State> implements GameComponent {
+class ActionButton extends React.Component<GameProps, State> implements GameComponent {
 
-    constructor(props: Props) {
+    constructor(props: GameProps) {
         super(props);
 
         this.state = {

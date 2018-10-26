@@ -101,9 +101,6 @@ class InterfaceCreator extends React.Component<Props, State> {
                 <div className="interface-creator-content" style={contentStyle}>
                     {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
                     <PageCreator pages={this.props.interface.pages} />
-                    <div className="float-button">
-                        <Button variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>
-                    </div>
                 </div>
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>

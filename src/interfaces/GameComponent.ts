@@ -1,10 +1,12 @@
-interface Props {
+import Component from "./Component";
+
+export interface GameProps {
     component: Component
     lastAction: string
     sendAction: Function
     params?: any
 }
 
-interface State {}
+export interface GameState {}
 
-interface GameComponent extends React.Component<Props, State> {}
+export interface GameComponent extends React.Component<GameProps, GameState> {}

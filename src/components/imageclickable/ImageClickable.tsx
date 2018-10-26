@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { GameComponent, GameProps } from 'src/interfaces/GameComponent';
 
 interface State {
     disabled: boolean
 }
 
-class ImageClickable extends React.Component<Props, State> implements GameComponent {
+class ImageClickable extends React.Component<GameProps, State> implements GameComponent {
 
-    constructor(props: Props) {
+    constructor(props: GameProps) {
         super(props);
     }
 
