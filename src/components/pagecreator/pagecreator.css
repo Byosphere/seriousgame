@@ -54,3 +54,19 @@
     margin-left: 10px;
     border-left: 1px solid rgba(0, 0, 0, 0.23);
 }
+
+.page-creator .float-button {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.page-creator .float-button.withIa {
+    right: 270px;
+}
+
+.page-creator .float-button button {
+    pointer-events: visible;
+}

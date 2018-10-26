@@ -2,18 +2,20 @@ import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
 import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, List, ListItem, ListItemIcon, ListItemText, InputLabel, Select, MenuItem, IconButton, Menu } from '@material-ui/core';
-import { ExpandMore, Add, MoreVert } from '@material-ui/icons';
+import { ExpandMore, Add, MoreVert, LibraryAdd } from '@material-ui/icons';
 import { COMPONENTS_LIST } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
 import Component from 'src/interfaces/Component';
-import { displayConfirmDialog } from 'src/actions/snackbarActions';
+import { displayConfirmDialog, displaySnackbar } from 'src/actions/snackbarActions';
 
 interface Props {
     pages: Array<Page>
     selectedAction: Action
     displayConfirmDialog: Function
+    displaySnackbar: Function
+    hasIa: boolean
 }
 
 interface State {
@@ -57,6 +59,7 @@ class PageCreator extends React.Component<Props, State> {
         }
         this.props.pages.push(new Page(id));
         this.forceUpdate();
+        this.props.displaySnackbar(T.translate('interface.page.pageadded'));
     }
 
     handleChange(event: any, arg1: string): any {
@@ -201,8 +204,8 @@ class PageCreator extends React.Component<Props, State> {
                         </ExpansionPanel>
                     );
                 })}
-                <div className="float-button">
-                    <Button onClick={() => { this.addPage() }} variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>
+                <div className={this.props.hasIa ? "float-button withIa" : "float-button"}>
+                    <Button onClick={() => { this.addPage() }} variant="fab" color="primary"><LibraryAdd /></Button>
                 </div>
             </div>
         );
@@ -215,4 +218,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, { displayConfirmDialog })(PageCreator);
+export default connect(mapStateToProps, { displayConfirmDialog, displaySnackbar })(PageCreator);

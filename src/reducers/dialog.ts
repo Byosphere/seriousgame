@@ -26,7 +26,6 @@ export default (state = initialState, action: any) => {
 
         case SNACKBAR_HIDE:
             newState.openSnackbar = false;
-            newState.messageSnackbar = '';
             return newState;
 
         case CONFIRM_DIALOG_OPEN:

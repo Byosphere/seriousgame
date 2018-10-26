@@ -101,7 +101,8 @@
         "page": {
             "duplicate": "Dupliquer",
             "delete": "Supprimer",
-            "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?"
+            "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
+            "pageadded": "Une page a été ajoutée."
         }
     }
 }

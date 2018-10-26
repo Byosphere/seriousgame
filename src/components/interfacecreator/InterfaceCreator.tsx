@@ -100,7 +100,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                 </AppBar>
                 <div className="interface-creator-content" style={contentStyle}>
                     {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
-                    <PageCreator pages={this.props.interface.pages} />
+                    <PageCreator pages={this.props.interface.pages} hasIa={this.props.interface.displayIa} />
                 </div>
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>
