@@ -20,3 +20,5 @@ export const SNACKBAR_DISPLAY = "snackbar_display";
 export const SNACKBAR_HIDE = "snackbar_hide";
 export const SELECT_ACTION = "select_action";
 export const SELECT_STORY = "select-story";
+export const CONFIRM_DIALOG_CLOSE = 'confirm_dialog_close';
+export const CONFIRM_DIALOG_OPEN = 'confirm_dialog-open';

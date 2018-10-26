@@ -3,6 +3,7 @@ import ImageClickable from '../imageclickable/ImageClickable';
 import ActionButton from '../actionbutton/ActionButton';
 import { sendAction } from 'src/utils/api';
 import QuizzDialog from '../quizzdialog/QuizzDialog';
+import Component from 'src/interfaces/Component';
 
 interface Props {
     component: Component

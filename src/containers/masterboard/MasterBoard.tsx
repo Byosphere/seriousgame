@@ -13,15 +13,20 @@ import RoleCreator from '../rolecreator/RoleCreator';
 import Loader from 'src/components/loader/Loader';
 import MasterSnackbar from 'src/components/mastersnackbar/MasterSnackbar';
 import { connect } from 'react-redux';
-import { hideSnackbar, displaySnackbar } from 'src/actions/snackbarActions';
+import { hideSnackbar, displaySnackbar, closeConfirmDialog } from 'src/actions/snackbarActions';
 import Story from 'src/interfaces/Story';
 import Action from 'src/interfaces/Action';
+import ConfirmDialog from 'src/components/confirmdialog/ConfirmDialog';
+import { ConfirmMessage } from 'src/interfaces/ConfirmMessage';
 
 interface Props {
 	openSnackbar: boolean
 	snackbarMessage: string
 	hideSnackbar: Function
 	displaySnackbar: Function
+	openConfirmDialog: boolean
+	confirmDialogInfo: ConfirmMessage
+	closeConfirmDialog: Function
 }
 interface State {
 	players: Array<Player>
@@ -175,15 +180,18 @@ class MasterBoard extends React.Component<Props, State> {
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} />}
 				<MasterSnackbar open={this.props.openSnackbar} message={this.props.snackbarMessage} onClose={() => { this.snackbarClose() }} />
+				<ConfirmDialog open={this.props.openConfirmDialog} message={this.props.confirmDialogInfo} onClose={() => {this.props.closeConfirmDialog()}} />
 			</div >
 		);
 	}
 }
 function mapStateToProps(state: any) {
 	return {
-		snackbarMessage: state.snackbar.message,
-		openSnackbar: state.snackbar.open
+		snackbarMessage: state.dialog.messageSnackbar,
+		openSnackbar: state.dialog.openSnackbar,
+		confirmDialogInfo: state.dialog.confirmDialogInfo,
+		openConfirmDialog: state.dialog.openConfirmDialog
 	}
 }
 
-export default connect(mapStateToProps, { hideSnackbar, displaySnackbar })(MasterBoard);
+export default connect(mapStateToProps, { hideSnackbar, displaySnackbar, closeConfirmDialog })(MasterBoard);

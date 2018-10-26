@@ -38,3 +38,14 @@ interface PageData {
     rows?: number
     actionToDisplay?: string
 }
+
+interface ComponentData {
+    id: number
+    name: string
+    cols: string
+    rows: string
+    actionToDisplay?: string
+    actionToHide?: string
+    clickAction?: string
+    params?: any
+}

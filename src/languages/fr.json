@@ -6,7 +6,8 @@
         "initial": "Etat initial",
         "add": "Ajouter une action",
         "delete": "Supprimer",
-        "defaultname": "Nouvelle action"
+        "defaultname": "Nouvelle action",
+        "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette action ?"
     },
     "instructor": {
         "title": "Interface de jeu",
@@ -79,7 +80,9 @@
         "loading": "Chargement...",
         "page": "Page",
         "addpage": "Ajouter une page",
-        "warning": "Attention !"
+        "warning": "Attention !",
+        "yes": "Oui",
+        "no": "Non"
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -94,6 +97,11 @@
         "cols": "Nombre de colonnes",
         "rows": "Nombre de lignes",
         "components": "Composants",
-        "background": "Fond d'écran"
+        "background": "Fond d'écran",
+        "page": {
+            "duplicate": "Dupliquer",
+            "delete": "Supprimer",
+            "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?"
+        }
     }
 }

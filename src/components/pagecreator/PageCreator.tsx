@@ -1,21 +1,25 @@
 import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, List, ListItem, ListItemIcon, ListItemText, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, List, ListItem, ListItemIcon, ListItemText, InputLabel, Select, MenuItem, IconButton, Menu } from '@material-ui/core';
+import { ExpandMore, Add, MoreVert } from '@material-ui/icons';
 import { COMPONENTS_LIST } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
+import Component from 'src/interfaces/Component';
+import { displayConfirmDialog } from 'src/actions/snackbarActions';
 
 interface Props {
     pages: Array<Page>
     selectedAction: Action
+    displayConfirmDialog: Function
 }
 
 interface State {
     selectedPage: number
     selectedComponent: Array<Component>
+    menuEl: any
 }
 
 class PageCreator extends React.Component<Props, State> {
@@ -25,12 +29,13 @@ class PageCreator extends React.Component<Props, State> {
 
         this.state = {
             selectedPage: 0,
-            selectedComponent: []
+            selectedComponent: [],
+            menuEl: null
         }
     }
 
     public onChangeRadio(evt: any, index: number) {
-        if(this.props.selectedAction) {
+        if (this.props.selectedAction) {
             this.props.pages[index].actionToDisplay = this.props.selectedAction.id;
         } else {
             this.props.pages[index].actionToDisplay = null;
@@ -45,8 +50,39 @@ class PageCreator extends React.Component<Props, State> {
         this.setState({ selectedComponent });
     }
 
+    public addPage() {
+        let id: number = 0;
+        if (this.props.pages.length) {
+            id = this.props.pages[this.props.pages.length - 1].id + 1;
+        }
+        this.props.pages.push(new Page(id));
+        this.forceUpdate();
+    }
+
     handleChange(event: any, arg1: string): any {
         // TODO
+    }
+
+    public handleMenuClose() {
+        this.setState({ menuEl: null });
+    }
+
+    public deletePage(event: any, i: number) {
+        setTimeout(() => { this.setState({ menuEl: null }) }, 2);
+        event.stopPropagation();
+        this.props.displayConfirmDialog({
+            title: T.translate('generic.warning'),
+            content: T.translate('interface.page.deletewarning'),
+            confirm: () => {
+                this.props.pages.splice(i, 1);
+                this.forceUpdate();
+            }
+        });
+    }
+
+    public duplicatePage(event: any, i: number) {
+        //this.handleMenuClose();
+        event.stopPropagation();
     }
 
     public render() {
@@ -63,9 +99,23 @@ class PageCreator extends React.Component<Props, State> {
                     }
 
                     return (
-                        <ExpansionPanel key={i} className={this.state.selectedPage === i ? 'on' : 'off'}>
-                            <ExpansionPanelSummary className="panel-summary" expandIcon={<ExpandMore />}>
-                                <Typography>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
+                        <ExpansionPanel key={i} className={selected ? 'on' : 'off'}>
+                            <ExpansionPanelSummary style={{ paddingLeft: '0' }} className="panel-summary" expandIcon={<ExpandMore />}>
+                                <div>
+                                    <IconButton aria-owns={this.state.menuEl ? 'menu' + i : null} onClick={event => { event.stopPropagation(); this.setState({ menuEl: event.currentTarget }) }} aria-label="More" aria-haspopup="true">
+                                        <MoreVert />
+                                    </IconButton>
+                                    <Menu
+                                        id={"menu" + i}
+                                        anchorEl={this.state.menuEl}
+                                        open={Boolean(this.state.menuEl)}
+                                        onClose={event => { event.stopPropagation(); this.handleMenuClose(); }}
+                                    >
+                                        <MenuItem onClick={event => { this.duplicatePage(event, i) }}>{T.translate('interface.page.duplicate')}</MenuItem>
+                                        <MenuItem onClick={event => { this.deletePage(event, i) }}>{T.translate('interface.page.delete')}</MenuItem>
+                                    </Menu>
+                                    <Typography style={{ display: 'inline-block', marginLeft: '5px' }}>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
+                                </div>
                                 <FormControl component="fieldset">
                                     <FormControlLabel
                                         value={i.toString()}
@@ -75,7 +125,6 @@ class PageCreator extends React.Component<Props, State> {
                                     /></FormControl>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails style={{ flexDirection: "column" }}>
-
                                 <div>
                                     <TextField
                                         id="cols-number"
@@ -148,14 +197,13 @@ class PageCreator extends React.Component<Props, State> {
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div className="page-buttons">
-                                    <Button color="primary" variant="outlined" size="small" style={{ marginRight: "5px" }}>Dupliquer</Button>
-                                    <Button color="primary" variant="outlined" size="small">Supprimer</Button>
-                                </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     );
                 })}
+                <div className="float-button">
+                    <Button onClick={() => { this.addPage() }} variant="extendedFab" color="primary"><Add style={{ marginRight: "5px" }} /> {T.translate('generic.addpage')}</Button>
+                </div>
             </div>
         );
     }
@@ -167,4 +215,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, {})(PageCreator);
+export default connect(mapStateToProps, { displayConfirmDialog })(PageCreator);

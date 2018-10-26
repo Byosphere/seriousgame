@@ -6,11 +6,13 @@ import { ACTION_INITIAL } from 'src/utils/constants';
 import { connect } from 'react-redux';
 import { selectCurrentAction } from 'src/actions/storyActions';
 import Action from 'src/interfaces/Action';
+import { displayConfirmDialog } from 'src/actions/snackbarActions';
 
 interface Props {
     actions: Array<Action>
     status?: number
     selectCurrentAction: Function
+    displayConfirmDialog: Function
 }
 
 interface State {
@@ -56,8 +58,14 @@ class ActionsTimeline extends React.Component<Props, State> {
     }
 
     public deleteAction(index: number) {
-        this.props.actions.splice(index, 1);
-        this.handleStep(index - 1);
+        this.props.displayConfirmDialog({
+            title: T.translate('generic.warning'),
+            content: T.translate('action.confirmdelete'),
+            confirm: () => {
+                this.props.actions.splice(index, 1);
+                this.handleStep(index - 1);
+            }
+        });
     }
 
     public render() {
@@ -116,4 +124,4 @@ class ActionsTimeline extends React.Component<Props, State> {
 
 }
 
-export default connect(null, { selectCurrentAction })(ActionsTimeline);
+export default connect(null, { selectCurrentAction, displayConfirmDialog })(ActionsTimeline);

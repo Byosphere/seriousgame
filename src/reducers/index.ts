@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import story from './story';
-import snackbar from './snackbar';
+import dialog from './dialog';
 
 export default combineReducers({
     // ADD REDUCERS
     story,
-    snackbar
+    dialog
 });
