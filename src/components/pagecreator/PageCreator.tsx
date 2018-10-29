@@ -1,14 +1,14 @@
 import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, List, ListItem, ListItemIcon, ListItemText, InputLabel, Select, MenuItem, IconButton, Menu } from '@material-ui/core';
-import { ExpandMore, Add, MoreVert, LibraryAdd } from '@material-ui/icons';
-import { COMPONENTS_LIST } from 'src/utils/constants';
+import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu } from '@material-ui/core';
+import { ExpandMore, MoreVert, LibraryAdd } from '@material-ui/icons';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
 import Component from 'src/interfaces/Component';
 import { displayConfirmDialog, displaySnackbar } from 'src/actions/snackbarActions';
+import ComponentCreator from '../componentcreator/ComponentCreator';
 
 interface Props {
     pages: Array<Page>
@@ -46,12 +46,6 @@ class PageCreator extends React.Component<Props, State> {
         this.forceUpdate();
     }
 
-    public selectComponent(i: number, cmp: Component) {
-        let selectedComponent = this.state.selectedComponent;
-        selectedComponent[i] = cmp;
-        this.setState({ selectedComponent });
-    }
-
     public addPage() {
         let id: number = 0;
         if (this.props.pages.length) {
@@ -60,10 +54,6 @@ class PageCreator extends React.Component<Props, State> {
         this.props.pages.push(new Page(id));
         this.forceUpdate();
         this.props.displaySnackbar(T.translate('interface.page.pageadded'));
-    }
-
-    handleChange(event: any, arg1: string): any {
-        // TODO
     }
 
     public handleMenuClose() {
@@ -84,8 +74,12 @@ class PageCreator extends React.Component<Props, State> {
     }
 
     public duplicatePage(event: any, i: number) {
-        //this.handleMenuClose();
+        this.handleMenuClose();
         event.stopPropagation();
+        let page = this.props.pages[i].copy();
+        page.id = this.props.pages[this.props.pages.length - 1].id + 1;
+        this.props.pages.push(page);
+        this.forceUpdate();
     }
 
     public render() {
@@ -164,40 +158,7 @@ class PageCreator extends React.Component<Props, State> {
                                 <div className="components-wrapper">
                                     <fieldset>
                                         <legend>{T.translate('interface.components')}</legend>
-                                        <div>
-                                            <List dense className="components-list">
-                                                {page.components.map((cmp: Component, i: number) => {
-                                                    return (
-                                                        <ListItem key={i} selected={this.state.selectedComponent[i] && this.state.selectedComponent[i].id === cmp.id} onClick={() => { this.selectComponent(i, cmp) }} button>
-                                                            <ListItemText primary={cmp.name} secondary={'cols: ' + cmp.cols + ' - rows: ' + cmp.rows} />
-                                                        </ListItem>
-                                                    );
-                                                })}
-                                            </List>
-                                            <div className="component-element">
-                                                {this.state.selectedComponent[i] && <FormControl>
-                                                    <InputLabel htmlFor="component-type">{T.translate('interface.comptype')}</InputLabel>
-                                                    <Select
-                                                        value={this.state.selectedComponent[i].name}
-                                                        onChange={event => { this.handleChange(event, 'name') }}
-                                                        inputProps={{
-                                                            name: 'component-type',
-                                                            id: 'component-type',
-                                                        }}
-                                                    >
-                                                        {COMPONENTS_LIST.map(cmpName => {
-                                                            return (
-                                                                <MenuItem value={cmpName}>{cmpName}</MenuItem>
-                                                            );
-                                                        })}
-                                                    </Select>
-                                                </FormControl>}
-                                            </div>
-                                            <div className="component-buttons">
-                                                <Button size="small" color="primary" style={{ marginRight: "5px" }}>Nouveau</Button>
-                                                <Button size="small" color="primary">Supprimer</Button>
-                                            </div>
-                                        </div>
+                                        <ComponentCreator page={page} />
                                     </fieldset>
                                 </div>
                             </ExpansionPanelDetails>

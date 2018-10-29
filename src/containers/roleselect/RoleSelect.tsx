@@ -74,8 +74,6 @@ class RoleSelect extends React.Component<Props, State> {
                     // le role ne peut etre choisi
                 }
             });
-        } else {
-            //TODO error message
         }
     }
 

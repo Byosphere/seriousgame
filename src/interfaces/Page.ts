@@ -37,6 +37,10 @@ class Page {
         };
     }
 
+    public copy(): Page {
+        return new Page(this.id, this.background, this.components, this.cols, this.rows, this.actionToDisplay);
+    }
+
     static fromData(data: PageData): Page {
         let { id, background, components, cols, rows, actionToDisplay } = data;
 
