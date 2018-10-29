@@ -11,18 +11,14 @@ interface Props {
     lastAction: string
 }
 
-interface State {
-    display: boolean
-}
+interface State { }
 
 class DynamicComponent extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-            display: !Boolean(props.component.actionToDisplay)
-        }
+        this.state = {}
     }
 
     public dispatchAction(actionId: string) {
@@ -31,22 +27,8 @@ class DynamicComponent extends React.Component<Props, State> {
 
     public canRenderComponent(): boolean {
         let cmpnt = this.props.component;
-
-        if (this.state.display) {
-            if (cmpnt.actionToHide && cmpnt.actionToHide === this.props.lastAction) {
-                this.setState({ display: false });
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            if (cmpnt.actionToDisplay && cmpnt.actionToDisplay === this.props.lastAction) {
-                this.setState({ display: true });
-                return true;
-            } else {
-                return false;
-            }
-        }
+        let currentAction = this.props.lastAction;
+        return Boolean(cmpnt.actionToDisplay.find((actionId: string) => { return actionId === currentAction }));
     }
 
     public selectComponent() {

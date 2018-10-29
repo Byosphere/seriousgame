@@ -26,17 +26,13 @@ class ActionsTimeline extends React.Component<Props, State> {
         this.state = {
             step: 0
         }
+        this.props.selectCurrentAction(this.props.actions[0]);
     }
 
     public handleStep(index: number) {
         if (index !== this.state.step) {
             this.setState({ step: index });
-            if (index === 0) {
-                this.props.selectCurrentAction(null);
-            } else {
-                this.props.selectCurrentAction(this.props.actions[index]);
-            }
-
+            this.props.selectCurrentAction(this.props.actions[index]);
         }
     }
 

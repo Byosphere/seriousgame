@@ -39,10 +39,7 @@ class PageCreator extends React.Component<Props, State> {
     public onChangeRadio(evt: any, index: number) {
         if (this.props.selectedAction) {
             this.props.pages[index].actionToDisplay = this.props.selectedAction.id;
-        } else {
-            this.props.pages[index].actionToDisplay = null;
         }
-
         this.forceUpdate();
     }
 

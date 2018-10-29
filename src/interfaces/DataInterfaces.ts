@@ -33,7 +33,7 @@ interface MessageData {
 interface PageData {
     id: number
     background?: string
-    components: Array<any>
+    components: Array<ComponentData>
     cols?: number
     rows?: number
     actionToDisplay?: string
@@ -44,8 +44,7 @@ interface ComponentData {
     name: string
     cols: string
     rows: string
-    actionToDisplay?: string
-    actionToHide?: string
+    actionToDisplay?: Array<string>
     clickAction?: string
     params?: any
 }
