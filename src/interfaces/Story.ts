@@ -3,14 +3,16 @@ import Interface from './Interface';
 import Action from './Action';
 import { ACTION_INITIAL } from 'src/utils/constants';
 import { saveStory } from 'src/utils/api';
+import * as validator from 'validator';
 
 interface Story {
     id: number
     name: string
-    description?: string
-    nbPlayers: number
+    description: string
+    _nbPlayers: number
     actions: Array<Action>
     interfaces: Array<Interface>
+    errorMessage: string
 }
 
 class Story {
@@ -19,15 +21,25 @@ class Story {
 
         this.id = id;
         this.name = name || T.translate('story.defaultname').toString() + ' ' + this.id;
-        this.nbPlayers = nbPlayers || 1;
+        this._nbPlayers = nbPlayers || 1;
         this.actions = actions || [new Action(ACTION_INITIAL, T.translate('action.initial').toString())];
         this.interfaces = interfaces || [];
         this.description = description || '';
+        this.errorMessage = '';
     }
 
     public isValid(): boolean {
+
         return true;
         // TODO
+    }
+
+    public set nbPlayers(nbp: any) {
+        this._nbPlayers = parseInt(nbp);
+    }
+
+    public get nbPlayers(): any {
+        return this._nbPlayers;
     }
 
     public toJsonData(): StoryData {
@@ -45,7 +57,7 @@ class Story {
         return {
             id: this.id,
             name: this.name,
-            nbPlayers: this.nbPlayers,
+            nbPlayers: this._nbPlayers,
             actions,
             interfaces,
             description: this.description

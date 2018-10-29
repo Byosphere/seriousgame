@@ -45,7 +45,7 @@ class IaCreator extends React.Component<Props, State> {
         }
 
         if (!message) {
-            message = { text: '', position: HAUT, force: 1, action: props.currentAction ? props.currentAction.id : null }
+            message = new Message('', HAUT, 1, props.currentAction ? props.currentAction.id : null);
         }
 
         return {

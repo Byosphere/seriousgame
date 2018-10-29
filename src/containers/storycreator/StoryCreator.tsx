@@ -66,6 +66,8 @@ class StoryCreator extends React.Component<Props, State> {
                     this.props.displaySnackbar(T.translate('story.saved'));
                 }
             });
+        } else {
+            this.props.displaySnackbar(this.props.selectedStory.errorMessage);
         }
     }
 

@@ -48,7 +48,13 @@ class ComponentCreator extends React.Component<Props, State> {
     }
 
     public newComponent() {
-        let newComponent = new Component(this.props.page.components[this.props.page.components.length - 1].id + 1);
+        let newComponent = null;
+        if (this.props.page.components.length) {
+            newComponent = new Component(this.props.page.components[this.props.page.components.length - 1].id + 1);
+        } else {
+            newComponent = new Component(1);
+        }
+
         this.setState({
             selectedComponent: newComponent,
             open: true
@@ -236,4 +242,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, {displayConfirmDialog})(ComponentCreator);
+export default connect(mapStateToProps, { displayConfirmDialog })(ComponentCreator);

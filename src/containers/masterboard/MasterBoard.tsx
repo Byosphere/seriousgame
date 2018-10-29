@@ -100,7 +100,8 @@ class MasterBoard extends React.Component<Props, State> {
 
 		startGame((story: Story) => {
 			this.setState({
-				gameStarted: true
+				gameStarted: true,
+				status: 1
 			});
 		});
 

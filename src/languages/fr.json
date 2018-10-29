@@ -114,5 +114,11 @@
                 "params": "Paramètres"
             }
         }
+    },
+    "validator": {
+        "story": {
+            "name": "Le nom de la Story est obligatoire",
+            "nbplayers": "Le nombre de joueurs doit être compris entre 1 et 10"
+        }
     }
 }

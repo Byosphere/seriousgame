@@ -15,7 +15,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "3.1.0",
     "redux": "^4.0.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "validator": "^10.8.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -32,6 +33,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/redux": "^3.6.0",
     "@types/socket.io-client": "^1.4.32",
+    "@types/validator": "^9.4.2",
     "typescript": "^3.1.1"
   }
 }

@@ -10,6 +10,7 @@ import Ia from '../../components/ia/Ia';
 import { Redirect } from 'react-router-dom';
 import Story from 'src/interfaces/Story';
 import Interface from 'src/interfaces/Interface';
+import { ACTION_INITIAL } from 'src/utils/constants';
 
 interface Props {
     location: any
@@ -53,6 +54,7 @@ class GameScene extends React.Component<Props, State> {
                 story: story,
                 interface: story.interfaces.find((el: Interface) => { return el.roleId === this.state.role.id }),
                 currentPage: 0,
+                lastActionId: ACTION_INITIAL
             });
             this.displayGrid();
         });
