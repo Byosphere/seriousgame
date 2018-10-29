@@ -1,3 +1,5 @@
+import { COMPONENTS_LIST } from 'src/utils/constants';
+
 interface Component {
     id: number
     name: string
@@ -10,14 +12,22 @@ interface Component {
 
 class Component {
 
-    constructor(id: number, name: string, cols?: string, rows?: string, actionToDisplay?: Array<string>, clickAction?: string, params?: any) {
+    constructor(id: number, name?: string, cols?: string, rows?: string, actionToDisplay?: Array<string>, clickAction?: string, params?: any) {
         this.id = id;
-        this.name = name;
+        this.name = name || COMPONENTS_LIST[0];
         this.cols = cols || '1';
         this.rows = rows || '1';
         this.actionToDisplay = actionToDisplay || [];
         this.clickAction = clickAction || null;
         this.params = params || {};
+    }
+
+    public copy(): Component {
+        return new Component(this.id, this.name, this.cols, this.rows, this.actionToDisplay, this.clickAction, this.params);
+    }
+
+    public getStringParams() {
+        return JSON.stringify(this.params, undefined, 4);
     }
 
     static fromData(data: ComponentData): Component {

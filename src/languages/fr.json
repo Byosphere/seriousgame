@@ -82,7 +82,9 @@
         "addpage": "Ajouter une page",
         "warning": "Attention !",
         "yes": "Oui",
-        "no": "Non"
+        "no": "Non",
+        "cancel": "Annuler",
+        "validate": "Valider"
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -103,7 +105,14 @@
             "delete": "Supprimer",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",
-            "addcomponent": "Ajouter un composant"
+            "addcomponent": "Ajouter un composant",
+            "deletecomponent": "Êtes-vous sûr de vouloir supprimer ce composant :",
+            "modalcomponent": {
+                "title": "Gestion du Composant :",
+                "name": "Type de composant",
+                "clickaction": "Action au clic",
+                "params": "Paramètres"
+            }
         }
     }
 }

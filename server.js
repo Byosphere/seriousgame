@@ -54,7 +54,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('saveroles', (roles) => {
-        let json = JSON.stringify(roles);
+        let json = JSON.stringify(roles, undefined, 4);
         fs.writeFile('./data/roles.json', json, null, (err) => {
             socket.emit('saveroles', err);
             server.roles = roles;
@@ -115,11 +115,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('savestory', story => {
-        let json = JSON.stringify(story);
+        let json = JSON.stringify(story, undefined, 4);
         fs.writeFile('./data/stories/story' + story.id + '.json', json, null, (err) => {
             socket.emit('savestory', err);
             let storyIndex = server.stories.findIndex(st => { return st.id === story.id });
-            if (storyIndex) {
+            if (storyIndex >= 0) {
                 server.stories[storyIndex] = story;
             } else {
                 server.stories.push(story);
