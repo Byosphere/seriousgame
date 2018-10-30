@@ -21,6 +21,15 @@ class Message {
         return new this(text, position, force, action);
     }
 
+    public equalsTo(message: Message): boolean {
+        let isEqual = true;
+        isEqual = this.text === message.text
+            && this.position === message.position
+            && this.force === message.force
+            && this.action === message.action;
+        return isEqual;
+    }
+
     public toJsonData(): MessageData {
         return {
             text: this.text,

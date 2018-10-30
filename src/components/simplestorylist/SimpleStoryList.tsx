@@ -14,7 +14,7 @@ interface Props {
     editedStory: Story
 }
 
-interface State {}
+interface State { }
 
 class SimpleStoryList extends React.Component<Props, State> {
 
@@ -29,7 +29,12 @@ class SimpleStoryList extends React.Component<Props, State> {
     }
 
     public createNewStory() {
-        let newStory = new Story(this.props.stories[this.props.stories.length - 1].id + 1);
+        let newStory: Story = null;
+        if (this.props.stories.length) {
+            newStory = new Story(this.props.stories[this.props.stories.length - 1].id + 1);
+        } else {
+            newStory = new Story(1);
+        }
         this.props.stories.push(newStory);
         this.props.selectCurrentStory(newStory);
     }
@@ -42,11 +47,13 @@ class SimpleStoryList extends React.Component<Props, State> {
                     component="h2"
                 />
                 <List dense>
+                    {this.props.stories.length === 0 && <ListItem style={{ opacity: 0.5 }}>
+                        <ListItemText primary={T.translate('story.nostory')} />
+                    </ListItem>}
                     {this.props.stories.map(story => {
                         if (story) return (
                             <ListItem onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={story.id}>
-                                <ListItemText
-                                    primary={story.name} />
+                                <ListItemText primary={story.name} />
                             </ListItem>
                         )
                         else return null;

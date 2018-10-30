@@ -49,7 +49,9 @@
         "defaultname": "Story",
         "change": "Changer de Story",
         "stay": "Rester sur cette story",
-        "saved": "Story sauvegardée !"
+        "saved": "Story sauvegardée !",
+        "nostory": "Aucune story trouvée",
+        "create": "Cliquez sur 'Nouvelle Story' pour commencer."
     },
     "role": {
         "list": "Liste des rôles",
@@ -113,7 +115,9 @@
                 "title": "Gestion du Composant :",
                 "name": "Type de composant",
                 "clickaction": "Action au clic",
-                "params": "Paramètres"
+                "params": "Paramètres",
+                "posx": "Position en X",
+                "posy": "Position en Y"
             }
         }
     },

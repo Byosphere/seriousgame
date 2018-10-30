@@ -10,6 +10,7 @@ import Story from 'src/interfaces/Story';
 import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
 import { displaySnackbar } from 'src/actions/snackbarActions';
+import Loader from 'src/components/loader/Loader';
 
 interface Props {
     stories: Array<Story>
@@ -60,7 +61,7 @@ class StoryCreator extends React.Component<Props, State> {
             this.setState({ saving: true });
             this.props.selectedStory.save((err: any) => {
                 this.setState({ saving: false });
-                if(err) {
+                if (err) {
                     this.props.displaySnackbar(err);
                 } else {
                     this.props.displaySnackbar(T.translate('story.saved'));
@@ -72,46 +73,61 @@ class StoryCreator extends React.Component<Props, State> {
     }
 
     public render() {
-        if (!this.props.selectedStory) return null;
-        return (
-            <div className="story-creator">
-                <SimpleStoryList stories={this.props.stories} editedStory={this.state.selectedStory} />
-                <Card className="story-details">
-                    <div style={{ display: "flex", alignItems: "center", flex: "1", marginRight: "20px" }}>
-                        <TextField
-                            id="name"
-                            label={T.translate('story.name')}
-                            value={this.state.selectedStory.name}
-                            onChange={evt => this.handleChange(evt, 'name')}
-                            style={{ marginRight: "10px", minWidth: "140px" }}
-                        />
-                        <TextField
-                            id="nbPlayers"
-                            label={T.translate('story.nbplayers')}
-                            value={this.state.selectedStory.nbPlayers}
-                            onChange={evt => this.handleChange(evt, 'nbPlayers')}
-                            type="number"
-                            inputProps={{ min: "1", max: "10" }}
-                            style={{ marginRight: "10px", minWidth: "106px" }}
-                        />
-                        <TextField
-                            id="description"
-                            label={T.translate('story.description')}
-                            value={this.state.selectedStory.description}
-                            onChange={evt => this.handleChange(evt, 'description')}
-                            multiline
-                            rowsMax="3"
-                            fullWidth
-                        />
-                    </div>
-                    <div>
-                        <Button disabled={this.state.saving} onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
-                    </div>
-                </Card>
-                <PlayerInterfaces story={this.state.selectedStory} roles={this.props.roles} />
-                <ActionsTimeline actions={this.props.selectedStory.actions} />
-            </div>
-        );
+
+        if (this.props.selectedStory) {
+            return (
+                <div className="story-creator">
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.state.selectedStory} />
+                    <Card className="story-details">
+                        <div style={{ display: "flex", alignItems: "center", flex: "1", marginRight: "20px" }}>
+                            <TextField
+                                id="name"
+                                label={T.translate('story.name')}
+                                value={this.state.selectedStory.name}
+                                onChange={evt => this.handleChange(evt, 'name')}
+                                style={{ marginRight: "10px", minWidth: "140px" }}
+                            />
+                            <TextField
+                                id="nbPlayers"
+                                label={T.translate('story.nbplayers')}
+                                value={this.state.selectedStory.nbPlayers}
+                                onChange={evt => this.handleChange(evt, 'nbPlayers')}
+                                type="number"
+                                inputProps={{ min: "1", max: "10" }}
+                                style={{ marginRight: "10px", minWidth: "106px" }}
+                            />
+                            <TextField
+                                id="description"
+                                label={T.translate('story.description')}
+                                value={this.state.selectedStory.description}
+                                onChange={evt => this.handleChange(evt, 'description')}
+                                multiline
+                                rowsMax="3"
+                                fullWidth
+                            />
+                        </div>
+                        <div>
+                            <Button disabled={this.state.saving} onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
+                        </div>
+                    </Card>
+                    <PlayerInterfaces story={this.state.selectedStory} roles={this.props.roles} />
+                    <ActionsTimeline actions={this.props.selectedStory.actions} />
+                </div>
+            );
+        } else if(this.props.stories.length === 0) {
+            return (
+                <div className="story-creator">
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.state.selectedStory} />
+                    <Card className="no-stories">
+                        <p>{T.translate("story.create")}</p>
+                    </Card>
+                </div>
+            );
+        } else {
+            return (
+                <Loader textKey='generic.loading' />
+            );
+        }
     }
 }
 function mapStateToProps(state: any) {

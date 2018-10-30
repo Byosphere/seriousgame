@@ -37,6 +37,28 @@ class Page {
         };
     }
 
+    public equalsTo(page: Page): boolean {
+        let isEqual = true;
+        isEqual = this.id === page.id
+            && this.rows === page.rows
+            && this.cols === page.cols
+            && this.background === page.background;
+
+        this.actionToDisplay.forEach((actionId, i) => {
+            if (actionId !== page.actionToDisplay[i]) {
+                isEqual = false;
+            }
+        });
+
+        this.components.forEach((component, i) => {
+            if (!component.equalsTo(page.components[i])) {
+                isEqual = false;
+            }
+        });
+
+        return isEqual;
+    }
+
     public copy(): Page {
         return new Page(this.id, this.background, this.components, this.cols, this.rows, this.actionToDisplay);
     }

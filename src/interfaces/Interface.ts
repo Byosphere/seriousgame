@@ -48,6 +48,28 @@ class Interface {
         }
     }
 
+    public equalsTo(int: Interface): boolean {
+        let isEqual = true;
+        isEqual = this.roleId === int.roleId
+            && this.displayIa === int.displayIa
+            && this.cols === int.cols
+            && this.rows === int.rows;
+
+        this.messages.forEach((message, i) => {
+            if (!message.equalsTo(int.messages[i])) {
+                isEqual = false;
+            }
+        });
+
+        this.pages.forEach((page, i) => {
+            if (page.equalsTo(int.pages[i])) {
+                isEqual = false;
+            }
+        });
+
+        return isEqual;
+    }
+
     static fromData(data: InterfaceData): Interface {
         let { roleId, pages, cols, rows, displayIa, messages } = data;
         let pagesObject: Array<Page> = [];

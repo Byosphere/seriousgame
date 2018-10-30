@@ -17,6 +17,19 @@
     padding: 0 20px; 
 }
 
+.no-stories {
+    grid-column: 2 / 4;
+    grid-row: 1 / 4;
+    position: relative;
+}
+
+.no-stories p {
+    position: absolute;
+    top: calc(50% - 1em);
+    width: 100%;
+    text-align: center;
+}
+
 .simple-story-list {
     grid-row: 1 / 6;
 }

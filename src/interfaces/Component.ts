@@ -34,6 +34,24 @@ class Component {
         this.params = JSON.parse(value);
     }
 
+    public equalsTo(component: Component): boolean {
+        let isEqual = true;
+        isEqual = this.id === component.id
+            && this.name === component.name
+            && this.rows === component.rows
+            && this.cols === component.cols
+            && this.clickAction === component.clickAction
+            && this.getStringParams() === component.getStringParams();
+
+        this.actionToDisplay.forEach((actionId, i) => {
+            if (actionId !== component.actionToDisplay[i]) {
+                isEqual = false;
+            }
+        });
+
+        return isEqual;
+    }
+
     static fromData(data: ComponentData): Component {
         let { id, name, cols, rows, actionToDisplay, clickAction, params } = data;
         return new this(id, name, cols, rows, actionToDisplay, clickAction, params);

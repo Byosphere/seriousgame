@@ -66,14 +66,23 @@ class Story {
 
     public equalsTo(story: Story): boolean {
         let isEqual = true;
-
         isEqual = this.id === story.id
-            || this.name === story.name
-            || this.nbPlayers === story.nbPlayers
-            || this.description !== story.description;
+            && this.name === story.name
+            && this.nbPlayers === story.nbPlayers
+            && this.description === story.description;
 
+        this.actions.forEach((action, i) => {
+            if (!action.equalsTo(story.actions[i])) {
+                isEqual = false;
+            }
+        });
+
+        this.interfaces.forEach((int, i) => {
+            if (!int.equalsTo(story.interfaces[i])) {
+                isEqual = false;
+            }
+        });
         return isEqual;
-        // TODO
     }
 
     public save(callback?: Function) {
