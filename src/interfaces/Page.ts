@@ -6,18 +6,18 @@ interface Page {
     components: Array<Component>
     cols?: number
     rows?: number
-    actionToDisplay?: string
+    actionToDisplay?: Array<string>
 }
 
 class Page {
 
-    constructor(id: number, background?: string, components?: Array<any>, cols?: number, rows?: number, actionToDisplay?: string) {
+    constructor(id: number, background?: string, components?: Array<any>, cols?: number, rows?: number, actionToDisplay?: Array<string>) {
         this.id = id;
         this.background = background || '';
         this.components = components || [];
         this.cols = cols || undefined;
         this.rows = rows || undefined;
-        this.actionToDisplay = actionToDisplay || null;
+        this.actionToDisplay = actionToDisplay || [];
     }
 
     public toJsonData(): PageData {

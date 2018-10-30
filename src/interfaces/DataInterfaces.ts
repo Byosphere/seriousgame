@@ -36,7 +36,7 @@ interface PageData {
     components: Array<ComponentData>
     cols?: number
     rows?: number
-    actionToDisplay?: string
+    actionToDisplay?: Array<string>
 }
 
 interface ComponentData {

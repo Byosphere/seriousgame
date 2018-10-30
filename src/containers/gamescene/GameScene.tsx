@@ -67,7 +67,7 @@ class GameScene extends React.Component<Props, State> {
 
         listenDynamicActions((actionId: string) => {
             let nextPage = this.state.interface.pages[this.state.currentPage + 1];
-            if (nextPage && nextPage.actionToDisplay === actionId) {
+            if (nextPage && nextPage.actionToDisplay.indexOf(actionId) > -1) {
                 this.setState({
                     lastActionId: actionId,
                     currentPage: this.state.currentPage + 1

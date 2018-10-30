@@ -37,8 +37,17 @@ class PageCreator extends React.Component<Props, State> {
     }
 
     public onChangeRadio(evt: any, index: number) {
-        if (this.props.selectedAction) {
-            this.props.pages[index].actionToDisplay = this.props.selectedAction.id;
+        let currentAction = this.props.selectedAction.id;
+        let currentPage = this.props.pages[index];
+
+        if (currentPage.actionToDisplay.indexOf(currentAction) === -1) {
+            this.props.pages.forEach(page => {
+                let i = page.actionToDisplay.indexOf(currentAction);
+                if (i > -1) page.actionToDisplay.splice(i, 1);
+            });
+            currentPage.actionToDisplay.push(currentAction);
+        } else {
+            currentPage.actionToDisplay.splice(currentPage.actionToDisplay.indexOf(currentAction), 1);
         }
         this.forceUpdate();
     }
@@ -83,15 +92,7 @@ class PageCreator extends React.Component<Props, State> {
         return (
             <div className="page-creator">
                 {this.props.pages.map((page, i) => {
-
-                    let selected = false;
-                    if (this.props.pages[i].actionToDisplay && this.props.selectedAction && this.props.pages[i].actionToDisplay === this.props.selectedAction.id) {
-                        selected = true;
-                    }
-                    if (!this.props.pages[i].actionToDisplay && !this.props.selectedAction) {
-                        selected = true;
-                    }
-
+                    let selected = Boolean(this.props.selectedAction && this.props.pages[i].actionToDisplay.length && this.props.pages[i].actionToDisplay.indexOf(this.props.selectedAction.id) > -1);
                     return (
                         <ExpansionPanel key={i} className={selected ? 'on' : 'off'}>
                             <ExpansionPanelSummary style={{ paddingLeft: '0' }} className="panel-summary" expandIcon={<ExpandMore />}>
@@ -110,10 +111,10 @@ class PageCreator extends React.Component<Props, State> {
                                     </Menu>
                                     <Typography style={{ display: 'inline-block', marginLeft: '5px' }}>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
                                 </div>
-                                <FormControl component="fieldset">
+                                <FormControl onClick={evt => evt.stopPropagation()} component="fieldset">
                                     <FormControlLabel
                                         value={i.toString()}
-                                        control={<Radio onChange={evt => { this.onChangeRadio(evt, i) }} checked={selected} name="page-action" color="primary" />}
+                                        control={<Radio onClick={evt => { this.onChangeRadio(evt, i) }} checked={selected} name="page-action" color="primary" />}
                                         label={T.translate('interface.action')}
                                         labelPlacement="end"
                                     /></FormControl>
