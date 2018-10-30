@@ -18,7 +18,7 @@ class Component {
         this.cols = cols || '1';
         this.rows = rows || '1';
         this.actionToDisplay = actionToDisplay || [];
-        this.clickAction = clickAction || null;
+        this.clickAction = clickAction || '';
         this.params = params || {};
     }
 

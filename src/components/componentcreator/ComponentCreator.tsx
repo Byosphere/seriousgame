@@ -161,9 +161,9 @@ class ComponentCreator extends React.Component<Props, State> {
                                         id="outlined-name"
                                     />
                                 } >
-                                {COMPONENTS_LIST.map(cmpName => {
+                                {COMPONENTS_LIST.map((cmpName, i) => {
                                     return (
-                                        <MenuItem value={cmpName}>{cmpName}</MenuItem>
+                                        <MenuItem key={i} value={cmpName}>{cmpName}</MenuItem>
                                     );
                                 })}
                             </Select>
@@ -202,9 +202,9 @@ class ComponentCreator extends React.Component<Props, State> {
                                         id="outlined-clickAction"
                                     />
                                 } >
-                                {this.props.actions.map(action => {
+                                {this.props.actions.map((action, i) => {
                                     return (
-                                        <MenuItem value={action.id}>{action.name}</MenuItem>
+                                        <MenuItem key={i} value={action.id}>{action.name}</MenuItem>
                                     );
                                 })}
                             </Select>

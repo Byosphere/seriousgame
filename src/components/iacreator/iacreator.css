@@ -5,3 +5,7 @@
 .ia-creator h3 {
     margin: 20px 0 0 20px;
 }
+
+.ia-creator ~ .page-creator {
+    margin: 5px 5px 0 0;
+}
