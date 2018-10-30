@@ -84,7 +84,8 @@
         "yes": "Oui",
         "no": "Non",
         "cancel": "Annuler",
-        "validate": "Valider"
+        "validate": "Valider",
+        "delete": "Supprimer"
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -92,7 +93,9 @@
         "position": "Position du message",
         "text": "Texte",
         "haut": "Haut",
-        "bas": "Bas"
+        "bas": "Bas",
+        "add": "Ajouter un message",
+        "confirmdelete": "Êtes-vous sûr de vouloir supprimer ce message ?"
     },
     "interface": {
         "action": "Actif pour l'action courante",
@@ -102,7 +105,6 @@
         "background": "Fond d'écran",
         "page": {
             "duplicate": "Dupliquer",
-            "delete": "Supprimer",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",
             "addcomponent": "Ajouter un composant",

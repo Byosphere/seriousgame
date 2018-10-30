@@ -107,7 +107,7 @@ class PageCreator extends React.Component<Props, State> {
                                         onClose={event => { event.stopPropagation(); this.handleMenuClose(); }}
                                     >
                                         <MenuItem onClick={event => { this.duplicatePage(event, i) }}>{T.translate('interface.page.duplicate')}</MenuItem>
-                                        <MenuItem onClick={event => { this.deletePage(event, i) }}>{T.translate('interface.page.delete')}</MenuItem>
+                                        <MenuItem onClick={event => { this.deletePage(event, i) }}>{T.translate('generic.delete')}</MenuItem>
                                     </Menu>
                                     <Typography style={{ display: 'inline-block', marginLeft: '5px' }}>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
                                 </div>

@@ -113,6 +113,12 @@ class ComponentCreator extends React.Component<Props, State> {
         // TODO
     }
 
+    public handleParams(event: any) {
+        let selectedComponent = this.state.selectedComponent;
+        selectedComponent.setStringParams(event.target.value);
+        this.setState({ selectedComponent });
+    }
+
     public render() {
         return (
             <div className="component-creator">
@@ -217,6 +223,7 @@ class ComponentCreator extends React.Component<Props, State> {
                             rows="8"
                             rowsMax="10"
                             value={this.state.selectedComponent.getStringParams()}
+                            onChange={event => this.handleParams(event)}
                             margin="normal"
                             variant="outlined"
                         />

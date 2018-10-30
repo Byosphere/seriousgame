@@ -30,6 +30,10 @@ class Component {
         return JSON.stringify(this.params, undefined, 4);
     }
 
+    public setStringParams(value: any) {
+        this.params = JSON.parse(value);
+    }
+
     static fromData(data: ComponentData): Component {
         let { id, name, cols, rows, actionToDisplay, clickAction, params } = data;
         return new this(id, name, cols, rows, actionToDisplay, clickAction, params);

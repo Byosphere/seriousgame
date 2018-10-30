@@ -9,3 +9,26 @@
 .ia-creator ~ .page-creator {
     margin: 5px 5px 0 0;
 }
+.ia-creator button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.ia-creator.empty {
+    position: relative;
+}
+
+.ia-creator.empty button {
+    position: absolute;
+    top: calc(50% - 28px);
+    left: calc(50% - 28px);
+    box-shadow: none !important;
+}
+
+.ia-creator.empty p {
+    position: absolute;
+    width: 100%;
+    top: calc(50% + 25px);
+    text-align: center;
+}
