@@ -128,6 +128,7 @@
         "page": "La page {pageId} du Joueur {playerId} est incorrecte.",
         "inpage": "Dans la page {pageId} du Joueur {playerId}",
         "interface": "L'interface du joueur {interfaceId} est incorrecte.",
-        "message": "IA incorrecte dans l'interface de "
+        "message": "IA incorrecte dans l'interface de ",
+        "params": "Les paramètres ne sont pas au format JSON"
     }
 }

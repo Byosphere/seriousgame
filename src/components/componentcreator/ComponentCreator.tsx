@@ -21,6 +21,8 @@ interface State {
     open: boolean
     selectedComponent: Component
     index: number
+    stringParams: string
+    paramsError: string
 }
 
 class ComponentCreator extends React.Component<Props, State> {
@@ -31,7 +33,9 @@ class ComponentCreator extends React.Component<Props, State> {
         this.state = {
             open: false,
             selectedComponent: null,
-            index: -1
+            index: -1,
+            stringParams: '',
+            paramsError: ''
         }
     }
 
@@ -57,7 +61,8 @@ class ComponentCreator extends React.Component<Props, State> {
 
         this.setState({
             selectedComponent: newComponent,
-            open: true
+            open: true,
+            stringParams: newComponent.getStringParams()
         });
     }
 
@@ -66,7 +71,8 @@ class ComponentCreator extends React.Component<Props, State> {
         this.setState({
             selectedComponent,
             index: i,
-            open: true
+            open: true,
+            stringParams: selectedComponent.getStringParams()
         });
     }
 
@@ -92,15 +98,22 @@ class ComponentCreator extends React.Component<Props, State> {
         this.forceUpdate();
     }
 
-    public onClose(cancel: boolean): any {
-        if (!cancel) {
+    public onCancel() {
+        this.setState({ selectedComponent: null, index: -1, open: false, stringParams: '', paramsError: '' });
+    }
+
+    public onClose() {
+        let selectedComponent = this.state.selectedComponent;
+        if (selectedComponent.setStringParams(this.state.stringParams)) {
             if (this.state.index >= 0) {
-                this.props.page.components[this.state.index] = this.state.selectedComponent;
+                this.props.page.components[this.state.index] = selectedComponent;
             } else {
-                this.props.page.components.push(this.state.selectedComponent);
+                this.props.page.components.push(selectedComponent);
             }
+            this.setState({ selectedComponent: null, index: -1, open: false, stringParams: '', paramsError: '' });
+        } else {
+            this.setState({ paramsError: T.translate('invalid.params').toString() });
         }
-        this.setState({ selectedComponent: null, index: -1, open: false });
     }
 
     public handleChange(event: any, name: string) {
@@ -114,9 +127,7 @@ class ComponentCreator extends React.Component<Props, State> {
     }
 
     public handleParams(event: any) {
-        let selectedComponent = this.state.selectedComponent;
-        selectedComponent.setStringParams(event.target.value);
-        this.setState({ selectedComponent });
+        this.setState({ stringParams: event.target.value });
     }
 
     public render() {
@@ -147,7 +158,7 @@ class ComponentCreator extends React.Component<Props, State> {
                 <div className="component-buttons">
                     <Button size="small" color="primary" onClick={() => this.newComponent()}>{T.translate('interface.page.addcomponent')}</Button>
                 </div>
-                {this.state.selectedComponent && <Dialog open={this.state.open} onClose={() => { this.onClose(true) }}>
+                {this.state.selectedComponent && <Dialog open={this.state.open} onClose={() => { this.onCancel() }}>
                     <DialogTitle id="component-creator-modal">{T.translate('interface.page.modalcomponent.title') + ' ' + this.state.selectedComponent.name}</DialogTitle>
                     <Button onClick={() => this.showHelp()} mini variant="fab" color="primary" aria-label="Help" className="cmp-modal-help">
                         <Help />
@@ -218,21 +229,23 @@ class ComponentCreator extends React.Component<Props, State> {
                         <TextField
                             id="outlined-multiline-params"
                             fullWidth
+                            error={Boolean(this.state.paramsError)}
+                            helperText={this.state.paramsError}
                             label={T.translate('interface.page.modalcomponent.params')}
                             multiline
                             rows="8"
                             rowsMax="10"
-                            value={this.state.selectedComponent.getStringParams()}
+                            value={this.state.stringParams}
                             onChange={event => this.handleParams(event)}
                             margin="normal"
                             variant="outlined"
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.onClose(true)} >
+                        <Button onClick={() => this.onCancel()} >
                             {T.translate('generic.cancel')}
                         </Button>
-                        <Button onClick={() => this.onClose(false)} color="primary" autoFocus>
+                        <Button onClick={() => this.onClose()} color="primary" autoFocus>
                             {T.translate('generic.validate')}
                         </Button>
                     </DialogActions>

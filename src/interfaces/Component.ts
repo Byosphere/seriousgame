@@ -35,8 +35,13 @@ class Component {
         return JSON.stringify(this.params, undefined, 4);
     }
 
-    public setStringParams(value: any) {
-        this.params = JSON.parse(value);
+    public setStringParams(value: any): boolean {
+        try {
+            this.params = JSON.parse(value);
+        } catch(err) {
+            return false;
+        }
+        return true;
     }
 
     public isValid(actions: Array<Action>): boolean {
