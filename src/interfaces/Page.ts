@@ -6,8 +6,8 @@ interface Page {
     id: number
     background?: string
     components: Array<Component>
-    cols?: number
-    rows?: number
+    _cols?: number
+    _rows?: number
     actionToDisplay?: Array<string>
     errorMessage: string
 }
@@ -18,10 +18,26 @@ class Page {
         this.id = id;
         this.background = background || '';
         this.components = components || [];
-        this.cols = cols || undefined;
-        this.rows = rows || undefined;
+        this.cols = cols || 0;
+        this.rows = rows || 0;
         this.actionToDisplay = actionToDisplay || [];
         this.errorMessage = '';
+    }
+
+    public set cols(c: any) {
+        this._cols = parseInt(c);
+    }
+
+    public get cols(): any {
+        return this._cols;
+    }
+
+    public set rows(c: any) {
+        this._rows = parseInt(c);
+    }
+
+    public get rows(): any {
+        return this._rows;
     }
 
     public toJsonData(): PageData {

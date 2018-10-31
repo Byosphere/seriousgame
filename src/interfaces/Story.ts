@@ -91,7 +91,7 @@ class Story {
         let isEqual = true;
         isEqual = this.id === story.id
             && this.name === story.name
-            && this.nbPlayers === story.nbPlayers
+            && this._nbPlayers === story._nbPlayers
             && this.description === story.description;
 
         this.actions.forEach((action, i) => {

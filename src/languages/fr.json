@@ -51,7 +51,8 @@
         "stay": "Rester sur cette story",
         "saved": "Story sauvegardée !",
         "nostory": "Aucune story trouvée",
-        "create": "Cliquez sur 'Nouvelle Story' pour commencer."
+        "create": "Cliquez sur 'Nouvelle Story' pour commencer.",
+        "nochanges": "Aucun changement n'est à sauvegarder."
     },
     "role": {
         "list": "Liste des rôles",

@@ -66,9 +66,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                         </h3>
                         <label>{T.translate('interface.cols')} : </label>
                         <Input
-                            inputProps={{
-                                'aria-label': 'columns',
-                            }}
+                            inputProps={{ min: "1" }}
                             type="number"
                             value={this.props.interface.cols}
                             style={{ color: "white", width: "2em", margin: "0 20px 0 5px" }}
@@ -76,9 +74,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                         />
                         <label>{T.translate('interface.rows')} : </label>
                         <Input
-                            inputProps={{
-                                'aria-label': 'rows',
-                            }}
+                            inputProps={{ min: "1" }}
                             type="number"
                             value={this.props.interface.rows}
                             style={{ color: "white", width: "2em", margin: "0 20px 0 5px" }}

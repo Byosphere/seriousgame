@@ -5,11 +5,13 @@ import Action from 'src/interfaces/Action';
 interface InitialState {
     story: Story
     action: Action
+    initialStory: Story
 }
 
 const initialState: InitialState = {
     story: null,
-    action: null
+    action: null,
+    initialStory: null
 };
 
 export default (state = initialState, action: any) => {
@@ -22,6 +24,7 @@ export default (state = initialState, action: any) => {
 
         case SELECT_STORY:
             newState.story = action.story;
+            newState.initialStory = Object.assign({}, action.story);
             return newState;
 
         default:

@@ -88,6 +88,11 @@ class PageCreator extends React.Component<Props, State> {
         this.forceUpdate();
     }
 
+    public onChange(event: any, name: string, page: Page) {
+        page[name] = event.target.value;
+        this.forceUpdate();
+    }
+
     public render() {
         return (
             <div className="page-creator">
@@ -129,17 +134,21 @@ class PageCreator extends React.Component<Props, State> {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        inputProps={{ min: "0" }}
                                         margin="normal"
+                                        onChange={event => { this.onChange(event, 'cols', page) }}
                                     />
                                     <TextField
                                         id="rows-number"
                                         label={T.translate('interface.rows')}
                                         value={page.rows}
                                         type="number"
+                                        inputProps={{ min: "0" }}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                         margin="normal"
+                                        onChange={event => { this.onChange(event, 'rows', page) }}
                                         style={{ marginLeft: "10px" }}
                                     />
                                 </div>
@@ -152,6 +161,7 @@ class PageCreator extends React.Component<Props, State> {
                                     }}
                                     margin="normal"
                                     variant="outlined"
+                                    onChange={event => { this.onChange(event, 'background', page) }}
                                 />
                                 <div className="components-wrapper">
                                     <fieldset>

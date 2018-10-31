@@ -7,8 +7,8 @@ import T from 'i18n-react';
 interface Interface {
     roleId: number
     pages: Array<Page>
-    cols: number
-    rows: number
+    _cols: number
+    _rows: number
     displayIa: boolean
     messages: Array<Message>
     errorMessage: string
@@ -24,6 +24,22 @@ class Interface {
         this.displayIa = displayIa || true;
         this.messages = messages || [];
         this.errorMessage = '';
+    }
+
+    public get cols(): any {
+        return this._cols;
+    }
+
+    public set cols(n: any) {
+        this._cols = parseInt(n);
+    }
+
+    public get rows(): any {
+        return this._rows;
+    }
+
+    public set rows(n: any) {
+        this._rows = parseInt(n);
     }
 
     public isValid(roles: Array<Role>, actions: Array<Action>, index: number): boolean {

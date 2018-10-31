@@ -17,6 +17,7 @@ interface Props {
     roles: Array<Role>
     selectCurrentStory: Function
     selectedStory: Story
+    initialStory: Story
     displaySnackbar: Function
 }
 
@@ -57,6 +58,11 @@ class StoryCreator extends React.Component<Props, State> {
     }
 
     public saveStory() {
+        // if (this.props.selectedStory.equalsTo(this.props.initialStory)) {
+        //     this.props.displaySnackbar(T.translate('story.nochanges'));
+        //     return;
+        // }
+
         if (this.props.selectedStory.isValid(this.props.roles)) {
             this.setState({ saving: true });
             this.props.selectedStory.save((err: any) => {
@@ -132,7 +138,8 @@ class StoryCreator extends React.Component<Props, State> {
 }
 function mapStateToProps(state: any) {
     return {
-        selectedStory: state.story.story
+        selectedStory: state.story.story,
+        initialStory: state.story.initialStory
     }
 }
 
