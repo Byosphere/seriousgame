@@ -57,7 +57,7 @@ class StoryCreator extends React.Component<Props, State> {
     }
 
     public saveStory() {
-        if (this.props.selectedStory.isValid()) {
+        if (this.props.selectedStory.isValid(this.props.roles)) {
             this.setState({ saving: true });
             this.props.selectedStory.save((err: any) => {
                 this.setState({ saving: false });

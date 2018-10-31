@@ -3,7 +3,6 @@ import Interface from './Interface';
 import Action from './Action';
 import { ACTION_INITIAL } from 'src/utils/constants';
 import { saveStory } from 'src/utils/api';
-import * as validator from 'validator';
 
 interface Story {
     id: number
@@ -28,10 +27,34 @@ class Story {
         this.errorMessage = '';
     }
 
-    public isValid(): boolean {
+    public isValid(roles: Array<Role>): boolean {
+        let isValid = true;
 
-        return true;
-        // TODO
+        isValid = this.name !== ''
+            && this._nbPlayers > 1
+            && this._nbPlayers <= 10;
+
+        if (!isValid) {
+            this.errorMessage = T.translate('invalid.story').toString();
+            return isValid;
+        }
+
+        this.actions.forEach((action, i) => {
+            if (!action.isValid()) {
+                isValid = false;
+                this.errorMessage = action.errorMessage;
+            }
+        });
+        if (!isValid) return isValid;
+
+        this.interfaces.forEach((int, i) => {
+            if (!int.isValid(roles, this.actions, i)) {
+                isValid = false;
+                this.errorMessage = int.errorMessage;
+            }
+        });
+
+        return isValid;
     }
 
     public set nbPlayers(nbp: any) {

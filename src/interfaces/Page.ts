@@ -1,4 +1,6 @@
 import Component from './Component';
+import Action from './Action';
+import T from 'i18n-react';
 
 interface Page {
     id: number
@@ -7,6 +9,7 @@ interface Page {
     cols?: number
     rows?: number
     actionToDisplay?: Array<string>
+    errorMessage: string
 }
 
 class Page {
@@ -18,6 +21,7 @@ class Page {
         this.cols = cols || undefined;
         this.rows = rows || undefined;
         this.actionToDisplay = actionToDisplay || [];
+        this.errorMessage = '';
     }
 
     public toJsonData(): PageData {
@@ -35,6 +39,29 @@ class Page {
             rows: this.rows,
             actionToDisplay: this.actionToDisplay
         };
+    }
+
+    public isValid(actions: Array<Action>, interfaceIndex: number): boolean {
+        let isValid = true;
+
+        this.actionToDisplay.forEach((actionId, i) => {
+            if (actions.findIndex(action => { return actionId === action.id }) === -1) {
+                isValid = false;
+            }
+        });
+        if (!isValid) {
+            this.errorMessage = T.translate('invalid.page', { playerId: interfaceIndex + 1, pageId: this.id + 1 }).toString() + this.id;
+            return isValid;
+        }
+
+        this.components.forEach((component, i) => {
+            if (!component.isValid(actions)) {
+                isValid = false;
+                this.errorMessage = T.translate('invalid.inpage', { pageId: this.id + 1, playerId: interfaceIndex + 1 }).toString() + ", " + component.errorMessage;
+            }
+        });
+
+        return isValid;
     }
 
     public equalsTo(page: Page): boolean {

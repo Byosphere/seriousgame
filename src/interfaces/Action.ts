@@ -1,8 +1,11 @@
+import { isBoolean } from 'util';
+
 interface Action {
     id: string
     name: string
     description?: string
     master?: boolean
+    errorMessage: string
 }
 
 class Action {
@@ -17,6 +20,15 @@ class Action {
         this.name = name || '';
         this.description = description || '';
         this.master = master || false;
+    }
+
+    public isValid(): any {
+        let isValid = true;
+        isValid = this.id !== ''
+            && this.name !== ''
+            && isBoolean(this.master);
+
+        return isValid;
     }
 
     public equalsTo(action: Action): boolean {

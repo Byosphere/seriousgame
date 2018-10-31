@@ -1,5 +1,8 @@
 import Page from './Page';
 import Message from './Message';
+import { isBoolean } from 'util';
+import Action from './Action';
+import T from 'i18n-react';
 
 interface Interface {
     roleId: number
@@ -8,6 +11,7 @@ interface Interface {
     rows: number
     displayIa: boolean
     messages: Array<Message>
+    errorMessage: string
 }
 
 class Interface {
@@ -19,11 +23,38 @@ class Interface {
         this.rows = rows || 1;
         this.displayIa = displayIa || true;
         this.messages = messages || [];
+        this.errorMessage = '';
     }
 
-    public validate(): boolean {
-        return false;
-        // TODO
+    public isValid(roles: Array<Role>, actions: Array<Action>, index: number): boolean {
+        let isValid = true;
+
+        isValid = roles.findIndex(role => { return role.id === this.roleId }) > -1
+            && isBoolean(this.displayIa)
+            && this.cols > 0
+            && this.rows > 0;
+
+        if (!isValid) {
+            this.errorMessage = T.translate('invalid.interface', { interfaceId: index + 1 }).toString();
+            return isValid;
+        }
+
+        this.messages.forEach((message, i) => {
+            if (!message.isValid()) {
+                isValid = false;
+                this.errorMessage = message.errorMessage + roles.find(role => { return role.id === this.roleId }).name + ".";
+            }
+        });
+        if (!isValid) return isValid;
+
+        this.pages.forEach((page, i) => {
+            if (!page.isValid(actions, index)) {
+                isValid = false;
+                this.errorMessage = page.errorMessage;
+            }
+        });
+
+        return isValid;
     }
 
     public toJsonData(): InterfaceData {
@@ -62,7 +93,7 @@ class Interface {
         });
 
         this.pages.forEach((page, i) => {
-            if (page.equalsTo(int.pages[i])) {
+            if (!page.equalsTo(int.pages[i])) {
                 isEqual = false;
             }
         });

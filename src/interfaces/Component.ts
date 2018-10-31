@@ -1,4 +1,6 @@
 import { COMPONENTS_LIST } from 'src/utils/constants';
+import Action from './Action';
+import T from 'i18n-react';
 
 interface Component {
     id: number
@@ -8,9 +10,11 @@ interface Component {
     actionToDisplay?: Array<string>
     clickAction?: string
     params?: any
+    errorMessage: string
 }
 
 class Component {
+
 
     constructor(id: number, name?: string, cols?: string, rows?: string, actionToDisplay?: Array<string>, clickAction?: string, params?: any) {
         this.id = id;
@@ -20,6 +24,7 @@ class Component {
         this.actionToDisplay = actionToDisplay || [];
         this.clickAction = clickAction || '';
         this.params = params || {};
+        this.errorMessage = '';
     }
 
     public copy(): Component {
@@ -32,6 +37,23 @@ class Component {
 
     public setStringParams(value: any) {
         this.params = JSON.parse(value);
+    }
+
+    public isValid(actions: Array<Action>): boolean {
+        let isValid = true;
+
+        isValid = this.id > 0
+            && COMPONENTS_LIST.findIndex(cmp => { return cmp === this.name }) > -1
+            && this.cols !== ''
+            && this.rows !== '';
+
+        this.actionToDisplay.forEach((actionId, i) => {
+            if (actions.findIndex(action => { return actionId === action.id }) === -1) {
+                isValid = false;
+            }
+        });
+        if (!isValid) this.errorMessage = T.translate('invalid.component').toString();
+        return isValid;
     }
 
     public equalsTo(component: Component): boolean {

@@ -16,7 +16,7 @@
         "list": "Liste des joueurs",
         "pause": "Mettre la partie en pause",
         "play": "Reprendre la partie",
-        "restart" : "Recommencer la partie",
+        "restart": "Recommencer la partie",
         "player": {
             "no-role": "Sélectionne son rôle...",
             "role": "Rôle : ",
@@ -31,8 +31,8 @@
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie",
         "status": {
-            "0":"En attente",
-            "1":"Choisi son rôle",
+            "0": "En attente",
+            "1": "Choisi son rôle",
             "2": "En partie"
         },
         "player": "Joueur",
@@ -121,10 +121,12 @@
             }
         }
     },
-    "validator": {
-        "story": {
-            "name": "Le nom de la Story est obligatoire",
-            "nbplayers": "Le nombre de joueurs doit être compris entre 1 et 10"
-        }
+    "invalid": {
+        "story": "Des informations de la story sont incorrects.",
+        "component": "un composant est incorrect.",
+        "page": "La page {pageId} du Joueur {playerId} est incorrecte.",
+        "inpage": "Dans la page {pageId} du Joueur {playerId}",
+        "interface": "L'interface du joueur {interfaceId} est incorrecte.",
+        "message": "IA incorrecte dans l'interface de "
     }
 }

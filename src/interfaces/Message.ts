@@ -1,10 +1,12 @@
-import { HAUT } from 'src/utils/constants';
+import { HAUT, BAS } from 'src/utils/constants';
+import T from 'i18n-react';
 
 interface Message {
     text: string
     position: string
     force: number
     action?: string
+    errorMessage: string
 }
 
 class Message {
@@ -14,6 +16,7 @@ class Message {
         this.position = position || HAUT;
         this.force = force || 1;
         this.action = action || null;
+        this.errorMessage = '';
     }
 
     static fromData(data: MessageData): Message {
@@ -28,6 +31,15 @@ class Message {
             && this.force === message.force
             && this.action === message.action;
         return isEqual;
+    }
+
+    public isValid(): any {
+        let isValid = true;
+        isValid = this.text !== ''
+            && (this.position === HAUT || this.position === BAS);
+        
+        if(!isValid) this.errorMessage = T.translate('invalid.message').toString();    
+        return isValid;
     }
 
     public toJsonData(): MessageData {
