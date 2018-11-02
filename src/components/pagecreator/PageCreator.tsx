@@ -125,6 +125,9 @@ class PageCreator extends React.Component<Props, State> {
                                     /></FormControl>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails style={{ flexDirection: "column" }}>
+                                <p style={{ fontSize: "0.9rem", marginTop: "0", opacity: 0.7 }}>
+                                    {T.translate('interface.page.informations')}
+                                </p>
                                 <div>
                                     <TextField
                                         id="cols-number"

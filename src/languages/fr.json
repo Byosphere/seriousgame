@@ -7,7 +7,8 @@
         "add": "Ajouter une action",
         "delete": "Supprimer",
         "defaultname": "Nouvelle action",
-        "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette action ?"
+        "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette action ?",
+        "informations": "Ci-dessous sont affichées les actions configurées pour votre story. Le passage d'une action à une autre peut être définie via un composant, l'IA, ou le maître du jeu."
     },
     "instructor": {
         "title": "Interface de jeu",
@@ -98,7 +99,8 @@
         "haut": "Haut",
         "bas": "Bas",
         "add": "Ajouter un message",
-        "confirmdelete": "Êtes-vous sûr de vouloir supprimer ce message ?"
+        "confirmdelete": "Êtes-vous sûr de vouloir supprimer ce message ?",
+        "informations": "L'IA représente l'aide pour le joueur situé en haut à droite de l'écran. Après chaque action il est possible de définir un message à afficher, et une action à délencher après la lecture de celui-ci."
     },
     "interface": {
         "action": "Actif pour l'action courante",
@@ -107,6 +109,7 @@
         "components": "Composants",
         "background": "Fond d'écran",
         "page": {
+            "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape d'action. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
             "duplicate": "Dupliquer",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",

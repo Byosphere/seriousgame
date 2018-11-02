@@ -16,7 +16,7 @@ export function gameConnect(response: any) {
  * Chargement de l'ensemble des stories trouvées coté serveur
  */
 export function loadStories(response: any) {
-    socket.on('getstories', (resp: Array<Story>) => {
+    socket.on('getstories', (resp: Array<StoryData>) => {
         let storyList: Array<Story> = [];
         resp.forEach(story => {
             storyList.push(Story.fromData(story));

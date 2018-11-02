@@ -1,3 +1,8 @@
+.actions-timeline {
+    display: flex;
+    flex-direction: column;
+}
+
 .actions-timeline h3 {
     margin: 20px 0 0 20px;
 }

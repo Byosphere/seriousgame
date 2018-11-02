@@ -68,6 +68,9 @@ class ActionsTimeline extends React.Component<Props, State> {
         return (
             <Card className="actions-timeline">
                 <h3>Liste des actions</h3>
+                <p style={{ fontSize: "0.9rem", margin: "15px 1.5em", opacity: 0.7 }}>
+                    {T.translate('action.informations')}
+                </p>
                 <Stepper className="stepper" activeStep={this.state.step} nonLinear orientation="vertical">
                     {this.props.actions.map((action, i) => {
                         return (

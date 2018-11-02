@@ -5,23 +5,25 @@ interface Message {
     text: string
     position: string
     force: number
-    action?: string
+    action: string
+    clickAction?: string
     errorMessage: string
 }
 
 class Message {
 
-    constructor(text?: string, position?: string, force?: number, action?: string) {
+    constructor(text?: string, position?: string, force?: number, clickAction?: string, action?: string) {
         this.text = text || '';
         this.position = position || HAUT;
         this.force = force || 1;
         this.action = action || null;
+        this.clickAction = clickAction || '';
         this.errorMessage = '';
     }
 
     static fromData(data: MessageData): Message {
-        let { text, position, force, action } = data;
-        return new this(text, position, force, action);
+        let { text, position, force, clickAction, action } = data;
+        return new this(text, position, force, clickAction, action);
     }
 
     public equalsTo(message: Message): boolean {
@@ -29,6 +31,7 @@ class Message {
         isEqual = this.text === message.text
             && this.position === message.position
             && this.force === message.force
+            && this.clickAction === message.clickAction
             && this.action === message.action;
         return isEqual;
     }
@@ -47,6 +50,7 @@ class Message {
             text: this.text,
             position: this.position,
             force: this.force,
+            clickAction: this.clickAction,
             action: this.action
         }
     }

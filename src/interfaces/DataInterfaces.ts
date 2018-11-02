@@ -27,7 +27,8 @@ interface MessageData {
     text: string
     position: string
     force: number
-    action?: string
+    clickAction?: string
+    action: string
 }
 
 interface PageData {

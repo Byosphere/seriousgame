@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './iacreator.css';
 import T from 'i18n-react';
-import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@material-ui/core';
+import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button, InputLabel, Select, OutlinedInput, MenuItem } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { HAUT } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
@@ -15,6 +15,7 @@ interface Props {
     messages: Array<Message>
     currentAction: Action
     displayConfirmDialog: Function
+    actions: Array<Action>
 }
 
 class IaCreator extends React.Component<Props, State> {
@@ -55,15 +56,15 @@ class IaCreator extends React.Component<Props, State> {
                         id="ia-text"
                         label={T.translate('ia.text')}
                         multiline
-                        rowsMax="12"
-                        rows="12"
+                        rowsMax="8"
+                        rows="6"
                         value={message.text}
                         onChange={(evt) => { this.handleChange(evt, 'text', message) }}
                         margin="normal"
                         variant="outlined"
-                        style={{ marginLeft: "23px" }}
+                        fullWidth
                     />
-                    <FormControl style={{ margin: "5px 0 0 23px" }} component="fieldset">
+                    <FormControl style={{ marginTop: "5px" }} component="fieldset">
                         <FormLabel component="legend">{T.translate('ia.position')}</FormLabel>
                         <RadioGroup
                             style={{ flexDirection: "row" }}
@@ -75,6 +76,27 @@ class IaCreator extends React.Component<Props, State> {
                             <FormControlLabel value="haut" control={<Radio color="primary" />} label={T.translate('ia.haut')} />
                             <FormControlLabel value="bas" control={<Radio color="primary" />} label={T.translate('ia.bas')} />
                         </RadioGroup>
+                    </FormControl>
+                    <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
+                        <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>
+                        <Select
+                            fullWidth
+                            value={message.clickAction}
+                            onChange={event => { this.handleChange(event, 'action', message) }}
+                            input={
+                                <OutlinedInput
+                                    fullWidth
+                                    labelWidth={100}
+                                    name="action"
+                                    id="outlined-action"
+                                />
+                            } >
+                            {this.props.actions.map((action, i) => {
+                                return (
+                                    <MenuItem key={i} value={action.id}>{action.name}</MenuItem>
+                                );
+                            })}
+                        </Select>
                     </FormControl>
                     <Button onClick={() => { this.deleteMessage() }} color="primary">{T.translate('generic.delete')}</Button>
                 </Card>
@@ -97,7 +119,8 @@ class IaCreator extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-        currentAction: state.story.action
+        currentAction: state.story.action,
+        actions: state.story.story.actions
     }
 }
 
