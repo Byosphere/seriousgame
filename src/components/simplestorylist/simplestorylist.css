@@ -10,3 +10,7 @@
 .simple-story-list .add-story svg, .simple-story-list .add-story span {
     color: #ff7900 !important;
 }
+
+.simple-story-list .story-list li {
+    overflow: hidden;
+}

@@ -1,7 +1,7 @@
 import * as io from 'socket.io-client';
 import Story from 'src/interfaces/Story';
 
-const socket = io('http://localhost:8081');
+const socket = io('http://192.168.1.43:8081');
 
 /**
  * Initialisation de la connexion au server

@@ -21,7 +21,7 @@ interface Props {
 interface State {
     selectedPage: number
     selectedComponent: Array<Component>
-    menuEl: any
+    menuEl: Array<any>
 }
 
 class PageCreator extends React.Component<Props, State> {
@@ -32,7 +32,7 @@ class PageCreator extends React.Component<Props, State> {
         this.state = {
             selectedPage: 0,
             selectedComponent: [],
-            menuEl: null
+            menuEl: []
         }
     }
 
@@ -62,12 +62,12 @@ class PageCreator extends React.Component<Props, State> {
         this.props.displaySnackbar(T.translate('interface.page.pageadded'));
     }
 
-    public handleMenuClose() {
-        this.setState({ menuEl: null });
-    }
-
     public deletePage(event: any, i: number) {
-        setTimeout(() => { this.setState({ menuEl: null }) }, 2);
+        setTimeout(() => {
+            let menuEl = this.state.menuEl;
+            menuEl[i] = null;
+            this.setState({ menuEl });
+        }, 2);
         event.stopPropagation();
         this.props.displayConfirmDialog({
             title: T.translate('generic.warning'),
@@ -79,9 +79,22 @@ class PageCreator extends React.Component<Props, State> {
         });
     }
 
-    public duplicatePage(event: any, i: number) {
-        this.handleMenuClose();
+    public openMenu(event: any, id: number) {
         event.stopPropagation();
+        let menuEl = this.state.menuEl;
+        menuEl[id] = event.currentTarget;
+        this.setState({ menuEl });
+    }
+
+    public closeMenu(event: any, id: number) {
+        event.stopPropagation();
+        let menuEl = this.state.menuEl;
+        menuEl[id] = null;
+        this.setState({ menuEl });
+    }
+
+    public duplicatePage(event: any, i: number) {
+        this.closeMenu(event, i);
         let page = this.props.pages[i].copy();
         page.id = this.props.pages[this.props.pages.length - 1].id + 1;
         this.props.pages.push(page);
@@ -102,16 +115,16 @@ class PageCreator extends React.Component<Props, State> {
                         <ExpansionPanel key={i} className={selected ? 'on' : 'off'}>
                             <ExpansionPanelSummary style={{ paddingLeft: '0' }} className="panel-summary" expandIcon={<ExpandMore />}>
                                 <div>
-                                    <IconButton aria-owns={this.state.menuEl ? 'menu' + i : null} onClick={event => { event.stopPropagation(); this.setState({ menuEl: event.currentTarget }) }} aria-label="More" aria-haspopup="true">
+                                    <IconButton aria-owns={this.state.menuEl ? 'menu' + i : null} onClick={event => { this.openMenu(event, i) }} aria-label="More" aria-haspopup="true">
                                         <MoreVert />
                                     </IconButton>
                                     <Menu
                                         id={"menu" + i}
-                                        anchorEl={this.state.menuEl}
-                                        open={Boolean(this.state.menuEl)}
-                                        onClose={event => { event.stopPropagation(); this.handleMenuClose(); }}
+                                        anchorEl={this.state.menuEl[i]}
+                                        open={Boolean(this.state.menuEl[i])}
+                                        onClose={event => { this.closeMenu(event, i); }}
                                     >
-                                        <MenuItem onClick={event => { this.duplicatePage(event, i) }}>{T.translate('interface.page.duplicate')}</MenuItem>
+                                        <MenuItem onClick={event => { this.duplicatePage(event, i) }}>{T.translate('generic.duplicate')}</MenuItem>
                                         <MenuItem onClick={event => { this.deletePage(event, i) }}>{T.translate('generic.delete')}</MenuItem>
                                     </Menu>
                                     <Typography style={{ display: 'inline-block', marginLeft: '5px' }}>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>

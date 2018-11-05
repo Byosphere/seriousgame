@@ -22,7 +22,6 @@ interface Props {
 }
 
 interface State {
-    selectedStory: Story
     saving: boolean
 }
 
@@ -32,29 +31,17 @@ class StoryCreator extends React.Component<Props, State> {
         super(props);
         this.props.selectCurrentStory(props.stories[0]);
         this.state = {
-            selectedStory: null,
             saving: false
         }
     }
 
     public handleChange(event: any, name: string) {
-        let selectedStory = this.state.selectedStory;
+        let selectedStory = this.props.selectedStory;
         selectedStory[name] = event.target.value;
-        if (name === "nbPlayers" && this.state.selectedStory.interfaces.length > event.target.value) {
+        if (name === "nbPlayers" && this.props.selectedStory.interfaces.length > event.target.value) {
             selectedStory.interfaces.length = event.target.value;
         }
-        this.setState({
-            selectedStory
-        });
-    }
-
-    static getDerivedStateFromProps(props: Props, state: State) {
-        if (!state.selectedStory || state.selectedStory.id !== props.selectedStory.id) {
-            return {
-                selectedStory: props.selectedStory
-            }
-        }
-        return null;
+        this.forceUpdate();
     }
 
     public saveStory() {
@@ -83,20 +70,20 @@ class StoryCreator extends React.Component<Props, State> {
         if (this.props.selectedStory) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.state.selectedStory} />
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} />
                     <Card className="story-details">
                         <div style={{ display: "flex", alignItems: "center", flex: "1", marginRight: "20px" }}>
                             <TextField
                                 id="name"
                                 label={T.translate('story.name')}
-                                value={this.state.selectedStory.name}
+                                value={this.props.selectedStory.name}
                                 onChange={evt => this.handleChange(evt, 'name')}
                                 style={{ marginRight: "10px", minWidth: "140px" }}
                             />
                             <TextField
                                 id="nbPlayers"
                                 label={T.translate('story.nbplayers')}
-                                value={this.state.selectedStory.nbPlayers}
+                                value={this.props.selectedStory.nbPlayers}
                                 onChange={evt => this.handleChange(evt, 'nbPlayers')}
                                 type="number"
                                 inputProps={{ min: "1", max: "10" }}
@@ -105,7 +92,7 @@ class StoryCreator extends React.Component<Props, State> {
                             <TextField
                                 id="description"
                                 label={T.translate('story.description')}
-                                value={this.state.selectedStory.description}
+                                value={this.props.selectedStory.description}
                                 onChange={evt => this.handleChange(evt, 'description')}
                                 multiline
                                 rowsMax="3"
@@ -116,14 +103,14 @@ class StoryCreator extends React.Component<Props, State> {
                             <Button disabled={this.state.saving} onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
                         </div>
                     </Card>
-                    <PlayerInterfaces story={this.state.selectedStory} roles={this.props.roles} />
+                    <PlayerInterfaces story={this.props.selectedStory} roles={this.props.roles} />
                     <ActionsTimeline actions={this.props.selectedStory.actions} />
                 </div>
             );
         } else if(this.props.stories.length === 0) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.state.selectedStory} />
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} />
                     <Card className="no-stories">
                         <p>{T.translate("story.create")}</p>
                     </Card>

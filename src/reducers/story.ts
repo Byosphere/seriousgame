@@ -24,7 +24,9 @@ export default (state = initialState, action: any) => {
 
         case SELECT_STORY:
             newState.story = action.story;
-            newState.initialStory = Object.assign({}, action.story);
+            if(action.story) {
+                newState.initialStory = Object.assign({}, action.story);
+            }
             return newState;
 
         default:

@@ -54,7 +54,8 @@
         "saved": "Story sauvegardée !",
         "nostory": "Aucune story trouvée",
         "create": "Cliquez sur 'Nouvelle Story' pour commencer.",
-        "nochanges": "Aucun changement n'est à sauvegarder."
+        "nochanges": "Aucun changement n'est à sauvegarder.",
+        "deletewarning": "Êtes-vous sûr de vouloir supprimer cette story ?"
     },
     "role": {
         "list": "Liste des rôles",
@@ -90,7 +91,8 @@
         "no": "Non",
         "cancel": "Annuler",
         "validate": "Valider",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "duplicate": "Dupliquer"
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -111,7 +113,6 @@
         "background": "Fond d'écran",
         "page": {
             "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape d'action. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
-            "duplicate": "Dupliquer",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",
             "addcomponent": "Ajouter un composant",

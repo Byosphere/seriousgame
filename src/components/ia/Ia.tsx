@@ -29,7 +29,7 @@ class Ia extends React.Component<Props, State> {
 
     public handleClick(currentMessage: Message) {
         if (!currentMessage) return;
-        console.log(currentMessage);
+
         this.setState({ displayMessage: !this.state.displayMessage, vu: true });
         if(currentMessage.clickAction) {
             sendAction(currentMessage.clickAction);
@@ -80,7 +80,7 @@ class Ia extends React.Component<Props, State> {
         if (currentMessage && currentMessage.force && !vu) {
             if (displayMessage) {
                 return (
-                    <Badge badgeContent={1} color="secondary">
+                    <Badge badgeContent={1} color="default">
                         <Avatar alt="IA" >
                             <Textsms />
                         </Avatar>
@@ -88,7 +88,7 @@ class Ia extends React.Component<Props, State> {
                 );
             } else {
                 return (
-                    <Badge badgeContent={1} color="secondary">
+                    <Badge className='badge' badgeContent={1} color="default">
                         <Avatar alt="IA" src={AvatarImage} />
                     </Badge>
                 );

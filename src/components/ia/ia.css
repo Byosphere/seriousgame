@@ -4,3 +4,24 @@
     left: calc(50% - 30%);
     width: 60%;
 }
+
+.ia-modal>div {
+    display: flex;
+    position: relative;
+}
+
+.ia-modal button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.ia-modal p {
+    color: black;
+    padding-left: 1em;
+}
+
+.badge>span {
+    color:white;
+    background:#ff3d00;
+}
