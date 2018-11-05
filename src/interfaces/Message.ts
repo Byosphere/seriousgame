@@ -12,7 +12,7 @@ interface Message {
 
 class Message {
 
-    constructor(text?: string, position?: string, force?: number, clickAction?: string, action?: string) {
+    constructor(text?: string, position?: string, force?: number, action?: string, clickAction?: string) {
         this.text = text || '';
         this.position = position || HAUT;
         this.force = force || 1;
@@ -40,8 +40,8 @@ class Message {
         let isValid = true;
         isValid = this.text !== ''
             && (this.position === HAUT || this.position === BAS);
-        
-        if(!isValid) this.errorMessage = T.translate('invalid.message').toString();    
+
+        if (!isValid) this.errorMessage = T.translate('invalid.message').toString();
         return isValid;
     }
 

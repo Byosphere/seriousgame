@@ -8,6 +8,7 @@
         "delete": "Supprimer",
         "defaultname": "Nouvelle action",
         "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette action ?",
+        "none": "Aucune action",
         "informations": "Ci-dessous sont affichées les actions configurées pour votre story. Le passage d'une action à une autre peut être définie via un composant, l'IA, ou le maître du jeu."
     },
     "instructor": {

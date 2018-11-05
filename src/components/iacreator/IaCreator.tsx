@@ -78,19 +78,20 @@ class IaCreator extends React.Component<Props, State> {
                         </RadioGroup>
                     </FormControl>
                     <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
-                        <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>
                         <Select
                             fullWidth
                             value={message.clickAction}
-                            onChange={event => { this.handleChange(event, 'action', message) }}
+                            onChange={event => { this.handleChange(event, 'clickAction', message) }}
+                            displayEmpty
                             input={
                                 <OutlinedInput
                                     fullWidth
-                                    labelWidth={100}
+                                    labelWidth={0}
                                     name="action"
                                     id="outlined-action"
                                 />
                             } >
+                            <MenuItem value=''><i style={{opacity: 0.5}}>{T.translate('action.none')}</i></MenuItem>
                             {this.props.actions.map((action, i) => {
                                 return (
                                     <MenuItem key={i} value={action.id}>{action.name}</MenuItem>

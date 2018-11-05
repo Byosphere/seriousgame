@@ -4,6 +4,7 @@ import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core'
 import { Close, Textsms } from '@material-ui/icons';
 import AvatarImage from '../../images/avatar.jpg';
 import Message from 'src/interfaces/Message';
+import { sendAction } from 'src/utils/api';
 
 interface State {
     displayMessage: boolean
@@ -24,6 +25,16 @@ class Ia extends React.Component<Props, State> {
             displayMessage: false,
             vu: false
         }
+    }
+
+    public handleClick(currentMessage: Message) {
+        if (!currentMessage) return;
+        console.log(currentMessage);
+        this.setState({ displayMessage: !this.state.displayMessage, vu: true });
+        if(currentMessage.clickAction) {
+            sendAction(currentMessage.clickAction);
+        }
+        
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -103,7 +114,7 @@ class Ia extends React.Component<Props, State> {
 
         return (
             <div>
-                <IconButton onClick={() => { if (currentMessage) { this.setState({ displayMessage: !this.state.displayMessage, vu: true }) } }}>
+                <IconButton onClick={() => { this.handleClick(currentMessage) }}>
                     {this.displayIaAvatar(this.state.displayMessage, currentMessage, this.state.vu)}
                 </IconButton>
                 {this.displayCardModal(currentMessage)}
