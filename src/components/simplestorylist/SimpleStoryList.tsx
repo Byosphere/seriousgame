@@ -6,8 +6,8 @@ import { PlaylistAdd, MoreVert } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
 import Story from 'src/interfaces/Story';
-import story from 'src/reducers/story';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
+import { deleteStory } from '../../utils/api';
 
 interface Props {
     stories: Array<Story>
@@ -15,6 +15,7 @@ interface Props {
     displayConfirmDialog: Function
     selectedStory: Story
     editedStory: Story
+    saving: boolean
 }
 
 interface State {
@@ -76,6 +77,11 @@ class SimpleStoryList extends React.Component<Props, State> {
             title: T.translate('generic.warning'),
             content: T.translate('story.deletewarning'),
             confirm: () => {
+                if (this.props.stories[i].fromData) {
+                    deleteStory(this.props.stories[i].id, (err: any) => {
+                        if (err) console.log(err);
+                    });
+                }
                 this.props.stories.splice(i, 1);
                 if (this.props.stories[i - 1]) {
                     this.selectStory(this.props.stories[i - 1]);
@@ -90,7 +96,11 @@ class SimpleStoryList extends React.Component<Props, State> {
     }
 
     public duplicateStory(event: any, story: Story) {
-
+        event.stopPropagation();
+        let newStory = story.duplicate(this.props.stories[this.props.stories.length - 1].id +1);
+        this.props.stories.push(newStory);
+        this.props.selectCurrentStory(newStory);
+        this.forceUpdate();
     }
 
     public render() {
@@ -107,6 +117,7 @@ class SimpleStoryList extends React.Component<Props, State> {
                     {this.props.stories.map((story, i) => {
                         if (story) return (
                             <ListItem onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={i}>
+                                {!story.fromData && <span className="unsaved-story"></span>}
                                 <ListItemText primary={story.name} />
                                 <ListItemSecondaryAction>
                                     <IconButton aria-owns={this.state.menuEl ? 'menu ' + story.name : null} onClick={event => { this.openMenu(event, i) }} aria-label="More" aria-haspopup="true">

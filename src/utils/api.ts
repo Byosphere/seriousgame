@@ -50,6 +50,11 @@ export function saveStory(story: StoryData, response: Function) {
     socket.emit('savestory', story);
 }
 
+export function deleteStory(storyId: number, response: Function) {
+    socket.on('deletestory', (err: any) => response(err));
+    socket.emit('deletestory', storyId);
+}
+
 /**
  * Ecouteur pour l'instructeur. Est appelée lorsqu'un joueur est mis à jour
  * @param response : fonction retournant err et la liste des joueurs

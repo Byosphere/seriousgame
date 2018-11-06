@@ -123,6 +123,21 @@ io.on('connection', function (socket) {
                 server.stories[storyIndex] = story;
             } else {
                 server.stories.push(story);
+                server.stories.sort((s1, s2) => {
+                    if (s1.id < s2.id) return -1;
+                    if (s1.id > s2.id) return 1;
+                    return 0;
+                });
+            }
+        });
+    });
+
+    socket.on('deletestory', storyId => {
+        fs.unlink('./data/stories/story' + storyId + '.json', err => {
+            socket.emit('deletestory', err);
+            let storyIndex = server.stories.findIndex(st => { return st.id === storyId });
+            if (storyIndex >= 0) {
+                server.stories.splice(storyIndex, 1);
             }
         });
     });

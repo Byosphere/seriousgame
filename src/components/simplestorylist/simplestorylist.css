@@ -14,3 +14,12 @@
 .simple-story-list .story-list li {
     overflow: hidden;
 }
+
+.unsaved-story {
+    position: absolute;
+    left: 10px;
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+    background: #ff7900;
+}

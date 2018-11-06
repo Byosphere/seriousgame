@@ -70,7 +70,7 @@ class StoryCreator extends React.Component<Props, State> {
         if (this.props.selectedStory) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} />
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
                     <Card className="story-details">
                         <div style={{ display: "flex", alignItems: "center", flex: "1", marginRight: "20px" }}>
                             <TextField
@@ -107,10 +107,10 @@ class StoryCreator extends React.Component<Props, State> {
                     <ActionsTimeline actions={this.props.selectedStory.actions} />
                 </div>
             );
-        } else if(this.props.stories.length === 0) {
+        } else if (this.props.stories.length === 0) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} />
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving}/>
                     <Card className="no-stories">
                         <p>{T.translate("story.create")}</p>
                     </Card>
