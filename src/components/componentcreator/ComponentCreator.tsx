@@ -2,7 +2,7 @@ import * as React from 'react';
 import './componentcreator.css';
 import T from 'i18n-react';
 import Page from 'src/interfaces/Page';
-import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Checkbox, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions } from '@material-ui/core';
+import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Checkbox, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText } from '@material-ui/core';
 import { COMPONENTS_LIST } from 'src/utils/constants';
 import Component from 'src/interfaces/Component';
 import { Delete, Edit, Help } from '@material-ui/icons';
@@ -23,6 +23,7 @@ interface State {
     index: number
     stringParams: string
     paramsError: string
+    typeError: string
 }
 
 class ComponentCreator extends React.Component<Props, State> {
@@ -35,7 +36,8 @@ class ComponentCreator extends React.Component<Props, State> {
             selectedComponent: null,
             index: -1,
             stringParams: '',
-            paramsError: ''
+            paramsError: '',
+            typeError: ''
         }
     }
 
@@ -54,9 +56,9 @@ class ComponentCreator extends React.Component<Props, State> {
     public newComponent() {
         let newComponent = null;
         if (this.props.page.components.length) {
-            newComponent = new Component(this.props.page.components[this.props.page.components.length - 1].id + 1);
+            newComponent = new Component(this.props.page.components[this.props.page.components.length - 1].id + 1, "");
         } else {
-            newComponent = new Component(1);
+            newComponent = new Component(1, "");
         }
 
         this.setState({
@@ -104,16 +106,21 @@ class ComponentCreator extends React.Component<Props, State> {
 
     public onClose() {
         let selectedComponent = this.state.selectedComponent;
-        if (selectedComponent.setStringParams(this.state.stringParams)) {
-            if (this.state.index >= 0) {
-                this.props.page.components[this.state.index] = selectedComponent;
-            } else {
-                this.props.page.components.push(selectedComponent);
-            }
-            this.setState({ selectedComponent: null, index: -1, open: false, stringParams: '', paramsError: '' });
-        } else {
+        if (!selectedComponent.setStringParams(this.state.stringParams)) {
             this.setState({ paramsError: T.translate('invalid.params').toString() });
+            return;
         }
+        if (!selectedComponent.type) {
+            this.setState({ typeError: T.translate('invalid.type').toString() });
+            return;
+        }
+
+        if (this.state.index >= 0) {
+            this.props.page.components[this.state.index] = selectedComponent;
+        } else {
+            this.props.page.components.push(selectedComponent);
+        }
+        this.setState({ selectedComponent: null, index: -1, open: false, stringParams: '', paramsError: '', typeError: '' });
     }
 
     public handleChange(event: any, name: string) {
@@ -142,7 +149,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                     value="checked"
                                     color="primary"
                                 />
-                                <ListItemText primary={cmp.name} secondary={'cols: ' + cmp.cols + ' - rows: ' + cmp.rows} />
+                                <ListItemText primary={cmp.name} secondary={'Type : ' + cmp.type + ' | cols : ' + cmp.cols + ' - rows : ' + cmp.rows} />
                                 <ListItemSecondaryAction>
                                     <IconButton onClick={() => { this.editComponent(i) }} aria-label="Delete">
                                         <Edit />
@@ -164,26 +171,37 @@ class ComponentCreator extends React.Component<Props, State> {
                         <Help />
                     </Button>
                     <DialogContent>
-                        <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
+                        <TextField
+                            id="outlined-name"
+                            style={{ marginTop: "10px" }}
+                            label="Name"
+                            fullWidth
+                            value={this.state.selectedComponent.name}
+                            onChange={event => { this.handleChange(event, 'name') }}
+                            variant="outlined"
+                        />
+                        <FormControl style={{ marginTop: "20px" }} variant="outlined" fullWidth>
                             <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.name')}</InputLabel>
                             <Select
                                 fullWidth
-                                value={this.state.selectedComponent.name}
-                                onChange={event => { this.handleChange(event, 'name') }}
+                                error={Boolean(this.state.typeError)}
+                                value={this.state.selectedComponent.type}
+                                onChange={event => { this.handleChange(event, 'type') }}
                                 input={
                                     <OutlinedInput
                                         fullWidth
                                         labelWidth={145}
-                                        name="name"
-                                        id="outlined-name"
+                                        name="type"
+                                        id="outlined-type"
                                     />
                                 } >
-                                {COMPONENTS_LIST.map((cmpName, i) => {
+                                {COMPONENTS_LIST.map((cmpType, i) => {
                                     return (
-                                        <MenuItem key={i} value={cmpName}>{cmpName}</MenuItem>
+                                        <MenuItem key={i} value={cmpType}>{cmpType}</MenuItem>
                                     );
                                 })}
                             </Select>
+                            {Boolean(this.state.typeError) && <FormHelperText style={{ color: "#f44336", marginBottom: "10px" }}>{this.state.typeError}</FormHelperText>}
                         </FormControl>
                         <div>
                             <TextField
@@ -209,6 +227,7 @@ class ComponentCreator extends React.Component<Props, State> {
                             <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>
                             <Select
                                 fullWidth
+                                displayEmpty
                                 value={this.state.selectedComponent.clickAction}
                                 onChange={event => { this.handleChange(event, 'clickAction') }}
                                 input={

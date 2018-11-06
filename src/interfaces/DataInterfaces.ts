@@ -42,6 +42,7 @@ interface PageData {
 
 interface ComponentData {
     id: number
+    type: string
     name: string
     cols: string
     rows: string

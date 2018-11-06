@@ -4,6 +4,7 @@ import T from 'i18n-react';
 
 interface Component {
     id: number
+    type: string
     name: string
     cols: string
     rows: string
@@ -16,9 +17,10 @@ interface Component {
 class Component {
 
 
-    constructor(id: number, name?: string, cols?: string, rows?: string, actionToDisplay?: Array<string>, clickAction?: string, params?: any) {
+    constructor(id: number, type: string, name?: string, cols?: string, rows?: string, actionToDisplay?: Array<string>, clickAction?: string, params?: any) {
         this.id = id;
-        this.name = name || COMPONENTS_LIST[0];
+        this.type = type;
+        this.name = name || T.translate('interface.component').toString() + id;
         this.cols = cols || '1';
         this.rows = rows || '1';
         this.actionToDisplay = actionToDisplay || [];
@@ -28,7 +30,7 @@ class Component {
     }
 
     public copy(): Component {
-        return new Component(this.id, this.name, this.cols, this.rows, this.actionToDisplay, this.clickAction, this.params);
+        return new Component(this.id, this.type, this.name, this.cols, this.rows, this.actionToDisplay, this.clickAction, this.params);
     }
 
     public getStringParams() {
@@ -48,7 +50,7 @@ class Component {
         let isValid = true;
 
         isValid = this.id > 0
-            && COMPONENTS_LIST.findIndex(cmp => { return cmp === this.name }) > -1
+            && COMPONENTS_LIST.findIndex(cmp => { return cmp === this.type }) > -1
             && this.cols !== ''
             && this.rows !== '';
 
@@ -64,6 +66,7 @@ class Component {
     public equalsTo(component: Component): boolean {
         let isEqual = true;
         isEqual = this.id === component.id
+            && this.type === component.type
             && this.name === component.name
             && this.rows === component.rows
             && this.cols === component.cols
@@ -80,13 +83,14 @@ class Component {
     }
 
     static fromData(data: ComponentData): Component {
-        let { id, name, cols, rows, actionToDisplay, clickAction, params } = data;
-        return new this(id, name, cols, rows, actionToDisplay, clickAction, params);
+        let { id, type, name, cols, rows, actionToDisplay, clickAction, params } = data;
+        return new this(id, type, name, cols, rows, actionToDisplay, clickAction, params);
     }
 
     public toJsonData(): ComponentData {
         return {
             id: this.id,
+            type: this.type,
             name: this.name,
             cols: this.cols,
             rows: this.rows,

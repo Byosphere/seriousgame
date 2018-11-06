@@ -111,6 +111,7 @@
         "cols": "Nombre de colonnes",
         "rows": "Nombre de lignes",
         "components": "Composants",
+        "component": "Composant",
         "background": "Fond d'écran",
         "interfaceof": "Interface de ",
         "deletewarning": "Êtes-vous sûr de vouloir supprimer l'interface du joueur {playerId} ?",
@@ -138,6 +139,7 @@
         "inpage": "Dans la page {pageId} du Joueur {playerId}",
         "interface": "L'interface du joueur {interfaceId} est incorrecte.",
         "message": "IA incorrecte dans l'interface de ",
-        "params": "Les paramètres ne sont pas au format JSON"
+        "params": "Les paramètres ne sont pas au format JSON",
+        "type": "Le type de composant n'a pas été sélectionné"
     }
 }
