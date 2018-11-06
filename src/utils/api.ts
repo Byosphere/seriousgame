@@ -1,5 +1,6 @@
 import * as io from 'socket.io-client';
 import Story from 'src/interfaces/Story';
+import Role from 'src/interfaces/Role';
 
 const socket = io('http://192.168.1.43:8081');
 
@@ -31,7 +32,13 @@ export function loadStories(response: any) {
  * @param response 
  */
 export function loadRoles(response: Function) {
-    socket.on('getroles', (resp: Array<Role>) => response(resp));
+    socket.on('getroles', (resp: Array<RoleData>) => {
+        let roleList: Array<Role> = [];
+        resp.forEach(role => {
+            roleList.push(Role.fromData(role));
+        })
+        response(roleList);
+    });
     socket.emit('getroles');
 }
 
@@ -40,7 +47,7 @@ export function loadRoles(response: Function) {
  * @param roles 
  * @param response 
  */
-export function saveRoles(roles: Array<Role>, response: Function) {
+export function saveRoles(roles: Array<RoleData>, response: Function) {
     socket.on('saveroles', (err: any) => response(err));
     socket.emit('saveroles', roles);
 }

@@ -49,3 +49,12 @@ interface ComponentData {
     clickAction?: string
     params?: any
 }
+
+interface RoleData {
+    id: number,
+    name: string,
+    description: string,
+    soustitre: string,
+    image?: string,
+    color?: string
+}

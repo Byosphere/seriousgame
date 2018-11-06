@@ -11,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import Story from 'src/interfaces/Story';
 import Interface from 'src/interfaces/Interface';
 import { ACTION_INITIAL } from 'src/utils/constants';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     location: any

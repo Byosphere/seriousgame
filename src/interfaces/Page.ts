@@ -102,8 +102,8 @@ class Page {
         return isEqual;
     }
 
-    public copy(): Page {
-        return new Page(this.id, this.background, this.components, this.cols, this.rows, this.actionToDisplay);
+    public copy(id: number): Page {
+        return new Page(id, this.background, this.components, this.cols, this.rows, this.actionToDisplay);
     }
 
     static fromData(data: PageData): Page {

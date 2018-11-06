@@ -5,6 +5,7 @@ import { Card, Tabs, Tab } from '@material-ui/core';
 import InterfaceCreator from '../interfacecreator/InterfaceCreator';
 import Story from 'src/interfaces/Story';
 import Interface from 'src/interfaces/Interface';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     story: Story

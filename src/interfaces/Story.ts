@@ -3,6 +3,7 @@ import Interface from './Interface';
 import Action from './Action';
 import { ACTION_INITIAL } from 'src/utils/constants';
 import { saveStory } from 'src/utils/api';
+import Role from './Role';
 
 interface Story {
     id: number

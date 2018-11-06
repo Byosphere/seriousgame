@@ -18,6 +18,7 @@ import Story from 'src/interfaces/Story';
 import Action from 'src/interfaces/Action';
 import ConfirmDialog from 'src/components/confirmdialog/ConfirmDialog';
 import { ConfirmMessage } from 'src/interfaces/ConfirmMessage';
+import Role from 'src/interfaces/Role';
 
 interface Props {
 	openSnackbar: boolean

@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
 import { displaySnackbar } from 'src/actions/snackbarActions';
 import Loader from 'src/components/loader/Loader';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     stories: Array<Story>

@@ -3,9 +3,10 @@ import './rolecreator.css';
 import T from 'i18n-react';
 import { saveRoles } from 'src/utils/api';
 import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment } from '@material-ui/core';
-import { Save, Create, Delete, Brightness1 } from '@material-ui/icons';
+import { Save, Delete, Brightness1, PersonAdd } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { displaySnackbar } from 'src/actions/snackbarActions';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     roles: Array<Role>
@@ -36,22 +37,17 @@ class RoleCreator extends React.Component<Props, State> {
         do {
             id = Math.floor(Math.random() * 100000);
         } while (this.props.roles.find(role => { return role.id === id }));
-
-        this.props.roles.push({
-            id: id,
-            name: "",
-            description: "",
-            color: "",
-            disabled: false,
-            soustitre: "",
-            image: ""
-        });
+        this.props.roles.push(new Role(id, ''));
         this.forceUpdate();
     }
 
     public save() {
         this.setState({ saving: true });
-        saveRoles(this.props.roles, (err: any) => {
+        let rolesData: Array<RoleData> = [];
+        this.props.roles.forEach(role => {
+            rolesData.push(role.toJsonData());
+        });
+        saveRoles(rolesData, (err: any) => {
             this.props.displaySnackbar(T.translate('role.saved').toString());
             this.setState({ saving: false });
         });
@@ -75,7 +71,7 @@ class RoleCreator extends React.Component<Props, State> {
                                     <Save />
                                 </IconButton>
                                 <IconButton onClick={() => this.addRole()}>
-                                    <Create />
+                                    <PersonAdd />
                                 </IconButton>
                             </div>
                         }

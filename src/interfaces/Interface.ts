@@ -3,6 +3,7 @@ import Message from './Message';
 import { isBoolean } from 'util';
 import Action from './Action';
 import T from 'i18n-react';
+import Role from './Role';
 
 interface Interface {
     roleId: number
