@@ -59,7 +59,7 @@ class PageCreator extends React.Component<Props, State> {
     }
 
     public addPage() {
-        let id: number = 0;
+        let id: number = 1;
         if (this.props.pages.length) {
             id = this.props.pages[this.props.pages.length - 1].id + 1;
         }
@@ -108,7 +108,12 @@ class PageCreator extends React.Component<Props, State> {
     public duplicatePageToInterface(event: any, i: number, page: Page, roleId: number): any {
         let interf = this.props.currentStory.interfaces.find(int => { return int.roleId === roleId });
         if (interf) {
-            interf.pages.push(page.copy(interf.pages[interf.pages.length - 1].id + 1));
+            if(interf.pages.length) {
+                interf.pages.push(page.copy(interf.pages[interf.pages.length - 1].id + 1));
+            } else {
+                interf.pages.push(page.copy(1));
+            }
+
             this.props.displaySnackbar(T.translate('interface.page.pageduplicated'));
         }
         this.closeSubmenu(event, i);
