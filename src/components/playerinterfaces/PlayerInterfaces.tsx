@@ -66,6 +66,10 @@ class PlayerInterfaces extends React.Component<Props, State> {
             this.props.story.interfaces[this.state.tab] = new Interface();
         }
 
+        if (this.state.tab >= this.props.story.nbPlayers) {
+            this.setState({ tab: this.props.story.nbPlayers - 1 });
+        }
+
         return (
             <div className="player-interfaces">
                 <Card>

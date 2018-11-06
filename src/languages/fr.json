@@ -92,7 +92,8 @@
         "cancel": "Annuler",
         "validate": "Valider",
         "delete": "Supprimer",
-        "duplicate": "Dupliquer"
+        "duplicate": "Dupliquer",
+        "duplicatefor": "Dupliquer pour..."
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -111,10 +112,13 @@
         "rows": "Nombre de lignes",
         "components": "Composants",
         "background": "Fond d'écran",
+        "interfaceof": "Interface de ",
+        "deletewarning": "Êtes-vous sûr de vouloir supprimer l'interface du joueur {playerId} ?",
         "page": {
             "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape d'action. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",
+            "pageduplicated": "La page a bien été copiée",
             "addcomponent": "Ajouter un composant",
             "deletecomponent": "Êtes-vous sûr de vouloir supprimer ce composant :",
             "modalcomponent": {

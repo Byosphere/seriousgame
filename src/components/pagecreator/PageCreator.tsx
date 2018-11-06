@@ -2,13 +2,15 @@ import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
 import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu } from '@material-ui/core';
-import { ExpandMore, MoreVert, LibraryAdd } from '@material-ui/icons';
+import { ExpandMore, MoreVert, LibraryAdd, ArrowRight } from '@material-ui/icons';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
 import Component from 'src/interfaces/Component';
 import { displayConfirmDialog, displaySnackbar } from 'src/actions/snackbarActions';
 import ComponentCreator from '../componentcreator/ComponentCreator';
+import Story from 'src/interfaces/Story';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     pages: Array<Page>
@@ -16,12 +18,15 @@ interface Props {
     displayConfirmDialog: Function
     displaySnackbar: Function
     hasIa: boolean
+    roles: Array<Role>
+    currentStory: Story
 }
 
 interface State {
     selectedPage: number
     selectedComponent: Array<Component>
     menuEl: Array<any>
+    submenuEl: Array<any>
 }
 
 class PageCreator extends React.Component<Props, State> {
@@ -32,7 +37,8 @@ class PageCreator extends React.Component<Props, State> {
         this.state = {
             selectedPage: 0,
             selectedComponent: [],
-            menuEl: []
+            menuEl: [],
+            submenuEl: []
         }
     }
 
@@ -95,10 +101,32 @@ class PageCreator extends React.Component<Props, State> {
 
     public duplicatePage(event: any, i: number) {
         this.closeMenu(event, i);
-        let page = this.props.pages[i].copy();
-        page.id = this.props.pages[this.props.pages.length - 1].id + 1;
-        this.props.pages.push(page);
+        this.props.pages.push(this.props.pages[i].copy(this.props.pages[this.props.pages.length - 1].id + 1));
         this.forceUpdate();
+    }
+
+    public duplicatePageToInterface(event: any, i: number, page: Page, roleId: number): any {
+        let interf = this.props.currentStory.interfaces.find(int => { return int.roleId === roleId });
+        if (interf) {
+            interf.pages.push(page.copy(interf.pages[interf.pages.length - 1].id + 1));
+            this.props.displaySnackbar(T.translate('interface.page.pageduplicated'));
+        }
+        this.closeSubmenu(event, i);
+        this.closeMenu(event, i);
+    }
+
+    public closeSubmenu(event: any, i: number): any {
+        event.stopPropagation();
+        let submenuEl = this.state.submenuEl;
+        submenuEl[i] = null;
+        this.setState({ submenuEl });
+    }
+
+    public openSubmenu(event: any, i: number): any {
+        event.stopPropagation();
+        let submenuEl = this.state.submenuEl;
+        submenuEl[i] = event.currentTarget.getElementsByClassName('submenu')[0];
+        this.setState({ submenuEl });
     }
 
     public onChange(event: any, name: string, page: Page) {
@@ -125,6 +153,24 @@ class PageCreator extends React.Component<Props, State> {
                                         onClose={event => { this.closeMenu(event, i); }}
                                     >
                                         <MenuItem onClick={event => { this.duplicatePage(event, i) }}>{T.translate('generic.duplicate')}</MenuItem>
+                                        <MenuItem disabled={!this.props.roles.length} style={{ paddingRight: '25px' }} onClick={event => { this.openSubmenu(event, i) }}>
+                                            {T.translate('generic.duplicatefor')}
+                                            <div className="submenu">
+                                                <ArrowRight />
+                                                <Menu
+                                                    id={"submenu" + i}
+                                                    anchorEl={this.state.submenuEl[i]}
+                                                    open={Boolean(this.state.submenuEl[i])}
+                                                    onClose={event => { this.closeSubmenu(event, i); }}
+                                                    style={{ marginLeft: "25px" }}
+                                                >
+                                                    {this.props.roles.map((role, i) => {
+                                                        if (!role) return null;
+                                                        return (<MenuItem key={i} onClick={event => { this.duplicatePageToInterface(event, i, page, role.id) }}>{T.translate('interface.interfaceof') + role.name}</MenuItem>);
+                                                    })}
+                                                </Menu>
+                                            </div>
+                                        </MenuItem>
                                         <MenuItem onClick={event => { this.deletePage(event, i) }}>{T.translate('generic.delete')}</MenuItem>
                                     </Menu>
                                     <Typography style={{ display: 'inline-block', marginLeft: '5px' }}>{T.translate('generic.page') + ' ' + (i + 1)}</Typography>
@@ -199,7 +245,8 @@ class PageCreator extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-        selectedAction: state.story.action
+        selectedAction: state.story.action,
+        currentStory: state.story.story
     }
 }
 

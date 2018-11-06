@@ -44,3 +44,9 @@
 .page-creator .float-button button {
     pointer-events: visible;
 }
+
+.submenu {
+    position: absolute;
+    right: 2px;
+    top: calc(50% - 11px);
+}

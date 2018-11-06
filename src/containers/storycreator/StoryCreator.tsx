@@ -9,7 +9,7 @@ import { Save } from '@material-ui/icons';
 import Story from 'src/interfaces/Story';
 import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
-import { displaySnackbar } from 'src/actions/snackbarActions';
+import { displaySnackbar, displayConfirmDialog } from 'src/actions/snackbarActions';
 import Loader from 'src/components/loader/Loader';
 import Role from 'src/interfaces/Role';
 
@@ -20,6 +20,7 @@ interface Props {
     selectedStory: Story
     initialStory: Story
     displaySnackbar: Function
+    displayConfirmDialog: Function
 }
 
 interface State {
@@ -38,11 +39,21 @@ class StoryCreator extends React.Component<Props, State> {
 
     public handleChange(event: any, name: string) {
         let selectedStory = this.props.selectedStory;
-        selectedStory[name] = event.target.value;
-        if (name === "nbPlayers" && this.props.selectedStory.interfaces.length > event.target.value) {
-            selectedStory.interfaces.length = event.target.value;
+        let value = event.target.value
+        if (name === "nbPlayers" && this.props.selectedStory.interfaces.length > parseInt(value)) {
+            this.props.displayConfirmDialog({
+                title: T.translate('generic.warning'),
+                content: T.translate('interface.deletewarning', { playerId: (parseInt(value) + 1) }),
+                confirm: () => {
+                    selectedStory.interfaces.length = parseInt(value);
+                    selectedStory[name] = parseInt(value);
+                    this.forceUpdate();
+                }
+            });
+        } else {
+            selectedStory[name] = value;
+            this.forceUpdate();
         }
-        this.forceUpdate();
     }
 
     public saveStory() {
@@ -111,7 +122,7 @@ class StoryCreator extends React.Component<Props, State> {
         } else if (this.props.stories.length === 0) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving}/>
+                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
                     <Card className="no-stories">
                         <p>{T.translate("story.create")}</p>
                     </Card>
@@ -131,4 +142,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, { selectCurrentStory, displaySnackbar })(StoryCreator);
+export default connect(mapStateToProps, { selectCurrentStory, displaySnackbar, displayConfirmDialog })(StoryCreator);

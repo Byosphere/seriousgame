@@ -7,6 +7,7 @@ import { ORANGE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
 import PageCreator from '../pagecreator/PageCreator';
 import Interface from 'src/interfaces/Interface';
+import Role from 'src/interfaces/Role';
 
 interface Props {
     interface: Interface
@@ -53,6 +54,14 @@ class InterfaceCreator extends React.Component<Props, State> {
 
         let selectedRole = this.props.roles.find((role) => { return role && this.props.interface.roleId === role.id });
         let contentStyle = this.props.interface.displayIa ? { gridTemplateColumns: '1fr 250px' } : { gridTemplateColumns: '1fr' };
+        let roles: Array<Role> = [];
+        this.props.selectedRoles.forEach((roleId, i) => {
+            if (roleId !== this.props.interface.roleId) {
+                if (roleId) {
+                    roles.push(this.props.roles.find(role => { return role.id === roleId }));
+                }
+            }
+        });
 
         return (
             <div className="interface-creator">
@@ -96,7 +105,7 @@ class InterfaceCreator extends React.Component<Props, State> {
                 </AppBar>
                 <div className="interface-creator-content" style={contentStyle}>
                     {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
-                    <PageCreator pages={this.props.interface.pages} hasIa={this.props.interface.displayIa} />
+                    <PageCreator pages={this.props.interface.pages} hasIa={this.props.interface.displayIa} roles={roles} />
                 </div>
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>
