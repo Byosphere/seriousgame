@@ -6,12 +6,22 @@ export const HAUT = 'haut';
 export const BAS = 'bas';
 
 export const ACTION_INITIAL = 'initial_action';
-
-export const COMPONENTS_LIST = [
-    'Quizz',
-    'QuizzButton',
-    'ActionButton'
-];
+export const PLACEMENT = [
+    'center',
+    'top_left',
+    'top_right',
+    'bottom_left',
+    'bottom_right',
+    'top_center',
+    'bottom_center'
+]
+/*
+ + + + + + IN GAME COMPONENTS LIST + + + + +
+*/
+export const DYNAMIC_COMPONENTS = {
+    'Quizz': require('../components/quizzdialog/QuizzDialog').default,
+    'ActionButton': require('../components/actionbutton/ActionButton').default,
+};
 
 /*
  + + + + + REDUX CONSTANTS + + + + +

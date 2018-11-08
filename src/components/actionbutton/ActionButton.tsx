@@ -14,7 +14,18 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
         this.state = {
             disabled: false
         }
+        if (!this.props.component.params || !this.props.component.params.text)
+            throw ("Parameter 'text' not found");
     }
+
+    public static getParamModel() {
+        return {
+            "text": "Le texte du bouton (ne doit pas être null)",
+            "size": "Small | Big | null",
+            "color": "Primary | Default | null"
+        }
+    }
+
     public click() {
         this.setState({
             disabled: true
@@ -24,7 +35,7 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
 
     render() {
         return (
-            <Button variant="contained" disabled={this.state.disabled} onClick={() => { this.click() }}>Envoyer action</Button>
+            <Button variant="contained" disabled={this.state.disabled} onClick={() => { this.click() }}>{this.props.component.params.text}</Button>
         );
     }
 }

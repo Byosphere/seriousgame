@@ -19,3 +19,5 @@ html, body, #root, .app {
 h2 {
     margin: 0;
 }
+
+.key { color: red; }

@@ -3,12 +3,13 @@ import './componentcreator.css';
 import T from 'i18n-react';
 import Page from 'src/interfaces/Page';
 import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Checkbox, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText } from '@material-ui/core';
-import { COMPONENTS_LIST } from 'src/utils/constants';
+import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 import Component from 'src/interfaces/Component';
 import { Delete, Edit, Help } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import Action from 'src/interfaces/Action';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
+import { syntaxHighlight } from 'src/utils/tools';
 
 interface Props {
     page: Page
@@ -24,6 +25,7 @@ interface State {
     stringParams: string
     paramsError: string
     typeError: string
+    help: string
 }
 
 class ComponentCreator extends React.Component<Props, State> {
@@ -37,7 +39,8 @@ class ComponentCreator extends React.Component<Props, State> {
             index: -1,
             stringParams: '',
             paramsError: '',
-            typeError: ''
+            typeError: '',
+            help: ''
         }
     }
 
@@ -129,8 +132,10 @@ class ComponentCreator extends React.Component<Props, State> {
         this.setState({ selectedComponent });
     }
 
-    public showHelp(): void {
-        // TODO
+    public showHelp(type: string): void {
+        this.setState({
+            help: JSON.stringify(DYNAMIC_COMPONENTS[type].getParamModel(), undefined, 4)
+        });
     }
 
     public handleParams(event: any) {
@@ -167,9 +172,20 @@ class ComponentCreator extends React.Component<Props, State> {
                 </div>
                 {this.state.selectedComponent && <Dialog open={this.state.open} onClose={() => { this.onCancel() }}>
                     <DialogTitle id="component-creator-modal">{T.translate('interface.page.modalcomponent.title') + ' ' + this.state.selectedComponent.name}</DialogTitle>
-                    <Button onClick={() => this.showHelp()} mini variant="fab" color="primary" aria-label="Help" className="cmp-modal-help">
+                    <Button onClick={() => this.showHelp(this.state.selectedComponent.type)} mini variant="fab" color="primary" aria-label="Help" className="cmp-modal-help">
                         <Help />
                     </Button>
+                    <Dialog open={Boolean(this.state.help)} onClose={() => { this.setState({ help: '' }) }}>
+                        <DialogTitle>{T.translate('interface.page.modalcomponent.help', { type: this.state.selectedComponent.type })}</DialogTitle>
+                        <DialogContent>
+                            <pre dangerouslySetInnerHTML={{ __html: syntaxHighlight(this.state.help) }} />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => this.setState({ help: '' })} >
+                                {T.translate('generic.cancel')}
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                     <DialogContent>
                         <TextField
                             id="outlined-name"
@@ -195,7 +211,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                         id="outlined-type"
                                     />
                                 } >
-                                {COMPONENTS_LIST.map((cmpType, i) => {
+                                {Object.keys(DYNAMIC_COMPONENTS).map((cmpType, i) => {
                                     return (
                                         <MenuItem key={i} value={cmpType}>{cmpType}</MenuItem>
                                     );
@@ -203,7 +219,7 @@ class ComponentCreator extends React.Component<Props, State> {
                             </Select>
                             {Boolean(this.state.typeError) && <FormHelperText style={{ color: "#f44336", marginBottom: "10px" }}>{this.state.typeError}</FormHelperText>}
                         </FormControl>
-                        <div>
+                        <div className="component-input-inline">
                             <TextField
                                 id="outlined-posX"
                                 label={T.translate('interface.page.modalcomponent.posx')}
@@ -222,6 +238,26 @@ class ComponentCreator extends React.Component<Props, State> {
                                 variant="outlined"
                                 style={{ marginLeft: '5px' }}
                             />
+                            <FormControl className="placement" variant="outlined">
+                                <InputLabel id="label-place" htmlFor="component-place">{T.translate('interface.page.modalcomponent.place')}</InputLabel>
+                                <Select
+                                    displayEmpty
+                                    value={this.state.selectedComponent.position}
+                                    onChange={event => { this.handleChange(event, 'position') }}
+                                    input={
+                                        <OutlinedInput
+                                            labelWidth={80}
+                                            name="position"
+                                            id="component-place"
+                                        />
+                                    } >
+                                    {PLACEMENT.map((p, i) => {
+                                        return (
+                                            <MenuItem key={i} value={p}>{T.translate('generic.placement.'+p)}</MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                            </FormControl>
                         </div>
                         <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
                             <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>

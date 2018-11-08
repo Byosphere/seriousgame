@@ -34,6 +34,10 @@ class QuizzDialog extends React.Component<GameProps, State> implements GameCompo
         return <Slide direction="down" {...props} />
     }
 
+    public static getParamModel(): string {
+        return '';
+    }
+
     public checkResponse(i: number) {
 
         if (this.props.component.params.answers[i].details) {
