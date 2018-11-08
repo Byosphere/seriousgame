@@ -87,19 +87,24 @@ class RoleSelect extends React.Component<Props, State> {
                 <Loader textKey="loader.gamemasterwait" />
             );
         } else if (this.state.roles.length && this.state.story) {
+
+            let cardWidth = Math.floor(100/this.state.roles.length) + '%';
+
             return (
                 <div className="player">
                     <h1>{T.translate('player.titleselect')}</h1>
-                    {this.state.roles.map((role, i) => {
-                        return (
-                            <Card data-index={i} key={i} onClick={this.handleSelect} className={"card-" + i + (this.state.roles.length > 3 ? "" : " large") + (role.disabled ? " disabled" : "")}>
-                                <CardHeader
-                                    title={role.name}
-                                    subheader={role.description}
-                                />
-                            </Card>
-                        );
-                    })}
+                    <div className="role-cards">
+                        {this.state.roles.map((role, i) => {
+                            return (
+                                <Card style={{width: cardWidth}} data-index={i} key={i} onClick={this.handleSelect} className={"card-" + i + (role.disabled ? " disabled" : "")}>
+                                    <CardHeader
+                                        title={role.name}
+                                        subheader={role.description}
+                                    />
+                                </Card>
+                            );
+                        })}
+                    </div>
                 </div>
             );
         } else {

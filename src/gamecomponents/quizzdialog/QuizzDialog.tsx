@@ -34,8 +34,17 @@ class QuizzDialog extends React.Component<GameProps, State> implements GameCompo
         return <Slide direction="down" {...props} />
     }
 
-    public static getParamModel(): string {
-        return '';
+    public static getParamModel() {
+        return {
+            "question": "Question du quizz (chaine de caractères)",
+            "answers": [
+                {
+                    "label": "Intitulé de la propositon (chaine de caractères)",
+                    "correct": "false | true (boolean)",
+                    "details": "Message d'explication après clic (chaine de caractères)"
+                }
+            ]
+        };
     }
 
     public checkResponse(i: number) {
@@ -78,7 +87,7 @@ class QuizzDialog extends React.Component<GameProps, State> implements GameCompo
     }
 
     public onClose() {
-        this.setState({visible: false});
+        this.setState({ visible: false });
         if (this.props.component.clickAction) {
             this.props.sendAction(this.props.component.clickAction);
         }
@@ -86,7 +95,7 @@ class QuizzDialog extends React.Component<GameProps, State> implements GameCompo
 
     render() {
 
-        if(!this.state.visible) return null;
+        if (!this.state.visible) return null;
 
         return (
             <Dialog TransitionComponent={this.transition} aria-labelledby="quizz-dialog" open={this.state.visible}>

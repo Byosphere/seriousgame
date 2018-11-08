@@ -172,7 +172,7 @@ class ComponentCreator extends React.Component<Props, State> {
                 </div>
                 {this.state.selectedComponent && <Dialog open={this.state.open} onClose={() => { this.onCancel() }}>
                     <DialogTitle id="component-creator-modal">{T.translate('interface.page.modalcomponent.title') + ' ' + this.state.selectedComponent.name}</DialogTitle>
-                    <Button onClick={() => this.showHelp(this.state.selectedComponent.type)} mini variant="fab" color="primary" aria-label="Help" className="cmp-modal-help">
+                    <Button disabled={!this.state.selectedComponent.type} onClick={() => this.showHelp(this.state.selectedComponent.type)} mini variant="fab" color="primary" aria-label="Help" className="cmp-modal-help">
                         <Help />
                     </Button>
                     <Dialog open={Boolean(this.state.help)} onClose={() => { this.setState({ help: '' }) }}>

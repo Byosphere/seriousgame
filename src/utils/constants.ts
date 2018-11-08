@@ -19,8 +19,9 @@ export const PLACEMENT = [
  + + + + + IN GAME COMPONENTS LIST + + + + +
 */
 export const DYNAMIC_COMPONENTS = {
-    'Quizz': require('../components/quizzdialog/QuizzDialog').default,
-    'ActionButton': require('../components/actionbutton/ActionButton').default,
+    'Quizz': require('../gamecomponents/quizzdialog/QuizzDialog').default,
+    'ActionButton': require('../gamecomponents/actionbutton/ActionButton').default,
+    'ImageClickable': require('../gamecomponents/imageclickable/ImageClickable').default
 };
 
 /*

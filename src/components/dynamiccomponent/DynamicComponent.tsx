@@ -43,6 +43,7 @@ class DynamicComponent extends React.Component<Props, State> {
     public render() {
         if (!this.canRenderComponent()) return null;
         this.props.style.display = "flex";
+        this.props.style.overflow = "hidden";
         switch (this.props.component.position) {
             case PLACEMENT[0]:
                 this.props.style.alignItems = "center";

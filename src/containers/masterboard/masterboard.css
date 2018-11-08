@@ -18,6 +18,7 @@ td.red {
 
 .app-title {
     flex-grow: 1;
+    font-size: 1.6rem;
 }
 
 .actions-list {
