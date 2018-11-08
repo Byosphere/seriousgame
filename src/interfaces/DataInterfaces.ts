@@ -46,6 +46,7 @@ interface ComponentData {
     name: string
     cols: string
     rows: string
+    position: string
     actionToDisplay?: Array<string>
     clickAction?: string
     params?: any

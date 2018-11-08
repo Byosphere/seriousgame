@@ -1,9 +1,7 @@
 import * as React from 'react';
-import ImageClickable from '../imageclickable/ImageClickable';
-import ActionButton from '../actionbutton/ActionButton';
 import { sendAction } from 'src/utils/api';
-import QuizzDialog from '../quizzdialog/QuizzDialog';
 import Component from 'src/interfaces/Component';
+import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 
 interface Props {
     component: Component
@@ -11,7 +9,9 @@ interface Props {
     lastAction: string
 }
 
-interface State { }
+interface State {
+
+}
 
 class DynamicComponent extends React.Component<Props, State> {
 
@@ -32,26 +32,47 @@ class DynamicComponent extends React.Component<Props, State> {
     }
 
     public selectComponent() {
-        switch (this.props.component.name) {
-            case 'ImageClickable':
-                return (<ImageClickable component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
-
-            case 'ActionButton':
-                return (<ActionButton component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
-
-            case 'Quizz':
-                return (<QuizzDialog component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
-
-            case '':
-                return (<div></div>);
-
-            default:
-                throw ("Le composant " + this.props.component.name + " n'existe pas.");
+        let Cmp = DYNAMIC_COMPONENTS[this.props.component.type];
+        if (Cmp) {
+            return (<Cmp component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
+        } else {
+            throw ("Le composant " + this.props.component.type + " n'existe pas.");
         }
     }
 
     public render() {
         if (!this.canRenderComponent()) return null;
+        this.props.style.display = "flex";
+        switch (this.props.component.position) {
+            case PLACEMENT[0]:
+                this.props.style.alignItems = "center";
+                this.props.style.justifyContent = "center";
+                break;
+            case PLACEMENT[1]:
+                this.props.style.alignItems = "flex-start";
+                this.props.style.justifyContent = "flex-start";
+                break;
+            case PLACEMENT[2]:
+                this.props.style.alignItems = "flex-start";
+                this.props.style.justifyContent = "flex-end";
+                break;
+            case PLACEMENT[3]:
+                this.props.style.alignItems = "flex-end";
+                this.props.style.justifyContent = "flex-start";
+                break;
+            case PLACEMENT[4]:
+                this.props.style.alignItems = "flex-end";
+                this.props.style.justifyContent = "flex-end";
+                break;
+            case PLACEMENT[5]:
+                this.props.style.alignItems = "flex-start";
+                this.props.style.justifyContent = "center";
+                break;
+            case PLACEMENT[6]:
+                this.props.style.alignItems = "flex-end";
+                this.props.style.justifyContent = "center";
+                break;
+        }
 
         return (
             <div className="component-container" style={this.props.style}>

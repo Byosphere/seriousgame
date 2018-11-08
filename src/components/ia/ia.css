@@ -3,6 +3,7 @@
     top: 90px;
     left: calc(50% - 30%);
     width: 60%;
+    z-index: 1;
 }
 
 .ia-modal>div {

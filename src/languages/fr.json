@@ -93,7 +93,16 @@
         "validate": "Valider",
         "delete": "Supprimer",
         "duplicate": "Dupliquer",
-        "duplicatefor": "Dupliquer pour..."
+        "duplicatefor": "Dupliquer pour...",
+        "placement": {
+            "center":"Centrer",
+            "top_left":"Haut à gauche",
+            "top_right":"Haut à droite",
+            "bottom_left":"Bas à gauche",
+            "bottom_right": "Bas à droite",
+            "top_center": "Haut centré",
+            "bottom_center": "Bas centré"
+        }
     },
     "ia": {
         "activate": "Activer l'IA",
@@ -128,7 +137,9 @@
                 "clickaction": "Action au clic",
                 "params": "Paramètres",
                 "posx": "Position en X",
-                "posy": "Position en Y"
+                "posy": "Position en Y",
+                "place": "Placement",
+                "help": "Liste des paramètres du composant : {type}"
             }
         }
     },
