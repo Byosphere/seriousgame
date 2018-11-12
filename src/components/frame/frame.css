@@ -1,0 +1,14 @@
+.frame {
+    background-color: #CC6100;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    align-items: center;
+}
+
+.frame .app-title {
+    margin: 0 10px;
+    padding: 0;
+    font-size: 12px;
+    color: white;
+}

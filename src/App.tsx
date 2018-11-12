@@ -7,6 +7,7 @@ import { gameConnect, onDisconnect } from './utils/api';
 import { INSTRUCTOR, PLAYER } from './utils/constants';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Loader from './components/loader/Loader';
+import Frame from './components/frame/Frame';
 
 interface Props { store: any }
 interface State {
@@ -84,6 +85,7 @@ class App extends React.Component<Props, State> {
 			return (
 				<HashRouter>
 					<div className="app">
+						{window && window["process"] && window["process"].type && <Frame />}
 						<Switch>
 							<Route exact path='/masterboard' component={MasterBoard} />
 							<Route exact path='/roleselect' component={RoleSelect} />

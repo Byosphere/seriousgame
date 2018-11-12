@@ -9,10 +9,19 @@ html, body, #root, .app {
 * {
     box-sizing: border-box;
 }
+.app>div.frame {
+    width: 100%;
+    height: 30px;
+}
 
 .app>div {
     width: 100%;
     height: 100%;
+}
+
+.app>.frame ~ div {
+    width: 100%;
+    height: calc(100% - 30px);
     background-color: #EFEFEF;
 }
 
