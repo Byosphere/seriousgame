@@ -69,6 +69,7 @@ class App extends React.Component<Props, State> {
 			return (
 				<HashRouter>
 					<div className="app">
+						{window && window["process"] && window["process"].type && <Frame />}
 						<Loader textKey="loader.serverwait" />
 					</div>
 				</HashRouter >
@@ -77,6 +78,7 @@ class App extends React.Component<Props, State> {
 			return (
 				<HashRouter>
 					<div className="app">
+						{window && window["process"] && window["process"].type && <Frame />}
 						<Loader textKey="loader.disconnected" />
 					</div>
 				</HashRouter >
