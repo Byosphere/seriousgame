@@ -58,17 +58,26 @@
         "deletewarning": "Êtes-vous sûr de vouloir supprimer cette story ?"
     },
     "role": {
-        "list": "Liste des rôles",
+        "list": "Rôles",
         "name": "Nom",
         "description": "Description",
         "image": "Image",
         "soustitre": "Sous Titre",
         "color": "Thème de couleur",
         "load": "Chargement des rôles...",
-        "no-role": "Aucun rôle configuré. Créez un rôle en cliquant sur l'icone en haut à droite.",
+        "norole": "Aucun rôle configuré. Créez un rôle en cliquant sur l'icone en haut à droite.",
         "choose": "Choisis le rôle pour cette interface",
         "none": "Retirer le rôle",
-        "saved": "Rôles sauvegardés !"
+        "saved": "Rôles sauvegardés !",
+        "edit": "Modifier {name}",
+        "theme": "Accent de couleur",
+        "surtitre": "Dans la peau de",
+        "new": "Nouveau rôle",
+        "helper": {
+            "desc": "La description accepte les balises HTML du type <b>, <br />, <li>, <i> pour mettre en forme le texte.",
+            "color": "Ce champs prend en compte tous les formats que prend la propriété CSS 'color'.",
+            "img": "Ce champs requiert le chemin relatif vers l'image voulue."
+        }
     },
     "loader": {
         "serverwait": "En attente du serveur...",
@@ -95,14 +104,16 @@
         "duplicate": "Dupliquer",
         "duplicatefor": "Dupliquer pour...",
         "placement": {
-            "center":"Centrer",
-            "top_left":"Haut à gauche",
-            "top_right":"Haut à droite",
-            "bottom_left":"Bas à gauche",
+            "center": "Centrer",
+            "top_left": "Haut à gauche",
+            "top_right": "Haut à droite",
+            "bottom_left": "Bas à gauche",
             "bottom_right": "Bas à droite",
             "top_center": "Haut centré",
             "bottom_center": "Bas centré"
-        }
+        },
+        "dark": "Sombre",
+        "light": "Lumineux"
     },
     "ia": {
         "activate": "Activer l'IA",

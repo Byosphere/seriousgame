@@ -180,7 +180,7 @@ class MasterBoard extends React.Component<Props, State> {
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
-				{this.state.tabValue === 2 && <RoleCreator roles={this.state.roles} />}
+				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}
 				<MasterSnackbar open={this.props.openSnackbar} message={this.props.snackbarMessage} onClose={() => { this.snackbarClose() }} />
 				<ConfirmDialog open={this.props.openConfirmDialog} message={this.props.confirmDialogInfo} onClose={() => {this.props.closeConfirmDialog()}} />
 			</div >

@@ -2,19 +2,25 @@ import * as React from 'react';
 import './rolecreator.css';
 import T from 'i18n-react';
 import { saveRoles } from 'src/utils/api';
-import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment } from '@material-ui/core';
-import { Save, Delete, Brightness1, PersonAdd } from '@material-ui/icons';
+import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment, CardContent, List, ListItem, ListItemText, ListItemSecondaryAction, Menu, MenuItem, ListItemIcon, Divider, FormControl, InputLabel, Select, OutlinedInput, Chip, Avatar } from '@material-ui/core';
+import { Save, Delete, Brightness1, PersonAdd, MoreVert, PlaylistAdd } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { displaySnackbar } from 'src/actions/snackbarActions';
 import Role from 'src/interfaces/Role';
+import Story from 'src/interfaces/Story';
+import RoleCard from 'src/components/rolecard/RoleCard';
+import { DARK, LIGHT } from 'src/utils/constants';
 
 interface Props {
     roles: Array<Role>
     displaySnackbar: Function
+    stories: Array<Story>
 }
 
 interface State {
     saving: boolean
+    menuEl: Array<any>
+    selectedRole: Role
 }
 
 class RoleCreator extends React.Component<Props, State> {
@@ -23,12 +29,14 @@ class RoleCreator extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            saving: false
+            saving: false,
+            menuEl: [],
+            selectedRole: this.props.roles[0]
         };
     }
 
-    public handleChange(event: any, index: number, name: string) {
-        this.props.roles[index][name] = event.target.value;
+    public handleChange(event: any, name: string) {
+        this.state.selectedRole[name] = event.target.value;
         this.forceUpdate();
     }
 
@@ -37,7 +45,7 @@ class RoleCreator extends React.Component<Props, State> {
         do {
             id = Math.floor(Math.random() * 100000);
         } while (this.props.roles.find(role => { return role.id === id }));
-        this.props.roles.push(new Role(id, ''));
+        this.props.roles.push(new Role(id, T.translate('role.new').toString()));
         this.forceUpdate();
     }
 
@@ -53,15 +61,50 @@ class RoleCreator extends React.Component<Props, State> {
         });
     }
 
-    public delete(i: number) {
+    public deleteRole(event: any, i: number): any {
         this.props.roles.splice(i, 1);
         this.forceUpdate();
     }
+    public duplicateRole(event: any, role: Role): any {
+        let id = 0;
+        do {
+            id = Math.floor(Math.random() * 100000);
+        } while (this.props.roles.find(role => { return role.id === id }));
+        let duplicate = role.copy(id);
+        this.props.roles.push(duplicate);
+        this.selectRole(duplicate);
+    }
+
+    public closeMenu(event: any, id: number) {
+        event.stopPropagation();
+        let menuEl = this.state.menuEl;
+        menuEl[id] = null;
+        this.setState({ menuEl });
+    }
+
+    public openMenu(event: any, id: number) {
+        event.stopPropagation();
+        let menuEl = this.state.menuEl;
+        menuEl[id] = event.currentTarget;
+        this.setState({ menuEl });
+    }
+
+    public selectRole(role: Role): any {
+        this.setState({ selectedRole: role });
+    }
 
     public render() {
+
+        let selectedRoleId = this.state.selectedRole.id
+        let stories: Array<Story> = [];
+        this.props.stories.forEach(story => {
+            let int = story.interfaces.find(int => { return int.roleId === selectedRoleId });
+            if (int) stories.push(story);
+        });
+
         return (
             <div className="role-creator">
-                <Card className="list" style={{ gridColumn: '1 / 3' }}>
+                <Card className="role-list">
                     <CardHeader
                         title={T.translate('role.list')}
                         component="h2"
@@ -76,84 +119,124 @@ class RoleCreator extends React.Component<Props, State> {
                             </div>
                         }
                     />
-                    <div className="table-wrapper">
-                        {!this.props.roles.length && <p className="no-role">{T.translate('role.no-role')}</p>}
-                        <Table>
-                            <TableBody>
-                                {this.props.roles.map((role, i) => {
-                                    return (<TableRow hover key={role.id}>
-                                        <TableCell style={{ width: '200px' }} component="th" scope="row">
-                                            <TextField
-                                                id="name"
-                                                label={T.translate('role.name')}
-                                                value={role.name}
-                                                onChange={evt => this.handleChange(evt, i, 'name')}
-                                                margin="normal"
-                                                variant="outlined"
-                                            />
-                                        </TableCell>
-                                        <TableCell scope="row">
-                                            <TextField
-                                                id="soustitre"
-                                                label={T.translate('role.soustitre')}
-                                                value={role.soustitre}
-                                                onChange={evt => this.handleChange(evt, i, 'soustitre')}
-                                                margin="normal"
-                                                variant="outlined"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                        <TableCell scope="row">
-                                            <TextField
-                                                id="description"
-                                                label={T.translate('role.description')}
-                                                value={role.description}
-                                                onChange={evt => this.handleChange(evt, i, 'description')}
-                                                margin="normal"
-                                                variant="outlined"
-                                                fullWidth
-                                                multiline
-                                            />
-                                        </TableCell>
-                                        <TableCell scope="row" className="colors">
-                                            <TextField
-                                                id="color"
-                                                label={T.translate('role.color')}
-                                                value={role.color}
-                                                onChange={evt => this.handleChange(evt, i, 'color')}
-                                                margin="normal"
-                                                variant="outlined"
-                                                fullWidth
-                                                InputProps={{
-                                                    startAdornment: <InputAdornment position="start"><Brightness1 style={{ color: role.color }} /></InputAdornment>,
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell scope="row">
-                                            <TextField
-                                                id="image"
-                                                label={T.translate('role.image')}
-                                                value={role.image}
-                                                onChange={evt => this.handleChange(evt, i, 'image')}
-                                                margin="normal"
-                                                variant="outlined"
-                                                fullWidth
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <IconButton onClick={() => this.delete(i)}>
-                                                <Delete />
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>);
-                                })}
-                            </TableBody>
-                        </Table>
-                    </div>
+                    <List dense>
+                        {this.props.roles.length === 0 && <ListItem style={{ opacity: 0.5 }}>
+                            <ListItemText primary={T.translate('role.norole')} />
+                        </ListItem>}
+                        {this.props.roles.map((role, i) => {
+                            if (role) return (
+                                <ListItem onClick={() => { this.selectRole(role) }} selected={this.state.selectedRole && this.state.selectedRole.id === role.id} button key={i}>
+                                    <ListItemText primary={role.name} />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-owns={this.state.menuEl ? 'menu ' + role.name : null} onClick={event => { this.openMenu(event, i) }} aria-label="More" aria-haspopup="true">
+                                            <MoreVert fontSize="small" />
+                                        </IconButton>
+                                        <Menu
+                                            id={"menu " + role.name}
+                                            anchorEl={this.state.menuEl[i]}
+                                            open={Boolean(this.state.menuEl[i])}
+                                            onClose={event => { this.closeMenu(event, i) }}
+                                        >
+                                            <MenuItem onClick={event => { this.duplicateRole(event, role) }}>{T.translate('generic.duplicate')}</MenuItem>
+                                            <MenuItem onClick={event => { this.deleteRole(event, i) }}>{T.translate('generic.delete')}</MenuItem>
+                                        </Menu>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            )
+                            else return null;
+                        })}
+                    </List>
                 </Card>
+                <Card className="role-editor" style={{ padding: "24px" }}>
+                    <h2 style={{ paddingBottom: "10px" }}>{T.translate('role.edit', { name: this.state.selectedRole.name })}</h2>
+                    {stories.map(story => {
+                        return (
+                            <Chip
+                                icon={<PlaylistAdd />}
+                                label={story.name}
+                                color="primary"
+                                style={{ margin: "2px" }}
+                            />
+                        );
+                    })}
+                    <TextField
+                        id="name"
+                        label={T.translate('role.name')}
+                        value={this.state.selectedRole.name}
+                        onChange={evt => this.handleChange(evt, 'name')}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                    />
+                    <TextField
+                        id="soustitre"
+                        label={T.translate('role.soustitre')}
+                        value={this.state.selectedRole.soustitre}
+                        onChange={evt => this.handleChange(evt, 'soustitre')}
+                        margin="normal"
+                        variant="outlined"
+                        fullWidth
+                    />
+                    <TextField
+                        id="description"
+                        label={T.translate('role.description')}
+                        value={this.state.selectedRole.description}
+                        onChange={evt => this.handleChange(evt, 'description')}
+                        margin="normal"
+                        variant="outlined"
+                        helperText={T.translate('role.helper.desc')}
+                        fullWidth
+                        multiline
+                    />
+                    <TextField
+                        id="color"
+                        label={T.translate('role.color')}
+                        value={this.state.selectedRole.color}
+                        onChange={evt => this.handleChange(evt, 'color')}
+                        margin="normal"
+                        variant="outlined"
+                        helperText={T.translate('role.helper.color')}
+                        fullWidth
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start"><Brightness1 style={{ color: this.state.selectedRole.color }} /></InputAdornment>,
+                        }}
+                    />
+                    <FormControl style={{ margin: "16px 0 8px 0" }} fullWidth variant="outlined">
+                        <InputLabel htmlFor="outlined-theme">{T.translate('role.theme')}</InputLabel>
+                        <Select
+                            value={this.state.selectedRole.theme}
+                            onChange={evt => this.handleChange(evt, 'theme')}
+                            input={
+                                <OutlinedInput
+                                    labelWidth={130}
+                                    name="age"
+                                    id="outlined-theme"
+                                    fullWidth
+                                />
+                            }
+                        >
+                            <MenuItem value={DARK}>{T.translate('generic.dark')}</MenuItem>
+                            <MenuItem value={LIGHT}>{T.translate('generic.light')}</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        id="image"
+                        label={T.translate('role.image')}
+                        value={this.state.selectedRole.image}
+                        onChange={evt => this.handleChange(evt, 'image')}
+                        margin="normal"
+                        variant="outlined"
+                        helperText={T.translate('role.helper.img')}
+                        fullWidth
+                    />
+                </Card>
+                <div className="role-render">
+                    <RoleCard editor role={this.state.selectedRole} />
+                </div>
             </div>
         );
     }
 }
+
 
 export default connect(null, { displaySnackbar })(RoleCreator);

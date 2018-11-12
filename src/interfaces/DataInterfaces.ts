@@ -53,10 +53,11 @@ interface ComponentData {
 }
 
 interface RoleData {
-    id: number,
-    name: string,
-    description: string,
-    soustitre: string,
-    image?: string,
+    id: number
+    name: string
+    description: string
+    soustitre: string
+    image?: string
     color?: string
+    theme?: string
 }

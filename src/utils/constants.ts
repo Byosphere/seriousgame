@@ -4,6 +4,8 @@ export const PLAYER = 'player';
 export const ORANGE = '#ff7900';
 export const HAUT = 'haut';
 export const BAS = 'bas';
+export const DARK = "dark";
+export const LIGHT = "light";
 
 export const ACTION_INITIAL = 'initial_action';
 export const PLACEMENT = [

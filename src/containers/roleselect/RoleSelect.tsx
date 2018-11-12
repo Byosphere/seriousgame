@@ -7,6 +7,7 @@ import { Redirect } from 'react-router';
 import Loader from '../../components/loader/Loader';
 import Story from 'src/interfaces/Story';
 import Role from 'src/interfaces/Role';
+import RoleCard from 'src/components/rolecard/RoleCard';
 
 interface Props {
 
@@ -52,11 +53,10 @@ class RoleSelect extends React.Component<Props, State> {
         this.handleSelect = this.handleSelect.bind(this);
     }
 
-    public handleSelect(evt: any) {
+    public handleSelect(evt: any, role: Role) {
         if (!this.state.selectable) return;
 
         let roles = this.state.roles
-        let role = roles[evt.target.dataset.index];
 
         if (role && !role.disabled) {
             role.disabled = true;
@@ -88,7 +88,7 @@ class RoleSelect extends React.Component<Props, State> {
             );
         } else if (this.state.roles.length && this.state.story) {
 
-            let cardWidth = Math.floor(100/this.state.roles.length) + '%';
+            let cardWidth = Math.floor(100 / this.state.roles.length) + '%';
 
             return (
                 <div className="player">
@@ -96,12 +96,7 @@ class RoleSelect extends React.Component<Props, State> {
                     <div className="role-cards">
                         {this.state.roles.map((role, i) => {
                             return (
-                                <Card style={{width: cardWidth}} data-index={i} key={i} onClick={this.handleSelect} className={"card-" + i + (role.disabled ? " disabled" : "")}>
-                                    <CardHeader
-                                        title={role.name}
-                                        subheader={role.description}
-                                    />
-                                </Card>
+                                <RoleCard key={i} onClick={(event: any) => { this.handleSelect(event, role) }} role={role} />
                             );
                         })}
                     </div>
