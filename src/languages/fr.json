@@ -170,6 +170,7 @@
     "server": {
         "host": "Héberger la partie",
         "join": "Rejoindre un serveur",
-        "connect": "Se connecter"
+        "connect": "Se connecter",
+        "create": "Créer un serveur"
     }
 }

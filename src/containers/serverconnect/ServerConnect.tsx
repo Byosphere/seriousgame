@@ -9,7 +9,7 @@ interface Props {
 }
 
 interface State {
-    menuSelect: string
+    userIp: string
     addr: string
     port: number
 }
@@ -22,7 +22,7 @@ class ServerConnect extends React.Component<Props, State> {
         this.state = {
             addr: '',
             port: undefined,
-            menuSelect: ''
+            userIp: ''
         }
     }
 
@@ -32,6 +32,10 @@ class ServerConnect extends React.Component<Props, State> {
                 this.props.onConnect(resp.type, resp.id);
             }
         });
+    }
+
+    public createServer() {
+
     }
 
     public render() {
@@ -74,7 +78,9 @@ class ServerConnect extends React.Component<Props, State> {
                 </div>
                 <div className="server-host">
                     <h2>{T.translate('server.host')}</h2>
-                    <p>Coming soon...</p>   
+                    <Button onClick={() => this.createServer()} style={{ marginLeft: "10px" }} variant="outlined" color="secondary">
+                        {T.translate('server.create')}
+                    </Button>
                 </div>
             </div>
         );

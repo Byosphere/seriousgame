@@ -9,7 +9,7 @@ let socket: SocketIOClient.Socket = null;
  * Initialisation de la connexion au server 'http://192.168.1.43:8081'
  * @param response : fonction retournant err et le type de joueur + id
  */
-export function gameConnect(addr:string, port: number, response: any) {
+export function gameConnect(addr: string, port: number, response: any) {
     socket = io(addr + ":" + port);
     socket.on('init', (resp: any) => response(null, resp));
     socket.emit('init');
