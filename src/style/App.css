@@ -9,6 +9,7 @@ html, body, #root, .app {
 * {
     box-sizing: border-box;
 }
+
 .app>div.frame {
     width: 100%;
     height: 30px;
@@ -19,7 +20,7 @@ html, body, #root, .app {
     height: 100%;
 }
 
-.app>.frame ~ div {
+.app>.frame~div {
     width: 100%;
     height: calc(100% - 30px);
     background-color: #EFEFEF;
@@ -29,4 +30,12 @@ h2 {
     margin: 0;
 }
 
-.key { color: red; }
+.key {
+    color: red;
+}
+
+.server-quit {
+    position: absolute !important;
+    top: 6px;
+    right: 6px;
+}

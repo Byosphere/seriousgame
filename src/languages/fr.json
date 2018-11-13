@@ -90,7 +90,7 @@
     },
     "quizztitle": "Répondez à ce quizz pour continuer",
     "generic": {
-        "serveraddr": "Addresse du serveur",
+        "serveraddr": "Adresse du serveur",
         "port": "Port",
         "save": "Enregistrer",
         "reset": "Annuler",
@@ -165,12 +165,14 @@
         "interface": "L'interface du joueur {interfaceId} est incorrecte.",
         "message": "IA incorrecte dans l'interface de ",
         "params": "Les paramètres ne sont pas au format JSON",
-        "type": "Le type de composant n'a pas été sélectionné"
+        "type": "Le type de composant n'a pas été sélectionné",
+        "server": "Le serveur n'a pas été trouvé, vérifiez les informations."
     },
     "server": {
         "host": "Héberger la partie",
         "join": "Rejoindre un serveur",
         "connect": "Se connecter",
-        "create": "Créer un serveur"
+        "create": "Créer un serveur",
+        "change": "Changer de serveur"
     }
 }

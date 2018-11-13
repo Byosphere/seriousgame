@@ -11,7 +11,7 @@ let socket: SocketIOClient.Socket = null;
  */
 export function gameConnect(addr: string, port: number, response: any) {
     socket = io(addr + ":" + port);
-    socket.on('init', (resp: any) => response(null, resp));
+    socket.on('init', (resp: any) => response(resp));
     socket.emit('init');
 }
 
@@ -70,6 +70,10 @@ export function deleteStory(storyId: number, response: Function) {
  */
 export function onPlayerUpdate(response: any) {
     socket.on('playerupdate', (players: Array<Player>) => response(null, players));
+}
+
+export function ejectPlayer(playerId: number) {
+    socket.emit('ejectplayer', playerId);
 }
 
 /**
@@ -159,7 +163,6 @@ export function playerQuit(response: Function) {
 
 /**
  * Action retournée si le joueur se déconnecte
- * @param playerId 
  * @param response 
  */
 export function onDisconnect(response: Function) {

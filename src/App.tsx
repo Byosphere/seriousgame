@@ -2,21 +2,20 @@ import * as React from 'react';
 import './style/App.css';
 import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
-import RoleSelect from './containers/roleselect/RoleSelect';
+import T from 'i18n-react';
 import { gameConnect, onDisconnect } from './utils/api';
-import { INSTRUCTOR, PLAYER } from './utils/constants';
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { PLAYER, CONNECT, DISCONNECTED, INSTRUCTOR, SERVER_WAIT } from './utils/constants';
 import Loader from './components/loader/Loader';
 import Frame from './components/frame/Frame';
 import ServerConnect from './containers/serverconnect/ServerConnect';
+import { Button } from '@material-ui/core';
 
-interface Props { store: any }
+interface Props {
+	store: any
+}
 interface State {
-	instructorInterface: boolean,
-	playerInterface: boolean,
-	loading: boolean
-	disconnected: boolean
 	playerId: number
+	status: string
 }
 
 class App extends React.Component<Props, State> {
@@ -25,72 +24,96 @@ class App extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.state = {
-			instructorInterface: false,
-			playerInterface: false,
-			loading: true,
-			disconnected: false,
-			playerId: -1
+		if (localStorage.getItem('server')) {
+			this.state = {
+				playerId: -1,
+				status: ''
+			}
+			this.tryConnnect();
+		} else {
+			this.state = {
+				playerId: -1,
+				status: CONNECT
+			}
 		}
 	}
 
+	public tryConnnect() {
+		let server = JSON.parse(localStorage.getItem('server'));
+		let response: any = null;
+		let timer = 0;
+		gameConnect("http://" + server.addr, server.port, (resp: any) => {
+			response = resp;
+		});
+		let interval = setInterval(() => {
+			if (response) {
+				this.onConnect(response.type, response.id);
+				clearInterval(interval);
+			} else if (timer === SERVER_WAIT) {
+				this.setState({ status: CONNECT });
+				localStorage.removeItem('server');
+				clearInterval(interval);
+			}
+			timer += 100;
+		}, 100);
+	}
+
 	public onConnect(status: string, playerId: number) {
-		if (status === INSTRUCTOR) {
-			this.setState({
-				instructorInterface: true,
-				loading: false
-			});
-		} else if (status === PLAYER) {
-			this.setState({
-				playerInterface: true,
-				loading: false,
-				playerId: playerId
-			});
-		} else {
-			console.log(status);
-		}
+
+		this.setState({
+			status,
+			playerId
+		});
+
 		onDisconnect((err: any) => {
-			this.setState({
-				disconnected: true
-			});
+			this.setState({ status: DISCONNECTED });
 		});
 	}
 
 	public render() {
 
-		if (this.state.loading) {
-			return (
-				<HashRouter>
+		switch (this.state.status) {
+
+			case CONNECT:
+				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
 						<ServerConnect onConnect={(status: string, playerId: number) => { this.onConnect(status, playerId) }} />
 					</div>
-				</HashRouter >
-			);
-		} else if (this.state.disconnected) {
-			return (
-				<HashRouter>
+				);
+			case DISCONNECTED:
+				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
 						<Loader textKey="loader.disconnected" />
 					</div>
-				</HashRouter >
-			);
-		} else {
-			return (
-				<HashRouter>
+				);
+
+			case INSTRUCTOR:
+				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<Switch>
-							<Route exact path='/masterboard' component={MasterBoard} />
-							<Route exact path='/roleselect' component={RoleSelect} />
-							<Route exact path='/gamescene' component={GameScene} />
-							{this.state.instructorInterface && <Redirect to="/masterboard" />}
-							{this.state.playerInterface && <Redirect to="/roleselect" />}
-						</Switch>
+						<MasterBoard />
+						<Button onClick={() => { this.setState({ status: CONNECT }) }} className="server-quit" color="secondary" aria-label="change-server">
+							{T.translate('server.change')}
+						</Button>
 					</div>
-				</HashRouter>
-			);
+				);
+
+			case PLAYER:
+				return (
+					<div className="app">
+						{window && window["process"] && window["process"].type && <Frame />}
+						<GameScene location='' />
+					</div>
+				);
+			default:
+				return (
+					<div className="app">
+						{window && window["process"] && window["process"].type && <Frame />}
+						<Loader textKey="loader.serverwait" />
+					</div>
+				);
 		}
 	}
 }

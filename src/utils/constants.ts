@@ -6,6 +6,10 @@ export const HAUT = 'haut';
 export const BAS = 'bas';
 export const DARK = "dark";
 export const LIGHT = "light";
+export const SERVER_WAIT = 5000;
+
+export const DISCONNECTED = 'disconnected';
+export const CONNECT = 'connect';
 
 export const ACTION_INITIAL = 'initial_action';
 export const PLACEMENT = [

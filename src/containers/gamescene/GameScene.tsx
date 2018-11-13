@@ -7,11 +7,11 @@ import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
 import Ia from '../../components/ia/Ia';
-import { Redirect } from 'react-router-dom';
 import Story from 'src/interfaces/Story';
 import Interface from 'src/interfaces/Interface';
 import { ACTION_INITIAL } from 'src/utils/constants';
 import Role from 'src/interfaces/Role';
+import RoleSelect from '../roleselect/RoleSelect';
 
 interface Props {
     location: any
@@ -27,7 +27,6 @@ interface State {
     gridStyle: any
     displayIa: boolean
     lastActionId: string
-    redirect: string
 }
 
 class GameScene extends React.Component<Props, State> {
@@ -37,7 +36,7 @@ class GameScene extends React.Component<Props, State> {
 
         // Vrai state : 
         this.state = {
-            role: props.location.state,
+            role: null,
             gameReady: false,
             story: null,
             paused: false,
@@ -45,8 +44,7 @@ class GameScene extends React.Component<Props, State> {
             interface: null,
             gridStyle: {},
             lastActionId: null,
-            displayIa: false,
-            redirect: ''
+            displayIa: false
         };
 
         startGame((story: Story) => {
@@ -104,7 +102,7 @@ class GameScene extends React.Component<Props, State> {
 
     public quitGame() {
         quitGame(() => {
-            this.setState({ redirect: '/' });
+            this.setState({ role: null });
         });
     }
 
@@ -113,8 +111,8 @@ class GameScene extends React.Component<Props, State> {
         let isLastAction: boolean = null;
         if (this.state.story) isLastAction = this.state.story.actions[this.state.story.actions.length - 1].id === this.state.lastActionId;
 
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />;
+        if (!this.state.role) {
+            return <RoleSelect selectRole={(role: Role) => this.setState({ role })} />;
         } else if (isLastAction) {
             return (<Loader buttonAction={this.quitGame} button="loader.quit" textKey="loader.endgame" />);
         } else if (this.state.gameReady) {

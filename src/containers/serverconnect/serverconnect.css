@@ -1,66 +1,41 @@
 .server-connect {
-    display: grid;
+    display: flex;
     width: 100%;
     height: 100%;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 33% 1fr;
+    flex-direction: column;
+    background: #ff7900;
+    justify-content: center;
+    align-items: center;
 }
 
 .server-connect .game-header {
-    grid-row: 1;
-    grid-column: 1 / 3;
-    position: relative;
-    overflow: hidden;
-    justify-content: center;
-    display: flex;
-}
-.server-connect .game-header h1 {
-    padding-top: 30px;
-}
-
-.server-connect .game-header::before {
-    content: '';
     position: absolute;
-    width: 50%;
-    height: 100%;
-    transform: skewY(18deg);
-    background: #ff7900;
-    left: 0;
-    top: 50%;
-}
-
-.server-connect .game-header::after {
-    content: '';
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    transform: skewY(-18deg);
-    background: #EFEFEF;
-    right: 0;
-    top: 50%;
-}
-
-.server-connect .server-host {
+    top: 20px;
     color: white;
-    background: #ff7900;
     text-align: center;
-    grid-row: 2 / 3;
-    grid-column: 1;
+    width: 100%;
 }
 
 .server-connect .server-join {
-    background: #EFEFEF;
-    text-align: center;
-    color: black;
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
+    width: 38%;
+    padding-top: 38%;
+    position: relative;
+    border-radius: 50%;
+    background-color: white;
+    margin-top: 50px;
 }
 
-.server-textfields {
+.server-connect .server-join .inner {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 20px;
+    margin-top: -10px;
 }
 
 .server-connect button {

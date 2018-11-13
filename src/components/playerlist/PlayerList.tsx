@@ -3,6 +3,7 @@ import { Card, CardHeader, List, ListItem, ListItemIcon, ListItemText, ListItemS
 import { Person, Delete } from '@material-ui/icons';
 import T from 'i18n-react';
 import './playerlist.css';
+import { ejectPlayer } from 'src/utils/api';
 
 interface State {
 
@@ -24,7 +25,7 @@ class playerList extends React.Component<Props, State> {
     }
 
     public removePlayer(playerId: number): void {
-        // TODO
+        ejectPlayer(playerId);
     }
 
     public render() {
@@ -47,7 +48,7 @@ class playerList extends React.Component<Props, State> {
                                 <ListItemText
                                     primary={player.name} />
                                 <ListItemSecondaryAction>
-                                    <IconButton onClick={() => this.removePlayer(player.id)} color="secondary" aria-label="Delete">
+                                    <IconButton onClick={() => this.removePlayer(player.id)} color="primary" aria-label="Delete">
                                         <Delete />
                                     </IconButton>
                                 </ListItemSecondaryAction>

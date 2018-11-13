@@ -3,15 +3,16 @@ import './serverconnect.css';
 import { TextField, InputAdornment, Button } from '@material-ui/core';
 import T from 'i18n-react';
 import { gameConnect } from 'src/utils/api';
+import { SERVER_WAIT } from 'src/utils/constants';
 
 interface Props {
     onConnect: Function
 }
 
 interface State {
-    userIp: string
     addr: string
     port: number
+    errorMessage: string
 }
 
 class ServerConnect extends React.Component<Props, State> {
@@ -21,21 +22,32 @@ class ServerConnect extends React.Component<Props, State> {
 
         this.state = {
             addr: '',
-            port: undefined,
-            userIp: ''
+            port: 0,
+            errorMessage: ''
         }
     }
 
     public tryConnect() {
-        gameConnect("http://" + this.state.addr, this.state.port, (err: any, resp: any) => {
-            if (!err) {
-                this.props.onConnect(resp.type, resp.id);
-            }
-        });
-    }
-
-    public createServer() {
-
+        if (this.state.addr === '' || this.state.port < 0) {
+            this.setState({ errorMessage: T.translate('invalid.server').toString() });
+        } else {
+            let response: any = null;
+            let timer = 0;
+            gameConnect("http://" + this.state.addr, this.state.port, (resp: any) => {
+                response = resp;
+            });
+            let interval = setInterval(() => {
+                if (response) {
+                    localStorage.setItem('server', JSON.stringify({ addr: this.state.addr, port: this.state.port }));
+                    this.props.onConnect(response.type, response.id);
+                    clearInterval(interval);
+                } else if (timer === SERVER_WAIT) {
+                    this.setState({ errorMessage: T.translate('invalid.server').toString() });
+                    clearInterval(interval);
+                }
+                timer += 100;
+            }, 100);
+        }
     }
 
     public render() {
@@ -45,42 +57,41 @@ class ServerConnect extends React.Component<Props, State> {
                     <h1>{T.translate('appname')}</h1>
                 </div>
                 <div className="server-join">
-                    <h2>{T.translate('server.join')}</h2>
-                    <div className="server-textfields">
-                        <TextField
-                            id="outlined-url"
-                            variant="outlined"
-                            value={this.state.addr}
-                            onChange={(evt: any) => { this.setState({ addr: evt.target.value }) }}
-                            label={T.translate('generic.serveraddr')}
-                            margin="normal"
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">http://</InputAdornment>,
-                            }}
-                        />
-                        <TextField
-                            id="outlined-port"
-                            label={T.translate('generic.port')}
-                            value={this.state.port}
-                            onChange={(evt: any) => { this.setState({ port: parseInt(evt.target.value) }) }}
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="normal"
-                            style={{ marginLeft: "10px" }}
-                            variant="outlined"
-                        />
-                        <Button onClick={() => this.tryConnect()} style={{ marginLeft: "10px" }} variant="outlined" color="primary">
+                    <div className="inner">
+                        <h2>{T.translate('server.join')}</h2>
+                        <div className="server-textfields">
+                            <TextField
+                                id="outlined-url"
+                                variant="outlined"
+                                value={this.state.addr}
+                                onChange={(evt: any) => { this.setState({ addr: evt.target.value }) }}
+                                label={T.translate('generic.serveraddr')}
+                                margin="normal"
+                                error={Boolean(this.state.errorMessage)}
+                                helperText={this.state.errorMessage}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">http://</InputAdornment>,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-port"
+                                label={T.translate('generic.port')}
+                                value={this.state.port}
+                                onChange={(evt: any) => { this.setState({ port: parseInt(evt.target.value) }) }}
+                                type="number"
+                                error={Boolean(this.state.errorMessage)}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                margin="normal"
+                                style={{ marginLeft: "10px", maxWidth: "110px" }}
+                                variant="outlined"
+                            />
+                        </div>
+                        <Button onClick={() => this.tryConnect()} variant="outlined" color="primary">
                             {T.translate('server.connect')}
                         </Button>
                     </div>
-                </div>
-                <div className="server-host">
-                    <h2>{T.translate('server.host')}</h2>
-                    <Button onClick={() => this.createServer()} style={{ marginLeft: "10px" }} variant="outlined" color="secondary">
-                        {T.translate('server.create')}
-                    </Button>
                 </div>
             </div>
         );

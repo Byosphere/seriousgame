@@ -31,7 +31,8 @@ io.on('connection', function (socket) {
                 id: server.players.length,
                 roleId: -1,
                 name: 'Joueur ' + (server.players.length + 1),
-                status: 0
+                status: 0,
+                socketId: socket.id
             };
             socket.id = server.players.length;
             server.players[player.id] = player;
@@ -166,6 +167,13 @@ io.on('connection', function (socket) {
         server.selectedStory = null;
         socket.broadcast.emit('adminquit');
         socket.emit('quitgame');
+    });
+
+    socket.on('ejectplayer', (playerId) => {
+        console.log("Joueur " + playerId + " a été retiré du serveur.");
+        io.sockets.connected[server.players[playerId].socketId].disconnect();
+        server.players[playerId] = null;
+        socket.emit('playerupdate', server.players);
     });
 
     /**
