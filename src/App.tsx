@@ -8,6 +8,7 @@ import { INSTRUCTOR, PLAYER } from './utils/constants';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Loader from './components/loader/Loader';
 import Frame from './components/frame/Frame';
+import ServerConnect from './containers/serverconnect/ServerConnect';
 
 interface Props { store: any }
 interface State {
@@ -31,31 +32,23 @@ class App extends React.Component<Props, State> {
 			disconnected: false,
 			playerId: -1
 		}
-		gameConnect((err: any, resp: any) => {
-			if (resp.type == INSTRUCTOR) {
-				localStorage.setItem('gameparams', resp.params);
-				this.setState({
-					instructorInterface: true,
-					loading: false
-				});
-
-			} else if (resp.type == PLAYER) {
-				localStorage.setItem('gameparams', resp.params);
-				this.setState({
-					playerInterface: true,
-					loading: false,
-					playerId: resp.id
-				});
-
-			} else {
-				console.log(err);
-			}
-			this.checkDisconnect(this.state.playerId);
-		});
-
 	}
 
-	public checkDisconnect(playerId: number) {
+	public onConnect(status: string, playerId: number) {
+		if (status === INSTRUCTOR) {
+			this.setState({
+				instructorInterface: true,
+				loading: false
+			});
+		} else if (status === PLAYER) {
+			this.setState({
+				playerInterface: true,
+				loading: false,
+				playerId: playerId
+			});
+		} else {
+			console.log(status);
+		}
 		onDisconnect((err: any) => {
 			this.setState({
 				disconnected: true
@@ -70,7 +63,7 @@ class App extends React.Component<Props, State> {
 				<HashRouter>
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<Loader textKey="loader.serverwait" />
+						<ServerConnect onConnect={(status: string, playerId: number) => { this.onConnect(status, playerId) }} />
 					</div>
 				</HashRouter >
 			);

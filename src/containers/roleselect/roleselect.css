@@ -11,8 +11,8 @@
     grid-column: 2 / 3;
     text-align: center;
     color: #ff7900;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-    font-size: 2.4rem;
+    text-shadow: 2px 2px 2px rgba(255, 255, 255, 1);
+    font-size: 2.5rem;
 }
 
 .player .role-cards {

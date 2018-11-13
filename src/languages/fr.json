@@ -90,6 +90,8 @@
     },
     "quizztitle": "Répondez à ce quizz pour continuer",
     "generic": {
+        "serveraddr": "Addresse du serveur",
+        "port": "Port",
         "save": "Enregistrer",
         "reset": "Annuler",
         "interfaceof": "Interface de",
@@ -164,5 +166,10 @@
         "message": "IA incorrecte dans l'interface de ",
         "params": "Les paramètres ne sont pas au format JSON",
         "type": "Le type de composant n'a pas été sélectionné"
+    },
+    "server": {
+        "host": "Héberger la partie",
+        "join": "Rejoindre un serveur",
+        "connect": "Se connecter"
     }
 }
