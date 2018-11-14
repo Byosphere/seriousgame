@@ -29,7 +29,8 @@
         "tabletitle": "Liste des scénarios disponibles",
         "gametitle": "Partie en cours : ",
         "actionstitle": "Actions du maître du jeu",
-        "roleselect": "Sélection des rôles"
+        "roleselect": "Sélection des rôles",
+        "master": "Maître de jeu"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie",
@@ -166,13 +167,16 @@
         "message": "IA incorrecte dans l'interface de ",
         "params": "Les paramètres ne sont pas au format JSON",
         "type": "Le type de composant n'a pas été sélectionné",
-        "server": "Le serveur n'a pas été trouvé, vérifiez les informations."
+        "server": "Le serveur n'a pas été trouvé, vérifiez les informations.",
+        "password": "Le mot de passe est invalide"
     },
     "server": {
         "host": "Héberger la partie",
         "join": "Rejoindre un serveur",
         "connect": "Se connecter",
         "create": "Créer un serveur",
-        "change": "Changer de serveur"
+        "change": "Changer de serveur",
+        "permission": "Je suis un",
+        "password": "Mot de passe serveur"
     }
 }

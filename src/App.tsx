@@ -3,7 +3,7 @@ import './style/App.css';
 import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
 import T from 'i18n-react';
-import { gameConnect, onDisconnect } from './utils/api';
+import { onDisconnect, masterConnect, playerConnect } from './utils/api';
 import { PLAYER, CONNECT, DISCONNECTED, INSTRUCTOR, SERVER_WAIT } from './utils/constants';
 import Loader from './components/loader/Loader';
 import Frame from './components/frame/Frame';
@@ -19,7 +19,6 @@ interface State {
 }
 
 class App extends React.Component<Props, State> {
-
 
 	constructor(props: Props) {
 		super(props);
@@ -42,20 +41,30 @@ class App extends React.Component<Props, State> {
 		let server = JSON.parse(localStorage.getItem('server'));
 		let response: any = null;
 		let timer = 0;
-		gameConnect("http://" + server.addr, server.port, (resp: any) => {
-			response = resp;
-		});
-		let interval = setInterval(() => {
-			if (response) {
-				this.onConnect(response.type, response.id);
-				clearInterval(interval);
-			} else if (timer === SERVER_WAIT) {
-				this.setState({ status: CONNECT });
-				localStorage.removeItem('server');
-				clearInterval(interval);
+		if (server.type === INSTRUCTOR) {
+			masterConnect("http://" + server.addr, server.port, server.password, (resp: any) => {
+				response = resp;
+			});
+			let interval = setInterval(() => {
+				if (response && response.success) {
+					this.onConnect(INSTRUCTOR, -1);
+					clearInterval(interval);
+				} else if (response && !response.success) {
+					this.onConnect(CONNECT, -1);
+					clearInterval(interval);
+				} else if (timer === SERVER_WAIT) {
+					this.setState({ status: CONNECT });
+					localStorage.removeItem('server');
+					clearInterval(interval);
+				}
+				timer += 100;
+			}, 100);
+		} else {
+			this.state = {
+				playerId: -1,
+				status: CONNECT
 			}
-			timer += 100;
-		}, 100);
+		}
 	}
 
 	public onConnect(status: string, playerId: number) {

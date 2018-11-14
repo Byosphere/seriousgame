@@ -7,12 +7,18 @@ let socket: SocketIOClient.Socket = null;
 
 /**
  * Initialisation de la connexion au server 'http://192.168.1.43:8081'
- * @param response : fonction retournant err et le type de joueur + id
+ * @param response : fonction retournant l'id du joueur
  */
-export function gameConnect(addr: string, port: number, response: any) {
+export function playerConnect(addr: string, port: number, response: Function) {
     socket = io(addr + ":" + port);
-    socket.on('init', (resp: any) => response(resp));
-    socket.emit('init');
+    socket.on('playerconnect', (resp: any) => response(resp));
+    socket.emit('playerconnect');
+}
+
+export function masterConnect(addr: string, port: number, password: string, response: Function) {
+    socket = io(addr + ":" + port);
+    socket.on('masterconnect', (resp: any) => response(resp));
+    socket.emit('masterconnect', password);
 }
 
 /**

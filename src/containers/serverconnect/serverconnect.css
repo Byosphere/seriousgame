@@ -38,6 +38,11 @@
     margin-top: -10px;
 }
 
+.server-connect .server-join .inner>div {
+    width: 80%;
+    margin: 5px 10%;
+}
+
 .server-connect button {
     height: 56px;
     margin-top: 10px;

@@ -24,24 +24,51 @@ io.on('connection', function (socket) {
     /**
      * Initialisation lors de l'arrivée d'un nouveau joueur
      */
-    socket.on('init', () => {
+    // socket.on('init', () => {
 
-        if (server.instructor) {
-            let player = {
-                id: server.players.length,
-                roleId: -1,
-                name: 'Joueur ' + (server.players.length + 1),
-                status: 0,
-                socketId: socket.id
-            };
-            socket.id = server.players.length;
-            server.players[player.id] = player;
-            socket.emit('init', { id: player.id, type: 'player', params: server.parameters });
-            socket.broadcast.emit('playerupdate', server.players);
-            console.log('Un nouveau joueur a rejoint la partie : ', player);
+    //     if (server.instructor) {
+    //         let player = {
+    //             id: server.players.length,
+    //             roleId: -1,
+    //             name: 'Joueur ' + (server.players.length + 1),
+    //             status: 0,
+    //             socketId: socket.id
+    //         };
+    //         socket.id = server.players.length;
+    //         server.players[player.id] = player;
+    //         socket.emit('init', { id: player.id, type: 'player', params: server.parameters });
+    //         socket.broadcast.emit('playerupdate', server.players);
+    //         console.log('Un nouveau joueur a rejoint la partie : ', player);
+    //     } else {
+    //         socket.emit('init', { id: socket.id, type: 'instructor', params: server.parameters });
+    //         server.instructor = socket.id;
+    //         console.log('L\'instructeur a rejoint la partie');
+    //     }
+    // });
+
+    socket.on('playerconnect', () => {
+        let player = {
+            id: server.players.length,
+            roleId: -1,
+            name: 'Joueur ' + (server.players.length + 1),
+            status: 0,
+            socketId: socket.id
+        };
+        socket.id = server.players.length;
+        server.players[player.id] = player;
+        socket.emit('playerconnect', { id: player.id });
+        socket.broadcast.emit('playerupdate', server.players);
+        console.log('Un nouveau joueur a rejoint la partie : ', player);
+    });
+
+    socket.on('masterconnect', (password) => {
+        if (server.params.password && server.params.password !== password) {
+            socket.emit('masterconnect', { success: false });
+            console.log('Mot de passe erroné');
         } else {
-            socket.emit('init', { id: socket.id, type: 'instructor', params: server.parameters });
+            if(server.instructor) io.sockets.connected[server.instructor].disconnect();
             server.instructor = socket.id;
+            socket.emit('masterconnect', { success: true });
             console.log('L\'instructeur a rejoint la partie');
         }
     });
