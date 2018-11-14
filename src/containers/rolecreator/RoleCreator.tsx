@@ -149,9 +149,10 @@ class RoleCreator extends React.Component<Props, State> {
                 </Card>
                 <Card className="role-editor" style={{ padding: "24px" }}>
                     <h2 style={{ paddingBottom: "10px" }}>{T.translate('role.edit', { name: this.state.selectedRole.name })}</h2>
-                    {stories.map(story => {
+                    {stories.map((story, i) => {
                         return (
                             <Chip
+                                key={i}
                                 icon={<PlaylistAdd />}
                                 label={story.name}
                                 color="primary"

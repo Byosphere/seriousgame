@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './imageclickable.css';
 import { GameComponent, GameProps } from 'src/interfaces/GameComponent';
+import { getServerAddr } from 'src/utils/api';
 
 interface State {
     disabled: boolean
@@ -35,7 +36,7 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
     render() {
         return (
             <div className="image-clickable">
-                <img onClick={() => this.click()} src={this.props.component.params.src} alt={this.props.component.params.name} />
+                <img onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
             </div>
         );
     }

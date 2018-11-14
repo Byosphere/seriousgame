@@ -21,6 +21,14 @@ export function masterConnect(addr: string, port: number, password: string, resp
     socket.emit('masterconnect', password);
 }
 
+export function getServerAddr(): string {
+    if (socket) {
+        return "http://" + socket.io.opts.hostname + ":" + socket.io.opts.port;
+    } else {
+        return '';
+    }
+}
+
 /**
  * Chargement de l'ensemble des stories trouvées coté serveur
  */

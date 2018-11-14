@@ -1,14 +1,48 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
 const fs = require('fs');
+const password = Math.floor(Math.random()*100000);
 
 server.listen(8081, function () {
-    console.log('Listening on ' + server.address().port);
+    console.log("L'adresse du serveur est : " + server.address().port);
+    console.log('Le mot de passe temporaire du serveur est : ' + password);
+});
+
+var dir = path.join(__dirname, 'data');
+
+var mime = {
+    html: 'text/html',
+    txt: 'text/plain',
+    css: 'text/css',
+    gif: 'image/gif',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    svg: 'image/svg+xml',
+    js: 'application/javascript'
+};
+
+app.get('*', function (req, res) {
+    var file = path.join(dir, req.path.replace(/\/$/, '/index.html'));
+    if (file.indexOf(dir + path.sep) !== 0) {
+        return res.status(403).end('Forbidden');
+    }
+    var type = mime[path.extname(file).slice(1)] || 'text/plain';
+    var s = fs.createReadStream(file);
+    s.on('open', function () {
+        res.set('Content-Type', type);
+        s.pipe(res);
+    });
+    s.on('error', function () {
+        res.set('Content-Type', 'text/plain');
+        res.status(404).end('Not found');
+    });
 });
 
 server.players = [];
+server.password = password;
 server.instructor = null;
 server.roles = require('./data/roles.json');
 server.params = require('./data/general.json').parameters;
@@ -20,31 +54,6 @@ fs.readdirSync('./data/stories/').forEach(file => {
 server.selectedStory = null;
 
 io.on('connection', function (socket) {
-
-    /**
-     * Initialisation lors de l'arrivée d'un nouveau joueur
-     */
-    // socket.on('init', () => {
-
-    //     if (server.instructor) {
-    //         let player = {
-    //             id: server.players.length,
-    //             roleId: -1,
-    //             name: 'Joueur ' + (server.players.length + 1),
-    //             status: 0,
-    //             socketId: socket.id
-    //         };
-    //         socket.id = server.players.length;
-    //         server.players[player.id] = player;
-    //         socket.emit('init', { id: player.id, type: 'player', params: server.parameters });
-    //         socket.broadcast.emit('playerupdate', server.players);
-    //         console.log('Un nouveau joueur a rejoint la partie : ', player);
-    //     } else {
-    //         socket.emit('init', { id: socket.id, type: 'instructor', params: server.parameters });
-    //         server.instructor = socket.id;
-    //         console.log('L\'instructeur a rejoint la partie');
-    //     }
-    // });
 
     socket.on('playerconnect', () => {
         let player = {
@@ -62,7 +71,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('masterconnect', (password) => {
-        if (server.params.password && server.params.password !== password) {
+        if (server.password && server.password !== parseInt(password)) {
             socket.emit('masterconnect', { success: false });
             console.log('Mot de passe erroné');
         } else {

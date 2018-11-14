@@ -2,9 +2,8 @@ import * as React from 'react';
 import './ia.css';
 import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core';
 import { Close, Textsms } from '@material-ui/icons';
-import AvatarImage from '../../images/avatar.jpg';
 import Message from 'src/interfaces/Message';
-import { sendAction } from 'src/utils/api';
+import { sendAction, getServerAddr } from 'src/utils/api';
 
 interface State {
     displayMessage: boolean
@@ -31,10 +30,10 @@ class Ia extends React.Component<Props, State> {
         if (!currentMessage) return;
 
         this.setState({ displayMessage: !this.state.displayMessage, vu: true });
-        if(currentMessage.clickAction) {
+        if (currentMessage.clickAction) {
             sendAction(currentMessage.clickAction);
         }
-        
+
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -65,7 +64,7 @@ class Ia extends React.Component<Props, State> {
             return (
                 <Card className={"ia-modal " + currentMessage.position}>
                     <CardContent>
-                        <Avatar alt="IA" src={AvatarImage} />
+                        <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
                         <IconButton onClick={() => { this.setState({ displayMessage: false }) }}>
                             <Close />
                         </IconButton>
@@ -89,7 +88,7 @@ class Ia extends React.Component<Props, State> {
             } else {
                 return (
                     <Badge className='badge' badgeContent={1} color="default">
-                        <Avatar alt="IA" src={AvatarImage} />
+                        <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
                     </Badge>
                 );
             }
@@ -102,7 +101,7 @@ class Ia extends React.Component<Props, State> {
                 );
             } else {
                 return (
-                    <Avatar alt="IA" src={AvatarImage} />
+                    <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
                 );
             }
         }
