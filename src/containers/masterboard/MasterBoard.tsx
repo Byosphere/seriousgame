@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/core';
+import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
@@ -28,6 +28,7 @@ interface Props {
 	openConfirmDialog: boolean
 	confirmDialogInfo: ConfirmMessage
 	closeConfirmDialog: Function
+	changeServer: Function
 }
 interface State {
 	players: Array<Player>
@@ -182,7 +183,10 @@ class MasterBoard extends React.Component<Props, State> {
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}
 				<MasterSnackbar open={this.props.openSnackbar} message={this.props.snackbarMessage} onClose={() => { this.snackbarClose() }} />
-				<ConfirmDialog open={this.props.openConfirmDialog} message={this.props.confirmDialogInfo} onClose={() => {this.props.closeConfirmDialog()}} />
+				<ConfirmDialog open={this.props.openConfirmDialog} message={this.props.confirmDialogInfo} onClose={() => { this.props.closeConfirmDialog() }} />
+				{!this.state.selectedStory && <Button onClick={() => { this.props.changeServer() }} className="server-quit" color="secondary" aria-label="change-server">
+					{T.translate('server.change')}
+				</Button>}
 			</div >
 		);
 	}

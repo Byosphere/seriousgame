@@ -1,5 +1,6 @@
 .masterboard {
     background-color: #EFEFEF;
+    position: relative;
 }
 
 .content {
@@ -36,4 +37,10 @@ td.red {
 .masterboard>header>div {
     min-height: 48px;
     justify-content: space-between;
+}
+
+.server-quit {
+    position: absolute !important;
+    top: 6px;
+    right: 6px;
 }

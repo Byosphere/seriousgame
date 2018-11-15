@@ -33,9 +33,3 @@ h2 {
 .key {
     color: red;
 }
-
-.server-quit {
-    position: absolute !important;
-    top: 6px;
-    right: 6px;
-}

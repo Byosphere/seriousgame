@@ -3,7 +3,7 @@ import './serverconnect.css';
 import { TextField, InputAdornment, Button, FormControl, InputLabel, Select, OutlinedInput, MenuItem } from '@material-ui/core';
 import T from 'i18n-react';
 import { masterConnect, playerConnect } from 'src/utils/api';
-import { SERVER_WAIT, PLAYER, INSTRUCTOR } from 'src/utils/constants';
+import { SERVER_WAIT, PLAYER, INSTRUCTOR, ORANGE } from 'src/utils/constants';
 
 interface Props {
     onConnect: Function
@@ -84,7 +84,7 @@ class ServerConnect extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div className="server-connect">
+            <div className="server-connect" style={{ background: ORANGE }}>
                 <div className="game-header">
                     <h1>{T.translate('appname')}</h1>
                 </div>

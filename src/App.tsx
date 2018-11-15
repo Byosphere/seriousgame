@@ -102,10 +102,7 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<MasterBoard />
-						<Button onClick={() => { this.setState({ status: CONNECT }) }} className="server-quit" color="secondary" aria-label="change-server">
-							{T.translate('server.change')}
-						</Button>
+						<MasterBoard changeServer={() => { this.setState({ status: CONNECT }) }} />
 					</div>
 				);
 
