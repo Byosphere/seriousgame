@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached, Stop } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles, ejectPlayer } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
@@ -19,6 +19,7 @@ import Action from 'src/interfaces/Action';
 import ConfirmDialog from 'src/components/confirmdialog/ConfirmDialog';
 import { ConfirmMessage } from 'src/interfaces/ConfirmMessage';
 import Role from 'src/interfaces/Role';
+import { ACTION_INITIAL } from 'src/utils/constants';
 
 interface Props {
 	openSnackbar: boolean
@@ -80,7 +81,7 @@ class MasterBoard extends React.Component<Props, State> {
 
 		loadStories((stories: Array<Story>) => {
 			this.setState({
-				stories: stories
+				stories
 			});
 		});
 
@@ -96,7 +97,7 @@ class MasterBoard extends React.Component<Props, State> {
 				let step = actions.findIndex((a: Action) => { return a.id === actionId });
 				this.setState({
 					status: step + 1 // pour passer la selection de role
-				})
+				});
 			}
 		});
 
@@ -133,10 +134,15 @@ class MasterBoard extends React.Component<Props, State> {
 	}
 
 	public toggleStop() {
-		// TODO
+		if (!this.state.selectedStory) return;
+		this.state.players.forEach(player => {
+			ejectPlayer(player.id);
+		});
 	}
 	public toggleRestart() {
-		// TODO
+		if (!this.state.selectedStory) return;
+		sendAction(ACTION_INITIAL);
+		this.setState({ status: 1 });
 	}
 
 	public startStory(story: Story) {
@@ -188,7 +194,7 @@ class MasterBoard extends React.Component<Props, State> {
 					<PlayerList players={this.state.players} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
-					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={this.sendAction} />}
+					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={sendAction} />}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}
