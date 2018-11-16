@@ -87,7 +87,7 @@ class IaCreator extends React.Component<Props, State> {
                                 <OutlinedInput
                                     fullWidth
                                     labelWidth={0}
-                                    name="action"
+                                    name="clickAction"
                                     id="outlined-action"
                                 />
                             } >

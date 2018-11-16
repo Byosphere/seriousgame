@@ -39,6 +39,7 @@ class StoryList extends React.Component<Props, State> {
                         </TableHead>
                         <TableBody>
                             {this.props.stories.map(story => {
+                                if(!story.fromData) return null;
                                 return (
                                     <TableRow key={story.id}>
                                         <TableCell component="th" scope="row">

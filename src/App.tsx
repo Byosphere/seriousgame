@@ -94,7 +94,7 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<Loader textKey="loader.disconnected" />
+						<Loader button="loader.reconnect" buttonAction={() => { this.setState({ status: CONNECT }) }} textKey="loader.disconnected" />
 					</div>
 				);
 

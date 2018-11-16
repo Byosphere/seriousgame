@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
-import { startGame, playPause, listenDynamicActions, quitGame } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions, quitGame, getServerAddr } from '../../utils/api';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -82,13 +82,11 @@ class GameScene extends React.Component<Props, State> {
     }
 
     public displayGrid() {
+
         let currentPage = this.state.interface.pages[this.state.currentPage];
-        let cols = currentPage.cols || this.state.interface.cols;
-        let rows = currentPage.rows || this.state.interface.rows;
-        let bg = '';
-        if (currentPage.background) {
-            bg = "url('" + currentPage.background + "')";
-        }
+        let cols = (currentPage && currentPage.cols) ? currentPage.cols : this.state.interface.cols;
+        let rows = (currentPage && currentPage.rows) ? currentPage.rows : this.state.interface.rows;
+        let bg = (currentPage && currentPage.background) ? "url('" + getServerAddr() + currentPage.background + "')" : '';
 
         this.setState({
             gridStyle: {

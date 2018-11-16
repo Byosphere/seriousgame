@@ -2,7 +2,7 @@ import * as React from 'react';
 import './componentcreator.css';
 import T from 'i18n-react';
 import Page from 'src/interfaces/Page';
-import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Checkbox, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText } from '@material-ui/core';
+import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText, Switch } from '@material-ui/core';
 import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 import Component from 'src/interfaces/Component';
 import { Delete, Edit, Help } from '@material-ui/icons';
@@ -149,7 +149,7 @@ class ComponentCreator extends React.Component<Props, State> {
                     {this.props.page.components.map((cmp: Component, i: number) => {
                         return (
                             <ListItem key={i} button onClick={event => { this.checkComponent(event, cmp) }}>
-                                <Checkbox
+                                <Switch
                                     checked={this.isChecked(cmp)}
                                     value="checked"
                                     color="primary"

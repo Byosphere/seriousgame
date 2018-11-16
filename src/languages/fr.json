@@ -30,7 +30,8 @@
         "gametitle": "Partie en cours : ",
         "actionstitle": "Actions du maître du jeu",
         "roleselect": "Sélection des rôles",
-        "master": "Maître de jeu"
+        "master": "Maître de jeu",
+        "stop": "Arrêter la partie"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie",
@@ -87,7 +88,8 @@
         "playerswait": "En attente des autres joueurs...",
         "disconnected": "La connexion au serveur a été perdue.",
         "endgame": "Partie terminée !",
-        "quit": "quitter"
+        "quit": "quitter",
+        "reconnect": "Se reconnecter"
     },
     "quizztitle": "Répondez à ce quizz pour continuer",
     "generic": {
@@ -177,6 +179,7 @@
         "create": "Créer un serveur",
         "change": "Changer de serveur",
         "permission": "Je suis un",
-        "password": "Mot de passe serveur"
+        "password": "Mot de passe serveur",
+        "save": "connexion automatique"
     }
 }

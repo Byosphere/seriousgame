@@ -28,12 +28,14 @@ class Ia extends React.Component<Props, State> {
 
     public handleClick(currentMessage: Message) {
         if (!currentMessage) return;
-
         this.setState({ displayMessage: !this.state.displayMessage, vu: true });
+    }
+
+    public handleClose(currentMessage: Message) {
+        this.setState({ displayMessage: false })
         if (currentMessage.clickAction) {
             sendAction(currentMessage.clickAction);
         }
-
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -44,19 +46,11 @@ class Ia extends React.Component<Props, State> {
         }
     }
 
-    public getCurrentMessage(messages: Array<Message>, lastAction: string): Message {
-        let currentMessage = null;
-        if (!messages) return null;
-        if (this.props.lastAction) {
-            currentMessage = messages.find((m: Message) => {
-                return m.action === lastAction;
-            });
-        } else {
-            currentMessage = messages.find((m: Message) => {
-                return !m.action;
-            });
-        }
-        return currentMessage;
+    public getCurrentMessage(): Message {
+        if (!this.props.messages || !this.props.messages.length) return null;
+        return this.props.messages.find((m: Message) => {
+            return m.action === this.props.lastAction;
+        });
     }
 
     public displayCardModal(currentMessage: Message): any {
@@ -65,7 +59,7 @@ class Ia extends React.Component<Props, State> {
                 <Card className={"ia-modal " + currentMessage.position}>
                     <CardContent>
                         <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
-                        <IconButton onClick={() => { this.setState({ displayMessage: false }) }}>
+                        <IconButton onClick={() => { this.handleClose(currentMessage) }}>
                             <Close />
                         </IconButton>
                         <p>{currentMessage.text}</p>
@@ -109,7 +103,7 @@ class Ia extends React.Component<Props, State> {
 
     public render() {
 
-        let currentMessage = this.getCurrentMessage(this.props.messages, this.props.lastAction);
+        let currentMessage = this.getCurrentMessage();
 
         return (
             <div>

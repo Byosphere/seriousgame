@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './serverconnect.css';
-import { TextField, InputAdornment, Button, FormControl, InputLabel, Select, OutlinedInput, MenuItem } from '@material-ui/core';
+import { TextField, InputAdornment, Button, FormControl, InputLabel, Select, OutlinedInput, MenuItem, FormControlLabel, Checkbox } from '@material-ui/core';
 import T from 'i18n-react';
 import { masterConnect, playerConnect } from 'src/utils/api';
 import { SERVER_WAIT, PLAYER, INSTRUCTOR, ORANGE } from 'src/utils/constants';
@@ -17,6 +17,7 @@ interface State {
     password: string
     type: string
     disabled: boolean
+    checked: boolean
 }
 
 class ServerConnect extends React.Component<Props, State> {
@@ -31,7 +32,8 @@ class ServerConnect extends React.Component<Props, State> {
             wrongConnect: '',
             type: PLAYER,
             password: '',
-            disabled: false
+            disabled: false,
+            checked: false
         }
     }
 
@@ -58,7 +60,7 @@ class ServerConnect extends React.Component<Props, State> {
             }
             let interval = setInterval(() => {
                 if (response) {
-                    localStorage.setItem('server', JSON.stringify({ addr: this.state.addr, port: this.state.port, type: this.state.type, password: this.state.password }));
+                    if(this.state.checked) localStorage.setItem('server', JSON.stringify({ addr: this.state.addr, port: this.state.port, type: this.state.type, password: this.state.password }));
                     this.checkConnect(response);
                     clearInterval(interval);
                 } else if (timer === SERVER_WAIT) {
@@ -158,9 +160,24 @@ class ServerConnect extends React.Component<Props, State> {
                                 helperText={this.state.wrongConnect}
                             />}
                         </div>
-                        <Button onClick={() => this.tryConnect()} variant="outlined" color="primary">
-                            {T.translate('server.connect')}
-                        </Button>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px"}}>
+                            <Button onClick={() => this.tryConnect()} variant="outlined" color="primary">
+                                {T.translate('server.connect')}
+                            </Button>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={this.state.checked}
+                                        onChange={(evt: any) => { this.setState({ checked: evt.target.checked }) }}
+                                        value="checked"
+                                        color="primary"
+                                        style={{paddingRight:"5px"}}
+                                    />
+                                }
+                                label={T.translate('server.save')}
+                                style={{marginLeft: "20px"}}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

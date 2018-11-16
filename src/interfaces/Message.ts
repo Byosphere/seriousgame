@@ -22,8 +22,8 @@ class Message {
     }
 
     static fromData(data: MessageData): Message {
-        let { text, position, force, clickAction, action } = data;
-        return new this(text, position, force, clickAction, action);
+        let { text, position, force, action, clickAction } = data;
+        return new this(text, position, force, action, clickAction);
     }
 
     public equalsTo(message: Message): boolean {
@@ -31,8 +31,8 @@ class Message {
         isEqual = this.text === message.text
             && this.position === message.position
             && this.force === message.force
-            && this.clickAction === message.clickAction
-            && this.action === message.action;
+            && this.action === message.action
+            && this.clickAction === message.clickAction;
         return isEqual;
     }
 
@@ -50,8 +50,8 @@ class Message {
             text: this.text,
             position: this.position,
             force: this.force,
-            clickAction: this.clickAction,
-            action: this.action
+            action: this.action,
+            clickAction: this.clickAction
         }
     }
 }

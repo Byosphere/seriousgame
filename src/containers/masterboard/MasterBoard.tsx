@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
-import { PauseCircleOutline, PlayCircleOutline, Cached } from '@material-ui/icons';
+import { PauseCircleOutline, PlayCircleOutline, Cached, Stop } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -132,6 +132,13 @@ class MasterBoard extends React.Component<Props, State> {
 		});
 	}
 
+	public toggleStop() {
+		// TODO
+	}
+	public toggleRestart() {
+		// TODO
+	}
+
 	public startStory(story: Story) {
 		startStory(story.id);
 
@@ -169,7 +176,10 @@ class MasterBoard extends React.Component<Props, State> {
 								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
 							</Tooltip>}
 							{this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
-								<IconButton color="inherit"><Cached /></IconButton>
+								<IconButton onClick={() => { this.toggleRestart() }} color="inherit"><Cached /></IconButton>
+							</Tooltip>}
+							{this.state.selectedStory && <Tooltip title={T.translate('instructor.stop')}>
+								<IconButton onClick={() => { this.toggleStop() }} color="inherit"><Stop /></IconButton>
 							</Tooltip>}
 						</div>
 					</Toolbar>
