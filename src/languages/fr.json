@@ -171,7 +171,8 @@
         "params": "Les paramètres ne sont pas au format JSON",
         "type": "Le type de composant n'a pas été sélectionné",
         "server": "Le serveur n'a pas été trouvé, vérifiez les informations.",
-        "password": "Le mot de passe est invalide"
+        "password": "Le mot de passe est invalide",
+        "name": "Le nom de joueur est invalide"
     },
     "server": {
         "host": "Héberger la partie",
@@ -181,6 +182,7 @@
         "change": "Changer de serveur",
         "permission": "Je suis un",
         "password": "Mot de passe serveur",
-        "save": "connexion automatique"
+        "save": "connexion automatique",
+        "pname": "Nom de joueur"
     }
 }

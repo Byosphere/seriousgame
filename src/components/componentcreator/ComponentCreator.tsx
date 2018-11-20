@@ -253,7 +253,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                     } >
                                     {PLACEMENT.map((p, i) => {
                                         return (
-                                            <MenuItem key={i} value={p}>{T.translate('generic.placement.'+p)}</MenuItem>
+                                            <MenuItem key={i} value={p}>{T.translate('generic.placement.' + p)}</MenuItem>
                                         );
                                     })}
                                 </Select>
@@ -274,6 +274,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                         id="outlined-clickAction"
                                     />
                                 } >
+                                <MenuItem value=''><i style={{ opacity: 0.5 }}>{T.translate('action.none')}</i></MenuItem>
                                 {this.props.actions.map((action, i) => {
                                     return (
                                         <MenuItem key={i} value={action.id}>{action.name}</MenuItem>

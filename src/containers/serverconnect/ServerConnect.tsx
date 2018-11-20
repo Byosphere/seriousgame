@@ -18,6 +18,7 @@ interface State {
     type: string
     disabled: boolean
     checked: boolean
+    name: string
 }
 
 class ServerConnect extends React.Component<Props, State> {
@@ -33,7 +34,8 @@ class ServerConnect extends React.Component<Props, State> {
             type: PLAYER,
             password: '',
             disabled: false,
-            checked: false
+            checked: false,
+            name: ''
         }
     }
 
@@ -52,7 +54,7 @@ class ServerConnect extends React.Component<Props, State> {
                     break;
 
                 case PLAYER:
-                    playerConnect("http://" + this.state.addr, this.state.port, (resp: any) => { response = resp });
+                    playerConnect("http://" + this.state.addr, this.state.port, this.state.name, (resp: any) => { response = resp });
                     break;
 
                 default:
@@ -75,10 +77,10 @@ class ServerConnect extends React.Component<Props, State> {
     public checkConnect(response: any) {
         if (response.success) {
             this.setState({ disabled: false });
-            this.props.onConnect(INSTRUCTOR, -1);
-        } else if (response.id >= 0) {
+            this.props.onConnect(INSTRUCTOR, -1, response.params);
+        } else if (response.playerId >= 0) {
             this.setState({ disabled: false });
-            this.props.onConnect(PLAYER, response.id);
+            this.props.onConnect(PLAYER, response.playerId, response.params);
         } else {
             this.setState({ wrongConnect: T.translate('invalid.password').toString(), disabled: false });
         }
@@ -126,7 +128,7 @@ class ServerConnect extends React.Component<Props, State> {
                             />
                         </div>
                         <div>
-                            <FormControl style={{ width: this.state.type !== INSTRUCTOR ? "100%" : "calc(50% - 5px)", marginRight: "10px" }} fullWidth={this.state.type !== INSTRUCTOR} variant="outlined">
+                            <FormControl style={{ width: "calc(50% - 5px)", marginRight: "10px" }} fullWidth={this.state.type !== INSTRUCTOR} variant="outlined">
                                 <InputLabel htmlFor="outlined-permission">{T.translate('server.permission').toString()}</InputLabel>
                                 <Select
                                     fullWidth={this.state.type !== INSTRUCTOR}
@@ -154,6 +156,18 @@ class ServerConnect extends React.Component<Props, State> {
                                 disabled={this.state.disabled}
                                 onChange={(evt: any) => { this.setState({ password: evt.target.value }) }}
                                 autoComplete="current-password"
+                                style={{ width: "calc(50% - 5px)" }}
+                                variant="outlined"
+                                error={Boolean(this.state.wrongConnect)}
+                                helperText={this.state.wrongConnect}
+                            />}
+                            {this.state.type === PLAYER && <TextField
+                                id="player-name"
+                                label={T.translate('server.pname')}
+                                type="text"
+                                value={this.state.name}
+                                disabled={this.state.disabled}
+                                onChange={(evt: any) => { this.setState({ name: evt.target.value }) }}
                                 style={{ width: "calc(50% - 5px)" }}
                                 variant="outlined"
                                 error={Boolean(this.state.wrongConnect)}

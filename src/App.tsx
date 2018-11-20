@@ -50,10 +50,10 @@ class App extends React.Component<Props, State> {
 			});
 			let interval = setInterval(() => {
 				if (response && response.success) {
-					this.onConnect(INSTRUCTOR, response.params);
+					this.onConnect(INSTRUCTOR, -1, response.params);
 					clearInterval(interval);
 				} else if (response && !response.success) {
-					this.onConnect(CONNECT, -1);
+					this.onConnect(CONNECT, -1, response.params);
 					clearInterval(interval);
 				} else if (timer === SERVER_WAIT) {
 					this.setState({ status: CONNECT });
@@ -70,16 +70,15 @@ class App extends React.Component<Props, State> {
 		}
 	}
 
-	public onConnect(status: string, data: any) {
-
+	public onConnect(status: string, playerId: number, params: any) {
+		this.props.setParams(params);
 		switch (status) {
 			case INSTRUCTOR:
 				this.setState({ status, playerId: -1 });
-				this.props.setParams(data);
 				break;
 
 			case PLAYER:
-				this.setState({ status, playerId: data });
+				this.setState({ status, playerId: playerId });
 				break;
 
 			default:
@@ -100,7 +99,7 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<ServerConnect onConnect={(status: string, playerId: number) => { this.onConnect(status, playerId) }} />
+						<ServerConnect onConnect={(status: string, playerId: number, params: any) => { this.onConnect(status, playerId, params) }} />
 					</div>
 				);
 			case DISCONNECTED:

@@ -4,6 +4,7 @@ import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core'
 import { Close, Textsms } from '@material-ui/icons';
 import Message from 'src/interfaces/Message';
 import { sendAction, getServerAddr } from 'src/utils/api';
+import { connect } from 'react-redux';
 
 interface State {
     displayMessage: boolean
@@ -13,6 +14,7 @@ interface State {
 interface Props {
     messages: Array<Message>
     lastAction: string
+    params: any
 }
 
 class Ia extends React.Component<Props, State> {
@@ -58,7 +60,7 @@ class Ia extends React.Component<Props, State> {
             return (
                 <Card className={"ia-modal " + currentMessage.position}>
                     <CardContent>
-                        <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
+                        <Avatar alt="IA" src={getServerAddr() + this.props.params.imageIa} />
                         <IconButton onClick={() => { this.handleClose(currentMessage) }}>
                             <Close />
                         </IconButton>
@@ -82,7 +84,7 @@ class Ia extends React.Component<Props, State> {
             } else {
                 return (
                     <Badge className='badge' badgeContent={1} color="default">
-                        <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
+                        <Avatar alt="IA" src={getServerAddr() + this.props.params.imageIa} />
                     </Badge>
                 );
             }
@@ -95,7 +97,7 @@ class Ia extends React.Component<Props, State> {
                 );
             } else {
                 return (
-                    <Avatar alt="IA" src={getServerAddr() + '/images/avatar.jpg'} />
+                    <Avatar alt="IA" src={getServerAddr() + this.props.params.imageIa} />
                 );
             }
         }
@@ -116,4 +118,10 @@ class Ia extends React.Component<Props, State> {
     }
 }
 
-export default Ia;
+function mapStateToProps(state: any) {
+    return {
+        params: state.params
+    }
+}
+
+export default connect(mapStateToProps, {})(Ia);
