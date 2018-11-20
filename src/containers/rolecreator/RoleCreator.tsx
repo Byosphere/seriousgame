@@ -2,10 +2,10 @@ import * as React from 'react';
 import './rolecreator.css';
 import T from 'i18n-react';
 import { saveRoles } from 'src/utils/api';
-import { Card, Table, TableRow, TableCell, TableBody, CardHeader, TextField, IconButton, InputAdornment, CardContent, List, ListItem, ListItemText, ListItemSecondaryAction, Menu, MenuItem, ListItemIcon, Divider, FormControl, InputLabel, Select, OutlinedInput, Chip, Avatar } from '@material-ui/core';
-import { Save, Delete, Brightness1, PersonAdd, MoreVert, PlaylistAdd } from '@material-ui/icons';
+import { Card, CardHeader, TextField, IconButton, InputAdornment, List, ListItem, ListItemText, ListItemSecondaryAction, Menu, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Chip } from '@material-ui/core';
+import { Save, Brightness1, PersonAdd, MoreVert, PlaylistAdd } from '@material-ui/icons';
 import { connect } from 'react-redux';
-import { displaySnackbar } from 'src/actions/snackbarActions';
+import { displaySnackbar, displayConfirmDialog } from 'src/actions/snackbarActions';
 import Role from 'src/interfaces/Role';
 import Story from 'src/interfaces/Story';
 import RoleCard from 'src/components/rolecard/RoleCard';
@@ -15,6 +15,7 @@ interface Props {
     roles: Array<Role>
     displaySnackbar: Function
     stories: Array<Story>
+    displayConfirmDialog: Function
 }
 
 interface State {
@@ -62,8 +63,20 @@ class RoleCreator extends React.Component<Props, State> {
     }
 
     public deleteRole(event: any, i: number): any {
-        this.props.roles.splice(i, 1);
-        this.forceUpdate();
+        setTimeout(() => {
+            let menuEl = this.state.menuEl;
+            menuEl[i] = null;
+            this.setState({ menuEl });
+        }, 2);
+        event.stopPropagation();
+        this.props.displayConfirmDialog({
+            title: T.translate('generic.warning'),
+            content: T.translate('role.deletewarning'),
+            confirm: () => {
+                this.props.roles.splice(i, 1);
+                this.save();
+            }
+        });
     }
     public duplicateRole(event: any, role: Role): any {
         let id = 0;
@@ -240,4 +253,4 @@ class RoleCreator extends React.Component<Props, State> {
 }
 
 
-export default connect(null, { displaySnackbar })(RoleCreator);
+export default connect(null, { displaySnackbar, displayConfirmDialog })(RoleCreator);

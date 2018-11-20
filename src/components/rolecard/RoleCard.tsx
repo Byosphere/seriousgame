@@ -4,6 +4,7 @@ import { Card, CardContent } from '@material-ui/core';
 import Role from 'src/interfaces/Role';
 import T from 'i18n-react';
 import { Person } from '@material-ui/icons';
+import { getServerAddr } from 'src/utils/api';
 
 interface Props {
     onClick?: Function
@@ -24,7 +25,7 @@ class RoleCard extends React.Component<Props, State> {
             <Card style={{ background: this.props.role.color }} onClick={(event: any) => { if (!this.props.editor) this.props.onClick(event); }} className={"role-card " + (this.props.role.disabled ? " disabled" : "") + " " + this.props.role.theme} >
                 <div className="card-avatar">
                     <div>
-                        {this.props.role.image && <img src={this.props.role.image} alt={this.props.role.name} />}
+                        {this.props.role.image && <img src={getServerAddr() + this.props.role.image} alt={this.props.role.name} />}
                         {!this.props.role.image && <Person />}
                     </div>
                 </div>
@@ -32,7 +33,7 @@ class RoleCard extends React.Component<Props, State> {
                     <span className="titraille">{T.translate('role.surtitre')}</span>
                     <h2>{this.props.role.name}</h2>
                     <span className="titraille">{this.props.role.soustitre}</span>
-                    <p className="description" dangerouslySetInnerHTML={{__html: this.props.role.description}}></p>
+                    <p className="description" dangerouslySetInnerHTML={{ __html: this.props.role.description }}></p>
                 </CardContent>
             </Card>
         );

@@ -34,7 +34,7 @@ class Story {
         let isValid = true;
 
         isValid = this.name !== ''
-            && this._nbPlayers > 1
+            && this._nbPlayers >= 1
             && this._nbPlayers <= 10;
 
         if (!isValid) {

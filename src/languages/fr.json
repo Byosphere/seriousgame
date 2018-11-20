@@ -76,6 +76,7 @@
         "theme": "Accent de couleur",
         "surtitre": "Dans la peau de",
         "new": "Nouveau rôle",
+        "deletewarning": "Êtes-vous sûr de vouloir supprimer ce rôle ?",
         "helper": {
             "desc": "La description accepte les balises HTML du type <b>, <br />, <li>, <i> pour mettre en forme le texte.",
             "color": "Ce champs prend en compte tous les formats que prend la propriété CSS 'color'.",

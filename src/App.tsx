@@ -9,9 +9,12 @@ import Loader from './components/loader/Loader';
 import Frame from './components/frame/Frame';
 import ServerConnect from './containers/serverconnect/ServerConnect';
 import { Button } from '@material-ui/core';
+import { setParams } from './actions/paramsActions';
+import { connect } from 'react-redux';
 
 interface Props {
 	store: any
+	setParams: Function
 }
 interface State {
 	playerId: number
@@ -47,7 +50,7 @@ class App extends React.Component<Props, State> {
 			});
 			let interval = setInterval(() => {
 				if (response && response.success) {
-					this.onConnect(INSTRUCTOR, -1);
+					this.onConnect(INSTRUCTOR, response.params);
 					clearInterval(interval);
 				} else if (response && !response.success) {
 					this.onConnect(CONNECT, -1);
@@ -67,12 +70,22 @@ class App extends React.Component<Props, State> {
 		}
 	}
 
-	public onConnect(status: string, playerId: number) {
+	public onConnect(status: string, data: any) {
 
-		this.setState({
-			status,
-			playerId
-		});
+		switch (status) {
+			case INSTRUCTOR:
+				this.setState({ status, playerId: -1 });
+				this.props.setParams(data);
+				break;
+
+			case PLAYER:
+				this.setState({ status, playerId: data });
+				break;
+
+			default:
+				this.setState({ status, playerId: -1 });
+		}
+
 
 		onDisconnect((err: any) => {
 			this.setState({ status: DISCONNECTED });
@@ -124,4 +137,4 @@ class App extends React.Component<Props, State> {
 	}
 }
 
-export default App;
+export default connect(null, { setParams })(App);
