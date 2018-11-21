@@ -14,7 +14,7 @@ import Role from 'src/interfaces/Role';
 import RoleSelect from '../roleselect/RoleSelect';
 
 interface Props {
-    location: any
+    changeServer: Function
 }
 
 interface State {
@@ -34,7 +34,6 @@ class GameScene extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        // Vrai state : 
         this.state = {
             role: null,
             gameReady: false,
@@ -98,9 +97,10 @@ class GameScene extends React.Component<Props, State> {
         });
     }
 
-    public quitGame() {
+    public quitGame(changeServer: boolean) {
         quitGame(() => {
             this.setState({ role: null });
+            if (changeServer) this.props.changeServer();
         });
     }
 
@@ -110,9 +110,9 @@ class GameScene extends React.Component<Props, State> {
         if (this.state.story) isLastAction = this.state.story.actions[this.state.story.actions.length - 1].id === this.state.lastActionId;
 
         if (!this.state.role) {
-            return <RoleSelect selectRole={(role: Role) => this.setState({ role })} />;
+            return <RoleSelect changeServer={() => { this.quitGame(true) }} selectRole={(role: Role) => this.setState({ role })} />;
         } else if (isLastAction) {
-            return (<Loader buttonAction={this.quitGame} button="loader.quit" textKey="loader.endgame" />);
+            return (<Loader buttonAction={() => { this.quitGame(false) }} button="loader.quit" textKey="loader.endgame" />);
         } else if (this.state.gameReady) {
             return (
                 <div className="game">

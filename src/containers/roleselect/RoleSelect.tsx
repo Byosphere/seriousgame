@@ -11,6 +11,7 @@ import RoleCard from 'src/components/rolecard/RoleCard';
 
 interface Props {
     selectRole: Function
+    changeServer: Function
 }
 interface State {
     roles: Array<Role>
@@ -77,7 +78,7 @@ class RoleSelect extends React.Component<Props, State> {
 
         if (!this.state.story) {
             return (
-                <Loader textKey="loader.gamemasterwait" />
+                <Loader button="server.change" buttonAction={() => { this.props.changeServer() }} textKey="loader.gamemasterwait" />
             );
         } else if (this.state.roles.length && this.state.story) {
 

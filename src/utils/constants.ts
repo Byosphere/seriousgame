@@ -39,4 +39,4 @@ export const SELECT_ACTION = "select_action";
 export const SELECT_STORY = "select-story";
 export const CONFIRM_DIALOG_CLOSE = 'confirm_dialog_close';
 export const CONFIRM_DIALOG_OPEN = 'confirm_dialog-open';
-export const SET_PARAMS = 'set_params';
+export const SET_CONNECTOR = 'set_connector';

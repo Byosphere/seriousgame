@@ -9,14 +9,14 @@ let socket: SocketIOClient.Socket = null;
  * Initialisation de la connexion au server 'http://192.168.1.43:8081'
  * @param response : fonction retournant l'id du joueur
  */
-export function playerConnect(addr: string, port: number, name: string, response: Function) {
-    socket = io(addr + ":" + port);
+export function playerConnect(addr: string, name: string, response: Function) {
+    socket = io(addr);
     socket.on('playerconnect', (resp: any) => response(resp));
     socket.emit('playerconnect', name);
 }
 
-export function masterConnect(addr: string, port: number, password: string, response: Function) {
-    socket = io(addr + ":" + port);
+export function masterConnect(addr: string, password: string, response: Function) {
+    socket = io(addr);
     socket.on('masterconnect', (resp: any) => response(resp));
     socket.emit('masterconnect', password);
 }

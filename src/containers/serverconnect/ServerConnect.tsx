@@ -2,23 +2,28 @@ import * as React from 'react';
 import './serverconnect.css';
 import { TextField, InputAdornment, Button, FormControl, InputLabel, Select, OutlinedInput, MenuItem, FormControlLabel, Checkbox } from '@material-ui/core';
 import T from 'i18n-react';
-import { masterConnect, playerConnect } from 'src/utils/api';
-import { SERVER_WAIT, PLAYER, INSTRUCTOR, ORANGE } from 'src/utils/constants';
+import { PLAYER, INSTRUCTOR, ORANGE } from 'src/utils/constants';
+import Connector from 'src/interfaces/Connector';
+import Loader from 'src/components/loader/Loader';
+import { setConnector } from 'src/actions/connectorActions';
+import { connect } from 'react-redux';
 
 interface Props {
-    onConnect: Function
+    onConnected: Function
+    connector: Connector
+    setConnector: Function
 }
 
 interface State {
     addr: string
     port: number
-    errorMessage: string
-    wrongConnect: string
+    errorMessages: any
     password: string
     type: string
     disabled: boolean
     checked: boolean
     name: string
+    connected: boolean
 }
 
 class ServerConnect extends React.Component<Props, State> {
@@ -29,64 +34,55 @@ class ServerConnect extends React.Component<Props, State> {
         this.state = {
             addr: '',
             port: 0,
-            errorMessage: '',
-            wrongConnect: '',
+            errorMessages: {},
             type: PLAYER,
             password: '',
             disabled: false,
             checked: false,
-            name: ''
+            name: '',
+            connected: Boolean(this.props.connector)
         }
+
+    }
+
+    public componentDidMount() {
+        if (this.props.connector) this.tryConnect();
     }
 
     public tryConnect() {
-        this.setState({ errorMessage: '', wrongConnect: '', disabled: true });
-        if (this.state.addr === '' || this.state.port < 0) {
-            this.setState({ errorMessage: T.translate('invalid.server').toString(), disabled: false });
-        } else if (this.state.type === INSTRUCTOR && this.state.password === '') {
-            this.setState({ wrongConnect: T.translate('invalid.password').toString(), disabled: false });
+        this.setState({ errorMessages: [], disabled: true });
+        let co: Connector = this.state.connected ? this.props.connector : new Connector(this.state.addr, this.state.type, this.state.port, this.state.checked, this.state.name, this.state.password);
+        let errors = co.validate();
+        if (errors) {
+            this.setState({ errorMessages: errors, disabled: false });
         } else {
-            let response: any = null;
-            let timer = 0;
-            switch (this.state.type) {
-                case INSTRUCTOR:
-                    masterConnect("http://" + this.state.addr, this.state.port, this.state.password, (resp: any) => { response = resp });
-                    break;
-
-                case PLAYER:
-                    playerConnect("http://" + this.state.addr, this.state.port, this.state.name, (resp: any) => { response = resp });
-                    break;
-
-                default:
-                    break;
-            }
-            let interval = setInterval(() => {
-                if (response) {
-                    if(this.state.checked) localStorage.setItem('server', JSON.stringify({ addr: this.state.addr, port: this.state.port, type: this.state.type, password: this.state.password }));
-                    this.checkConnect(response);
-                    clearInterval(interval);
-                } else if (timer === SERVER_WAIT) {
-                    this.setState({ errorMessage: T.translate('invalid.server').toString(), disabled: false });
-                    clearInterval(interval);
+            co.connect().then(
+                resolve => {
+                    if (resolve.success || resolve.playerId >= 0) {
+                        this.setState({ disabled: false, connected: true });
+                        co.params = resolve.params;
+                        this.props.setConnector(co);
+                        this.props.onConnected(co);
+                    } else {
+                        let errors: string[] = [];
+                        errors['password'] = T.translate('invalid.password').toString();
+                        localStorage.removeItem('server');
+                        this.setState({ errorMessages: errors, disabled: false, connected: false, type: co.type });
+                    }
+                },
+                reject => {
+                    let errors: string[] = [];
+                    errors['addr'] = reject;
+                    this.setState({ errorMessages: errors, disabled: false });
                 }
-                timer += 100;
-            }, 100);
-        }
-    }
-
-    public checkConnect(response: any) {
-        if (response.success) {
-            this.setState({ disabled: false });
-            this.props.onConnect(INSTRUCTOR, -1, response.params);
-        } else if (response.playerId >= 0) {
-            this.setState({ disabled: false });
-            this.props.onConnect(PLAYER, response.playerId, response.params);
-        } else {
-            this.setState({ wrongConnect: T.translate('invalid.password').toString(), disabled: false });
+            );
         }
     }
 
     public render() {
+
+        if (this.state.connected) return (<Loader textKey="loader.serverwait" />);
+
         return (
             <div className="server-connect" style={{ background: ORANGE }}>
                 <div className="game-header">
@@ -104,8 +100,8 @@ class ServerConnect extends React.Component<Props, State> {
                                 onChange={(evt: any) => { this.setState({ addr: evt.target.value }) }}
                                 label={T.translate('generic.serveraddr')}
                                 margin="normal"
-                                error={Boolean(this.state.errorMessage)}
-                                helperText={this.state.errorMessage}
+                                error={Boolean(this.state.errorMessages['addr'])}
+                                helperText={this.state.errorMessages['addr']}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">http://</InputAdornment>,
                                 }}
@@ -118,7 +114,8 @@ class ServerConnect extends React.Component<Props, State> {
                                 disabled={this.state.disabled}
                                 onChange={(evt: any) => { this.setState({ port: parseInt(evt.target.value) }) }}
                                 type="number"
-                                error={Boolean(this.state.errorMessage)}
+                                error={Boolean(this.state.errorMessages['port'])}
+                                helperText={this.state.errorMessages['port']}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -158,8 +155,8 @@ class ServerConnect extends React.Component<Props, State> {
                                 autoComplete="current-password"
                                 style={{ width: "calc(50% - 5px)" }}
                                 variant="outlined"
-                                error={Boolean(this.state.wrongConnect)}
-                                helperText={this.state.wrongConnect}
+                                error={Boolean(this.state.errorMessages['password'])}
+                                helperText={this.state.errorMessages['password']}
                             />}
                             {this.state.type === PLAYER && <TextField
                                 id="player-name"
@@ -170,11 +167,11 @@ class ServerConnect extends React.Component<Props, State> {
                                 onChange={(evt: any) => { this.setState({ name: evt.target.value }) }}
                                 style={{ width: "calc(50% - 5px)" }}
                                 variant="outlined"
-                                error={Boolean(this.state.wrongConnect)}
-                                helperText={this.state.wrongConnect}
+                                error={Boolean(this.state.errorMessages['name'])}
+                                helperText={this.state.errorMessages['name']}
                             />}
                         </div>
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px"}}>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
                             <Button onClick={() => this.tryConnect()} variant="outlined" color="primary">
                                 {T.translate('server.connect')}
                             </Button>
@@ -185,11 +182,11 @@ class ServerConnect extends React.Component<Props, State> {
                                         onChange={(evt: any) => { this.setState({ checked: evt.target.checked }) }}
                                         value="checked"
                                         color="primary"
-                                        style={{paddingRight:"5px"}}
+                                        style={{ paddingRight: "5px" }}
                                     />
                                 }
                                 label={T.translate('server.save')}
-                                style={{marginLeft: "20px"}}
+                                style={{ marginLeft: "20px" }}
                             />
                         </div>
                     </div>
@@ -199,4 +196,4 @@ class ServerConnect extends React.Component<Props, State> {
     }
 }
 
-export default ServerConnect;
+export default connect(null, { setConnector })(ServerConnect);

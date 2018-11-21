@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import story from './story';
 import dialog from './dialog';
-import params from './params';
+import connector from './connector';
 
 export default combineReducers({
     // ADD REDUCERS
     story,
     dialog,
-    params
+    connector
 });

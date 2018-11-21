@@ -2,22 +2,18 @@ import * as React from 'react';
 import './style/App.css';
 import MasterBoard from './containers/masterboard/MasterBoard';
 import GameScene from './containers/gamescene/GameScene';
-import T from 'i18n-react';
-import { onDisconnect, masterConnect, playerConnect } from './utils/api';
-import { PLAYER, CONNECT, DISCONNECTED, INSTRUCTOR, SERVER_WAIT } from './utils/constants';
+import { PLAYER, CONNECT, DISCONNECTED, INSTRUCTOR } from './utils/constants';
 import Loader from './components/loader/Loader';
 import Frame from './components/frame/Frame';
 import ServerConnect from './containers/serverconnect/ServerConnect';
-import { Button } from '@material-ui/core';
-import { setParams } from './actions/paramsActions';
-import { connect } from 'react-redux';
+import Connector from './interfaces/Connector';
+import { onDisconnect } from './utils/api';
 
 interface Props {
 	store: any
-	setParams: Function
 }
 interface State {
-	playerId: number
+	connector: Connector
 	status: string
 }
 
@@ -26,68 +22,17 @@ class App extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		if (localStorage.getItem('server')) {
-			this.state = {
-				playerId: -1,
-				status: ''
-			}
-			this.tryConnnect();
-		} else {
-			this.state = {
-				playerId: -1,
-				status: CONNECT
-			}
+		let connector = Connector.retrieveConnector();
+		this.state = {
+			connector,
+			status: CONNECT
 		}
 	}
 
-	public tryConnnect() {
-		let server = JSON.parse(localStorage.getItem('server'));
-		let response: any = null;
-		let timer = 0;
-		if (server.type === INSTRUCTOR) {
-			masterConnect("http://" + server.addr, server.port, server.password, (resp: any) => {
-				response = resp;
-			});
-			let interval = setInterval(() => {
-				if (response && response.success) {
-					this.onConnect(INSTRUCTOR, -1, response.params);
-					clearInterval(interval);
-				} else if (response && !response.success) {
-					this.onConnect(CONNECT, -1, response.params);
-					clearInterval(interval);
-				} else if (timer === SERVER_WAIT) {
-					this.setState({ status: CONNECT });
-					localStorage.removeItem('server');
-					clearInterval(interval);
-				}
-				timer += 100;
-			}, 100);
-		} else {
-			this.state = {
-				playerId: -1,
-				status: CONNECT
-			}
-		}
-	}
-
-	public onConnect(status: string, playerId: number, params: any) {
-		this.props.setParams(params);
-		switch (status) {
-			case INSTRUCTOR:
-				this.setState({ status, playerId: -1 });
-				break;
-
-			case PLAYER:
-				this.setState({ status, playerId: playerId });
-				break;
-
-			default:
-				this.setState({ status, playerId: -1 });
-		}
-
-
+	public onConnected(connector: Connector) {
+		this.setState({ status: connector.type, connector });
 		onDisconnect((err: any) => {
-			this.setState({ status: DISCONNECTED });
+			this.setState({ status: DISCONNECTED, connector: null })
 		});
 	}
 
@@ -99,7 +44,10 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<ServerConnect onConnect={(status: string, playerId: number, params: any) => { this.onConnect(status, playerId, params) }} />
+						<ServerConnect
+							onConnected={(connector: Connector) => { this.onConnected(connector) }}
+							connector={this.state.connector}
+						/>
 					</div>
 				);
 			case DISCONNECTED:
@@ -114,7 +62,7 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<MasterBoard changeServer={() => { this.setState({ status: CONNECT }) }} />
+						<MasterBoard changeServer={() => { this.setState({ status: CONNECT, connector: null }) }} />
 					</div>
 				);
 
@@ -122,7 +70,7 @@ class App extends React.Component<Props, State> {
 				return (
 					<div className="app">
 						{window && window["process"] && window["process"].type && <Frame />}
-						<GameScene location='' />
+						<GameScene changeServer={() => { this.setState({ status: CONNECT, connector: null }) }} />
 					</div>
 				);
 			default:
@@ -136,4 +84,4 @@ class App extends React.Component<Props, State> {
 	}
 }
 
-export default connect(null, { setParams })(App);
+export default App;

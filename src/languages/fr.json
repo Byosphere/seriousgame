@@ -172,7 +172,9 @@
         "type": "Le type de composant n'a pas été sélectionné",
         "server": "Le serveur n'a pas été trouvé, vérifiez les informations.",
         "password": "Le mot de passe est invalide",
-        "name": "Le nom de joueur est invalide"
+        "name": "Le nom de joueur est invalide",
+        "addr": "L'adresse du serveur est invalide",
+        "port": "Le port est invalide"
     },
     "server": {
         "host": "Héberger la partie",
@@ -183,6 +185,7 @@
         "permission": "Je suis un",
         "password": "Mot de passe serveur",
         "save": "connexion automatique",
-        "pname": "Nom de joueur"
+        "pname": "Nom de joueur",
+        "timeout": "Le serveur n'a pas répondu"
     }
 }
