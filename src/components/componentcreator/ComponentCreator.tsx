@@ -260,7 +260,6 @@ class ComponentCreator extends React.Component<Props, State> {
                             </FormControl>
                         </div>
                         <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
-                            <InputLabel id="label-comptype" htmlFor="component-type">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>
                             <Select
                                 fullWidth
                                 displayEmpty
@@ -269,7 +268,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                 input={
                                     <OutlinedInput
                                         fullWidth
-                                        labelWidth={100}
+                                        labelWidth={0}
                                         name="clickAction"
                                         id="outlined-clickAction"
                                     />
