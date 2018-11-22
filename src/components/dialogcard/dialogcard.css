@@ -1,0 +1,23 @@
+.ia-modal {
+    position: absolute;
+    top: 90px;
+    left: calc(50% - 30%);
+    width: 60%;
+    z-index: 1;
+}
+
+.ia-modal>div {
+    display: flex;
+    position: relative;
+}
+
+.ia-modal>div:first-child button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.ia-modal p {
+    color: black;
+    padding-left: 1em;
+}

@@ -1,6 +1,8 @@
 {
   "name": "seriousgame",
   "version": "0.1.0",
+  "description": "Créateur de jeu Orange",
+  "author": "Yohann CAILLON",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.3.1",

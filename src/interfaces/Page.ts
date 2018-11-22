@@ -62,11 +62,11 @@ class Page {
 
         this.actionToDisplay.forEach((actionId, i) => {
             if (actions.findIndex(action => { return actionId === action.id }) === -1) {
-                isValid = false;
+                this.actionToDisplay.splice(i, 1);
             }
         });
         if (!isValid) {
-            this.errorMessage = T.translate('invalid.page', { playerId: interfaceIndex + 1, pageId: this.id + 1 }).toString() + this.id;
+            this.errorMessage = T.translate('invalid.page', { playerId: interfaceIndex + 1, pageId: this.id }).toString();
             return isValid;
         }
 

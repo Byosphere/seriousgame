@@ -5,6 +5,8 @@ import { Close, Textsms } from '@material-ui/icons';
 import Message from 'src/interfaces/Message';
 import { sendAction, getServerAddr } from 'src/utils/api';
 import { connect } from 'react-redux';
+import DialogCard from '../dialogcard/dialogCard';
+import { Parameters } from 'src/interfaces/Parameters';
 
 interface State {
     displayMessage: boolean
@@ -14,7 +16,7 @@ interface State {
 interface Props {
     messages: Array<Message>
     lastAction: string
-    params: any
+    params: Parameters
 }
 
 class Ia extends React.Component<Props, State> {
@@ -58,15 +60,12 @@ class Ia extends React.Component<Props, State> {
     public displayCardModal(currentMessage: Message): any {
         if (this.state.displayMessage) {
             return (
-                <Card className={"ia-modal " + currentMessage.position}>
-                    <CardContent>
-                        <Avatar alt="IA" src={getServerAddr() + this.props.params.imageIa} />
-                        <IconButton onClick={() => { this.handleClose(currentMessage) }}>
-                            <Close />
-                        </IconButton>
-                        <p>{currentMessage.text}</p>
-                    </CardContent>
-                </Card>
+                <DialogCard
+                    position={currentMessage.position}
+                    imageIa={this.props.params.imageIa}
+                    onClose={() => this.handleClose(currentMessage)}
+                    textMessage={currentMessage.text}
+                />
             );
         }
     }
