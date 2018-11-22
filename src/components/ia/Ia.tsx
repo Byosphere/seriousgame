@@ -120,7 +120,7 @@ class Ia extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-        params: state.params
+        params: state.connector.params
     }
 }
 
