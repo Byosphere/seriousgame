@@ -63,7 +63,7 @@ class PageCreator extends React.Component<Props, State> {
         if (this.props.pages.length) {
             id = this.props.pages[this.props.pages.length - 1].id + 1;
         }
-        this.props.pages.push(new Page(id));
+        this.props.pages.push(new Page(id, null, null, null, null, [this.props.selectedAction.id]));
         this.forceUpdate();
         this.props.displaySnackbar(T.translate('interface.page.pageadded'));
     }

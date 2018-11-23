@@ -58,7 +58,7 @@ class Ia extends React.Component<Props, State> {
     }
 
     public displayCardModal(currentMessage: Message): any {
-        if (this.state.displayMessage) {
+        if (this.state.displayMessage && currentMessage) {
             return (
                 <DialogCard
                     position={currentMessage.position}
@@ -67,6 +67,8 @@ class Ia extends React.Component<Props, State> {
                     textMessage={currentMessage.text}
                 />
             );
+        } else {
+            this.setState({ displayMessage: false, vu: false });
         }
     }
 

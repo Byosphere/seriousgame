@@ -45,10 +45,10 @@ class ActionsTimeline extends React.Component<Props, State> {
     public addAction(): any {
         if (this.state.step === this.props.actions.length - 1) return;
         let id = 'action';
-        if (this.props.actions.length === 1) {
+        if (this.props.actions.length === 2) {
             id = 'action1';
         } else {
-            id += parseInt(this.props.actions[this.props.actions.length - 1].id.substring(6)) + 1;
+            id += parseInt(this.props.actions[this.props.actions.length - 2].id.substring(6)) + 1;
         }
 
         this.props.actions.splice(this.state.step + 1, 0, new Action(id, T.translate('action.defaultname').toString()));

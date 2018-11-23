@@ -181,9 +181,9 @@ class MasterBoard extends React.Component<Props, State> {
 							{(!this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.pause')}>
 								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
 							</Tooltip>}
-							{this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
+							{/* {this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
 								<IconButton onClick={() => { this.toggleRestart() }} color="inherit"><Cached /></IconButton>
-							</Tooltip>}
+							</Tooltip>} */}
 							{this.state.selectedStory && <Tooltip title={T.translate('instructor.stop')}>
 								<IconButton onClick={() => { this.toggleStop() }} color="inherit"><Stop /></IconButton>
 							</Tooltip>}
