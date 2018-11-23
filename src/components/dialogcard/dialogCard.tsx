@@ -10,6 +10,7 @@ interface Props {
     onClose: Function
     textMessage: string
     buttonText?: string
+    buttonClose?: boolean
 }
 
 interface State { }
@@ -18,16 +19,16 @@ class DialogCard extends React.Component<Props, State> {
 
     public render() {
         return (
-            <Card className={"ia-modal " + this.props.position}>
+            <Card raised className={"ia-modal " + this.props.position}>
                 <CardContent>
                     <Avatar alt="IA" src={getServerAddr() + this.props.imageIa} />
-                    <IconButton onClick={() => { this.props.onClose() }}>
+                    {this.props.buttonClose && <IconButton onClick={() => { this.props.onClose() }}>
                         <Close />
-                    </IconButton>
-                    <p>{this.props.textMessage}</p>
+                    </IconButton>}
+                    <p dangerouslySetInnerHTML={{ __html: this.props.textMessage }}></p>
                 </CardContent>
                 {this.props.buttonText && <CardActions style={{ justifyContent: "flex-end" }}>
-                    <Button size="small">{this.props.buttonText}</Button>
+                    <Button onClick={() => { this.props.onClose() }} size="small">{this.props.buttonText}</Button>
                 </CardActions>}
             </Card>
         );

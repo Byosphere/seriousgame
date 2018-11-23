@@ -54,6 +54,10 @@ class Message {
             clickAction: this.clickAction
         }
     }
+
+    public duplicate(): Message {
+        return new Message(this.text, this.position, this.force, this.action, this.clickAction);
+    }
 }
 
 export default Message;

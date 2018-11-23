@@ -50,6 +50,10 @@ class Action {
             master: this.master
         }
     }
+
+    public duplicate(): Action {
+        return new Action(this.id, this.name, this.description, this.master);
+    }
 }
 
 export default Action;

@@ -50,3 +50,10 @@
 .server-connect h2 {
     margin-bottom: 20px;
 }
+
+.server-connect .inner .version {
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    opacity: 0.5;
+}

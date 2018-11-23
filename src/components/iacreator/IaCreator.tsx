@@ -52,12 +52,15 @@ class IaCreator extends React.Component<Props, State> {
             return (
                 <Card className="ia-creator">
                     <h3>{T.translate('ia.message')}</h3>
+                    <p style={{ fontSize: "0.9rem", margin: "15px 0 0 0", opacity: 0.7 }}>
+                        {T.translate('ia.informations')}
+                    </p>
                     <TextField
                         id="ia-text"
                         label={T.translate('ia.text')}
                         multiline
-                        rowsMax="8"
-                        rows="6"
+                        rowsMax="5"
+                        rows="5"
                         value={message.text}
                         onChange={(evt) => { this.handleChange(evt, 'text', message) }}
                         margin="normal"
@@ -91,7 +94,7 @@ class IaCreator extends React.Component<Props, State> {
                                     id="outlined-action"
                                 />
                             } >
-                            <MenuItem value=''><i style={{opacity: 0.5}}>{T.translate('action.none')}</i></MenuItem>
+                            <MenuItem value=''><i style={{ opacity: 0.5 }}>{T.translate('action.none')}</i></MenuItem>
                             {this.props.actions.map((action, i) => {
                                 return (
                                     <MenuItem key={i} value={action.id}>{action.name}</MenuItem>

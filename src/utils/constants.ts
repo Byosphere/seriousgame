@@ -12,6 +12,7 @@ export const DISCONNECTED = 'disconnected';
 export const CONNECT = 'connect';
 
 export const ACTION_INITIAL = 'initial_action';
+export const ACTION_FINALE = 'action-finale';
 export const PLACEMENT = [
     'center',
     'top_left',

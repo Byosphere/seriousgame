@@ -43,6 +43,21 @@ class Interface {
         this._rows = parseInt(n);
     }
 
+    public duplicate(): Interface {
+
+        let pages: Array<Page> = [];
+        this.pages.forEach(page => {
+            pages.push(page.duplicate());
+        });
+        let messages: Array<Message> = [];
+        this.messages.forEach(message => {
+            messages.push(message.duplicate());
+        });
+
+
+        return new Interface(this.roleId, pages, this.cols, this.rows, this.displayIa, messages);
+    }
+
     public isValid(roles: Array<Role>, actions: Array<Action>, index: number): boolean {
         let isValid = true;
 

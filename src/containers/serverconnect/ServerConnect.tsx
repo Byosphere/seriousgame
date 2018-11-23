@@ -189,6 +189,7 @@ class ServerConnect extends React.Component<Props, State> {
                                 style={{ marginLeft: "20px" }}
                             />
                         </div>
+                        <p className="version">Version {process.env.REACT_APP_VERSION}</p>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ class Component {
     public setStringParams(value: any): boolean {
         try {
             this.params = JSON.parse(value);
-        } catch(err) {
+        } catch (err) {
             return false;
         }
         return true;
@@ -102,6 +102,9 @@ class Component {
             clickAction: this.clickAction,
             params: this.params
         };
+    }
+    public duplicate(): Component {
+        return new Component(this.id, this.type, this.name, this.cols, this.rows, this.position, this.actionToDisplay, this.clickAction, this.params);
     }
 
 }

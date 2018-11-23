@@ -5,12 +5,13 @@
         "description": "Description",
         "master": "Activable par le Maître du jeu",
         "initial": "Etat initial",
-        "add": "Ajouter une action",
+        "finale": "Etat final",
+        "add": "Ajouter une étape",
         "delete": "Supprimer",
-        "defaultname": "Nouvelle action",
-        "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette action ?",
-        "none": "Aucune action",
-        "informations": "Ci-dessous sont affichées les actions configurées pour votre story. Le passage d'une action à une autre peut être définie via un composant, l'IA, ou le maître du jeu."
+        "defaultname": "Nouvelle étape",
+        "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette étape ?",
+        "none": "Aucune étape",
+        "informations": "Ci-dessous sont affichées les étapes configurées pour votre story. Le passage d'une étape à une autre peut être définie via un composant, l'IA, ou le maître du jeu."
     },
     "instructor": {
         "title": "Interface de jeu",

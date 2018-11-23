@@ -1,9 +1,10 @@
 .ia-modal {
     position: absolute;
-    top: 90px;
-    left: calc(50% - 30%);
-    width: 60%;
+    top: 55px;
+    width: 25%;
     z-index: 1;
+    border: 1px solid rgba(0,0,0,0.4);
+    right: 35px;
 }
 
 .ia-modal>div {

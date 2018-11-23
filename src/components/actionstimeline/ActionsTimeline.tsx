@@ -2,7 +2,7 @@ import * as React from 'react';
 import './actionstimeline.css';
 import T from 'i18n-react';
 import { Card, Stepper, StepLabel, Step, StepContent, Button, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
-import { ACTION_INITIAL } from 'src/utils/constants';
+import { ACTION_INITIAL, ACTION_FINALE } from 'src/utils/constants';
 import { connect } from 'react-redux';
 import { selectCurrentAction } from 'src/actions/storyActions';
 import Action from 'src/interfaces/Action';
@@ -49,8 +49,9 @@ class ActionsTimeline extends React.Component<Props, State> {
         } else {
             id += parseInt(this.props.actions[this.props.actions.length - 1].id.substring(6)) + 1;
         }
-        this.props.actions.push(new Action(id, T.translate('action.defaultname').toString()));
-        this.handleStep(this.props.actions.length - 1);
+
+        this.props.actions.splice(this.state.step + 1, 0, new Action(id, T.translate('action.defaultname').toString()));
+        this.handleStep(this.state.step + 1);
     }
 
     public deleteAction(index: number) {
@@ -76,7 +77,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                         return (
                             <Step style={{ cursor: "pointer" }} onClick={() => { this.handleStep(i) }} key={i}>
                                 <StepLabel>{action.name}</StepLabel>
-                                {action.id !== ACTION_INITIAL && <StepContent>
+                                {(action.id !== ACTION_INITIAL && action.id !== ACTION_FINALE) && <StepContent>
                                     <div>
                                         <TextField
                                             id="action-name"

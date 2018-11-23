@@ -102,6 +102,16 @@ class Page {
         return isEqual;
     }
 
+    public duplicate(): Page {
+
+        let components: Component[] = [];
+        this.components.forEach(component => {
+            components.push(component.duplicate());
+        });
+
+        return new Page(this.id, this.background, components, this.cols, this.rows, this.actionToDisplay);
+    }
+
     public copy(id: number): Page {
         return new Page(id, this.background, this.components, this.cols, this.rows, this.actionToDisplay);
     }

@@ -1,7 +1,7 @@
 import T from 'i18n-react';
 import Interface from './Interface';
 import Action from './Action';
-import { ACTION_INITIAL } from 'src/utils/constants';
+import { ACTION_INITIAL, ACTION_FINALE } from 'src/utils/constants';
 import { saveStory } from 'src/utils/api';
 import Role from './Role';
 
@@ -23,7 +23,7 @@ class Story {
         this.id = id;
         this.name = name || T.translate('story.defaultname').toString() + ' ' + this.id;
         this._nbPlayers = nbPlayers || 1;
-        this.actions = actions || [new Action(ACTION_INITIAL, T.translate('action.initial').toString())];
+        this.actions = actions || [new Action(ACTION_INITIAL, T.translate('action.initial').toString()), new Action(ACTION_FINALE, T.translate('action.finale').toString())];
         this.interfaces = interfaces || [];
         this.description = description || '';
         this.errorMessage = '';
@@ -113,7 +113,17 @@ class Story {
     }
 
     public duplicate(newId: number): Story {
-        return new Story(newId, this.name + " copy", this.nbPlayers, this.actions, this.interfaces, this.description);
+        let actions: Array<Action> = [];
+        this.actions.forEach(action => {
+            actions.push(action.duplicate());
+        });
+
+        let interfaces: Array<Interface> = [];
+        this.interfaces.forEach(interf => {
+            interfaces.push(interf.duplicate());
+        });
+
+        return new Story(newId, this.name + " copy", this.nbPlayers, actions, interfaces, this.description);
     }
 
     public save(callback?: Function) {
