@@ -4,6 +4,7 @@ import T from 'i18n-react';
 import { Card, CardHeader, Stepper, Step, StepLabel } from '@material-ui/core';
 import Story from 'src/interfaces/Story';
 import Action from 'src/interfaces/Action';
+import { Person, PersonPin } from '@material-ui/icons';
 
 interface Props {
     story: Story
@@ -36,10 +37,10 @@ class Timeline extends React.Component<Props, State> {
                     component="h2"
                 />
                 <Stepper activeStep={this.props.status} alternativeLabel>
-                    {this.state.steps.map(action => {
+                    {this.state.steps.map((action, i) => {
                         return (
                             <Step key={action.id}>
-                                <StepLabel>{action.name}</StepLabel>
+                                <StepLabel icon={i ? i : (<PersonPin className="person-pin" />)}>{action.name}</StepLabel>
                             </Step>
                         );
                     })}

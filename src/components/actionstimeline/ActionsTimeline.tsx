@@ -43,6 +43,7 @@ class ActionsTimeline extends React.Component<Props, State> {
     }
 
     public addAction(): any {
+        if (this.state.step === this.props.actions.length - 1) return;
         let id = 'action';
         if (this.props.actions.length === 1) {
             id = 'action1';
@@ -68,7 +69,7 @@ class ActionsTimeline extends React.Component<Props, State> {
     public render() {
         return (
             <Card className="actions-timeline">
-                <h3>Liste des actions</h3>
+                <h3>{T.translate('action.list')}</h3>
                 <p style={{ fontSize: "0.9rem", margin: "15px 1.5em", opacity: 0.7 }}>
                     {T.translate('action.informations')}
                 </p>

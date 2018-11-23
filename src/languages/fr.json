@@ -2,10 +2,11 @@
     "appname": "Orange Serious Game Builder",
     "action": {
         "name": "Intitulé",
+        "list": "Liste des étapes",
         "description": "Description",
         "master": "Activable par le Maître du jeu",
-        "initial": "Etat initial",
-        "finale": "Etat final",
+        "initial": "Étape initiale",
+        "finale": "Étape finale",
         "add": "Ajouter une étape",
         "delete": "Supprimer",
         "defaultname": "Nouvelle étape",
@@ -29,7 +30,7 @@
         },
         "tabletitle": "Liste des scénarios disponibles",
         "gametitle": "Partie en cours : ",
-        "actionstitle": "Actions du maître du jeu",
+        "actionstitle": "Étapes du maître du jeu",
         "roleselect": "Sélection des rôles",
         "master": "Maître de jeu",
         "stop": "Arrêter la partie"
@@ -49,7 +50,7 @@
         "name": "Intitulé",
         "description": "Description",
         "nbplayers": "Joueurs requis",
-        "action": "Action",
+        "action": "Étape",
         "list": "Liste des stories",
         "add": "Nouvelle Story",
         "defaultname": "Story",
@@ -135,7 +136,7 @@
         "informations": "L'IA représente l'aide pour le joueur situé en haut à droite de l'écran. Après chaque action il est possible de définir un message à afficher, et une action à délencher après la lecture de celui-ci."
     },
     "interface": {
-        "action": "Actif pour l'action courante",
+        "action": "Actif pour l'étape courante",
         "cols": "Nombre de colonnes",
         "rows": "Nombre de lignes",
         "components": "Composants",
@@ -144,7 +145,7 @@
         "interfaceof": "Interface de ",
         "deletewarning": "Êtes-vous sûr de vouloir supprimer l'interface du joueur {playerId} ?",
         "page": {
-            "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape d'action. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
+            "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",
             "pageduplicated": "La page a bien été copiée",
@@ -153,7 +154,7 @@
             "modalcomponent": {
                 "title": "Gestion du Composant :",
                 "name": "Type de composant",
-                "clickaction": "Action au clic",
+                "clickaction": "Étape au clic",
                 "params": "Paramètres",
                 "posx": "Position en X",
                 "posy": "Position en Y",
