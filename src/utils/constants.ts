@@ -30,7 +30,8 @@ export const DYNAMIC_COMPONENTS = {
     'ActionButton': require('../gamecomponents/actionbutton/ActionButton').default,
     'ImageClickable': require('../gamecomponents/imageclickable/ImageClickable').default,
     'PopinIa': require('../gamecomponents/popinia/PopinIa').default,
-    'Timer': require('../gamecomponents/timer/Timer').default
+    'Timer': require('../gamecomponents/timer/Timer').default,
+    'TextClickable': require('../gamecomponents/textclickable/TextClickable').default
 };
 
 /*

@@ -23,7 +23,7 @@ export function masterConnect(addr: string, password: string, response: Function
 
 export function getServerAddr(): string {
     if (socket) {
-        return "http://" + socket.io.opts.hostname + ":" + socket.io.opts.port;
+        return "http://" + socket.io.opts.hostname + ":" + socket.io.opts.port + "/";
     } else {
         return '';
     }

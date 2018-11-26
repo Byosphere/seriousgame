@@ -67,8 +67,6 @@ class Ia extends React.Component<Props, State> {
                     textMessage={currentMessage.text}
                 />
             );
-        } else {
-            this.setState({ displayMessage: false, vu: false });
         }
     }
 

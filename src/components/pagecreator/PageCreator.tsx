@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu } from '@material-ui/core';
-import { ExpandMore, MoreVert, LibraryAdd, ArrowRight } from '@material-ui/icons';
+import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu, InputAdornment, Tooltip } from '@material-ui/core';
+import { ExpandMore, MoreVert, LibraryAdd, ArrowRight, Link, LinkOff } from '@material-ui/icons';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
@@ -11,6 +11,8 @@ import { displayConfirmDialog, displaySnackbar } from 'src/actions/snackbarActio
 import ComponentCreator from '../componentcreator/ComponentCreator';
 import Story from 'src/interfaces/Story';
 import Role from 'src/interfaces/Role';
+import { imageExists } from 'src/utils/tools';
+import { getServerAddr } from 'src/utils/api';
 
 interface Props {
     pages: Array<Page>
@@ -20,6 +22,7 @@ interface Props {
     hasIa: boolean
     roles: Array<Role>
     currentStory: Story
+    imageFolder: string
 }
 
 interface State {
@@ -27,6 +30,7 @@ interface State {
     selectedComponent: Array<Component>
     menuEl: Array<any>
     submenuEl: Array<any>
+    backgroundstate: Array<boolean>
 }
 
 class PageCreator extends React.Component<Props, State> {
@@ -38,7 +42,8 @@ class PageCreator extends React.Component<Props, State> {
             selectedPage: 0,
             selectedComponent: [],
             menuEl: [],
-            submenuEl: []
+            submenuEl: [],
+            backgroundstate: []
         }
     }
 
@@ -60,10 +65,14 @@ class PageCreator extends React.Component<Props, State> {
 
     public addPage() {
         let id: number = 1;
+        let newP: Page = null;
         if (this.props.pages.length) {
             id = this.props.pages[this.props.pages.length - 1].id + 1;
+            newP = new Page(id, this.props.imageFolder);
+        } else {
+            newP = new Page(id, this.props.imageFolder, null, null, null, [this.props.selectedAction.id]);
         }
-        this.props.pages.push(new Page(id, null, null, null, null, [this.props.selectedAction.id]));
+        this.props.pages.push(newP);
         this.forceUpdate();
         this.props.displaySnackbar(T.translate('interface.page.pageadded'));
     }
@@ -108,7 +117,7 @@ class PageCreator extends React.Component<Props, State> {
     public duplicatePageToInterface(event: any, i: number, page: Page, roleId: number): any {
         let interf = this.props.currentStory.interfaces.find(int => { return int.roleId === roleId });
         if (interf) {
-            if(interf.pages.length) {
+            if (interf.pages.length) {
                 interf.pages.push(page.copy(interf.pages[interf.pages.length - 1].id + 1));
             } else {
                 interf.pages.push(page.copy(1));
@@ -134,12 +143,24 @@ class PageCreator extends React.Component<Props, State> {
         this.setState({ submenuEl });
     }
 
-    public onChange(event: any, name: string, page: Page) {
+    public onChange(event: any, name: string, page: Page, i?: number) {
+        if (name === 'background' && page.background !== event.target.value) {
+            imageExists(getServerAddr() + event.target.value, (resp: boolean) => {
+                let backgroundstate = this.state.backgroundstate;
+                backgroundstate[i] = resp;
+                this.setState({ backgroundstate });
+            });
+        }
         page[name] = event.target.value;
         this.forceUpdate();
     }
 
+    public timedAction() {
+
+    }
+
     public render() {
+
         return (
             <div className="page-creator">
                 {this.props.pages.map((page, i) => {
@@ -228,7 +249,11 @@ class PageCreator extends React.Component<Props, State> {
                                     }}
                                     margin="normal"
                                     variant="outlined"
-                                    onChange={event => { this.onChange(event, 'background', page) }}
+                                    error={Boolean(page.background && !this.state.backgroundstate[i])}
+                                    onChange={event => { this.onChange(event, 'background', page, i) }}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">{this.state.backgroundstate[i] ? <Tooltip title={T.translate('interface.bgfound')}><Link /></Tooltip> : <Tooltip title={T.translate('interface.bgnotfound')}><LinkOff style={{color: "#FF0000"}} /></Tooltip>}</InputAdornment>,
+                                    }}
                                 />
                                 <div className="components-wrapper">
                                     <fieldset>
@@ -251,7 +276,8 @@ class PageCreator extends React.Component<Props, State> {
 function mapStateToProps(state: any) {
     return {
         selectedAction: state.story.action,
-        currentStory: state.story.story
+        currentStory: state.story.story,
+        imageFolder: state.connector.params.imageFolder
     }
 }
 
