@@ -13,6 +13,7 @@
     display: grid;
     height: calc(100% - 60px);
     grid-template-rows: 1fr;
+    position: relative;
 }
 
 .ia-creator {

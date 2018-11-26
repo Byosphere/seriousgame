@@ -4,7 +4,7 @@ import { CardHeader, Card, List, ListItem, ListItemText, ListItemIcon, Button, D
 import T from 'i18n-react';
 import { PlaylistAdd, MoreVert } from '@material-ui/icons';
 import { connect } from 'react-redux';
-import { selectCurrentStory } from 'src/actions/storyActions';
+import { selectCurrentStory, selectCurrentAction } from 'src/actions/storyActions';
 import Story from 'src/interfaces/Story';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
 import { deleteStory } from '../../utils/api';
@@ -12,6 +12,7 @@ import { deleteStory } from '../../utils/api';
 interface Props {
     stories: Array<Story>
     selectCurrentStory: Function
+    selectCurrentAction: Function
     displayConfirmDialog: Function
     selectedStory: Story
     editedStory: Story
@@ -37,6 +38,7 @@ class SimpleStoryList extends React.Component<Props, State> {
         if (!story) {
             this.props.selectCurrentStory(null);
         } else if (this.props.selectedStory.id !== story.id) {
+            this.props.selectCurrentAction(story.actions[0]);
             this.props.selectCurrentStory(story);
         }
     }
@@ -63,6 +65,7 @@ class SimpleStoryList extends React.Component<Props, State> {
             newStory = new Story(1);
         }
         this.props.stories.push(newStory);
+        this.props.selectCurrentAction(newStory.actions[0]);
         this.props.selectCurrentStory(newStory);
     }
 
@@ -97,7 +100,7 @@ class SimpleStoryList extends React.Component<Props, State> {
 
     public duplicateStory(event: any, story: Story) {
         event.stopPropagation();
-        let newStory = story.duplicate(this.props.stories[this.props.stories.length - 1].id +1);
+        let newStory = story.duplicate(this.props.stories[this.props.stories.length - 1].id + 1);
         this.props.stories.push(newStory);
         this.props.selectCurrentStory(newStory);
         this.forceUpdate();
@@ -156,4 +159,4 @@ function mapStateToProps(state: any) {
     }
 }
 
-export default connect(mapStateToProps, { selectCurrentStory, displayConfirmDialog })(SimpleStoryList);
+export default connect(mapStateToProps, { selectCurrentStory, selectCurrentAction, displayConfirmDialog })(SimpleStoryList);

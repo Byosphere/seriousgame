@@ -10,7 +10,6 @@ import { displayConfirmDialog } from 'src/actions/snackbarActions';
 
 interface Props {
     actions: Array<Action>
-    status?: number
     selectCurrentAction: Function
     displayConfirmDialog: Function
 }
@@ -42,6 +41,10 @@ class ActionsTimeline extends React.Component<Props, State> {
         this.forceUpdate();
     }
 
+    public componentWillReceiveProps() {
+        this.setState({ step: 0 });
+    }
+
     public addAction(): any {
         if (this.state.step === this.props.actions.length - 1) return;
         let id = 'action';
@@ -67,6 +70,7 @@ class ActionsTimeline extends React.Component<Props, State> {
     }
 
     public render() {
+
         return (
             <Card className="actions-timeline">
                 <h3>{T.translate('action.list')}</h3>

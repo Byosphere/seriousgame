@@ -1,12 +1,12 @@
 import * as React from 'react';
 import './iacreator.css';
 import T from 'i18n-react';
-import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button, InputLabel, Select, OutlinedInput, MenuItem } from '@material-ui/core';
+import { Card, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button, Select, OutlinedInput, MenuItem, IconButton, Tooltip } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { HAUT } from 'src/utils/constants';
 import Action from 'src/interfaces/Action';
 import Message from 'src/interfaces/Message';
-import { Add } from '@material-ui/icons';
+import { Add, Delete } from '@material-ui/icons';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
 
 interface State { }
@@ -102,7 +102,11 @@ class IaCreator extends React.Component<Props, State> {
                             })}
                         </Select>
                     </FormControl>
-                    <Button onClick={() => { this.deleteMessage() }} color="primary">{T.translate('generic.delete')}</Button>
+                    <Tooltip placement="left" title={T.translate('generic.delete')}>
+                        <IconButton className="ia-delete" onClick={() => { this.deleteMessage() }} color="primary" aria-label="Delete">
+                            <Delete />
+                        </IconButton>
+                    </Tooltip>
                 </Card>
             );
         } else {
