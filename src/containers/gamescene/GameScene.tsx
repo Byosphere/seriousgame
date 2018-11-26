@@ -118,7 +118,7 @@ class GameScene extends React.Component<Props, State> {
                 <div className="game">
                     <AppBar position="static" style={{ backgroundColor: this.state.role.color }}>
                         <Toolbar>
-                            <h1 className="app-title">
+                            <h1 className={"app-title " + this.state.role.theme}>
                                 {this.state.story.name} - {this.state.role.name}
                             </h1>
                             {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}

@@ -4,6 +4,7 @@ import { Person, Delete } from '@material-ui/icons';
 import T from 'i18n-react';
 import './playerlist.css';
 import { ejectPlayer } from 'src/utils/api';
+import Role from 'src/interfaces/Role';
 
 interface State {
 
@@ -11,6 +12,7 @@ interface State {
 
 interface Props {
     players: Array<Player>
+    roles: Array<Role>
 }
 
 class playerList extends React.Component<Props, State> {
@@ -19,13 +21,13 @@ class playerList extends React.Component<Props, State> {
         super(props);
     }
 
-    public getPlayerStatus(player: Player): string {
-        // TODO
-        return '';
-    }
-
     public removePlayer(playerId: number): void {
         ejectPlayer(playerId);
+    }
+
+    public getRoleName(roleId: number): string {
+        let role = this.props.roles.find(role => { return role.id === roleId });
+        return role ? role.name : '';
     }
 
     public render() {
@@ -46,7 +48,7 @@ class playerList extends React.Component<Props, State> {
                                     <Person />
                                 </ListItemIcon>
                                 <ListItemText
-                                    primary={player.name} />
+                                    primary={player.name} secondary={this.getRoleName(player.roleId)} />
                                 <ListItemSecondaryAction>
                                     <IconButton onClick={() => this.removePlayer(player.id)} color="primary" aria-label="Delete">
                                         <Delete />

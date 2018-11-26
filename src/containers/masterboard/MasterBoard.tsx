@@ -191,7 +191,7 @@ class MasterBoard extends React.Component<Props, State> {
 					</Toolbar>
 				</AppBar>
 				{this.state.tabValue === 0 && <div className="content">
-					<PlayerList players={this.state.players} />
+					<PlayerList players={this.state.players} roles={this.state.roles} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
 					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={sendAction} />}

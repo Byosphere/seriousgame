@@ -26,6 +26,14 @@ td.red {
     font-size: 1.6rem;
 }
 
+.app-title.dark {
+    color: black;
+}
+
+.app-title.light {
+    color: white;
+}
+
 .actions-list {
     grid-row: 2 / 3;
 }
