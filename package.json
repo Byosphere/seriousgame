@@ -1,6 +1,7 @@
 {
   "name": "seriousgame",
-  "version": "0.8.6",
+  "displayName": "Serious Game Orange",
+  "version": "0.9.0",
   "description": "Créateur de jeu Orange",
   "author": "Yohann CAILLON",
   "private": true,

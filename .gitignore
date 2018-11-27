@@ -26,6 +26,7 @@ yarn-error.log*
 
 /public/images
 
+/app
 
 #data
 /data
