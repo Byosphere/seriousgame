@@ -3,7 +3,6 @@ import './roleselect.css';
 import { Card, CardHeader } from '@material-ui/core';
 import T from 'i18n-react';
 import { selectRole, getPlayerStory, updateRole } from '../../utils/api';
-import { Redirect } from 'react-router';
 import Loader from '../../components/loader/Loader';
 import Story from 'src/interfaces/Story';
 import Role from 'src/interfaces/Role';

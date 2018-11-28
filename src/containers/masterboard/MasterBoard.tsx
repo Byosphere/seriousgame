@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Cached, Stop } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, playerQuit, loadRoles, ejectPlayer } from '../../utils/api';
+import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, ejectPlayer } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
@@ -19,6 +19,7 @@ import Action from 'src/interfaces/Action';
 import ConfirmDialog from 'src/components/confirmdialog/ConfirmDialog';
 import { ConfirmMessage } from 'src/interfaces/ConfirmMessage';
 import Role from 'src/interfaces/Role';
+import Player from 'src/interfaces/Player';
 import { ACTION_INITIAL } from 'src/utils/constants';
 
 interface Props {
@@ -106,16 +107,6 @@ class MasterBoard extends React.Component<Props, State> {
 				gameStarted: true,
 				status: 1
 			});
-		});
-
-		playerQuit(() => {
-			if (!this.state.selectedStory) return;
-			this.setState({
-				gameStarted: false,
-				selectedStory: null,
-				status: 0,
-				togglePause: false
-			})
 		});
 
 		this.startStory = this.startStory.bind(this);
