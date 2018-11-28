@@ -32,7 +32,7 @@ class App extends React.Component<Props, State> {
 	public onConnected(connector: Connector) {
 		this.setState({ status: connector.type, connector });
 		onDisconnect((err: any) => {
-			this.setState({ status: DISCONNECTED, connector: null })
+			this.setState({ status: CONNECT, connector: null })
 		});
 	}
 
@@ -48,13 +48,6 @@ class App extends React.Component<Props, State> {
 							onConnected={(connector: Connector) => { this.onConnected(connector) }}
 							connector={this.state.connector}
 						/>
-					</div>
-				);
-			case DISCONNECTED:
-				return (
-					<div className="app">
-						{window && window["process"] && window["process"].type && <Frame />}
-						<Loader button="loader.reconnect" buttonAction={() => { this.setState({ status: CONNECT }) }} textKey="loader.disconnected" />
 					</div>
 				);
 

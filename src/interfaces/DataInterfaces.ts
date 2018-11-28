@@ -61,3 +61,9 @@ interface RoleData {
     color?: string
     theme?: string
 }
+
+interface PlayerData {
+    id: number
+    name: string
+    roleId: number
+}

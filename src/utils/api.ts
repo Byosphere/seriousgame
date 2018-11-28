@@ -1,6 +1,7 @@
 import * as io from 'socket.io-client';
 import Story from 'src/interfaces/Story';
 import Role from 'src/interfaces/Role';
+import Player from 'src/interfaces/Player';
 
 let socket: SocketIOClient.Socket = null;
 
@@ -58,6 +59,17 @@ export function loadRoles(response: Function) {
     socket.emit('getroles');
 }
 
+export function loadPlayers(response: Function) {
+    socket.on('getplayers', (resp: Array<PlayerData>) => {
+        let playerList: Array<Player> = [];
+        resp.forEach(player => {
+            if(player) playerList.push(Player.fromData(player));
+        });
+        response(playerList);
+    });
+    socket.emit('getplayers');
+}
+
 /**
  * 
  * @param roles 
@@ -83,11 +95,18 @@ export function deleteStory(storyId: number, response: Function) {
  * @param response : fonction retournant err et la liste des joueurs
  */
 export function onPlayerUpdate(response: any) {
-    socket.on('playerupdate', (players: Array<Player>) => response(null, players));
+    socket.on('playerupdate', (resp: Array<Player>) => {
+        let playerList: Array<Player> = [];
+        resp.forEach(player => {
+            if(player) playerList.push(Player.fromData(player));
+        })
+        response(null, playerList);
+    });
 }
 
-export function ejectPlayer(playerId: number) {
-    socket.emit('ejectplayer', playerId);
+export function ejectPlayer(playerId?: number) {
+    let pid = playerId || 0;
+    socket.emit('ejectplayer', pid);
 }
 
 /**
@@ -104,7 +123,7 @@ export function selectRole(roleId: number, response: any) {
  * Fonction pour récupérer les roles
  * @param response 
  */
-export function updateRole(response: any) {
+export function updateRole(response: Function) {
     socket.on('updaterole', (role: Role) => response(null, role));
 }
 
@@ -164,15 +183,6 @@ export function setPlayPause(bool: boolean, response: any) {
  */
 export function playPause(response: Function) {
     socket.on('playpause', (bool: boolean) => response(bool));
-}
-
-export function quitGame(response: Function) {
-    socket.on('quitgame', () => response());
-    socket.emit('quitgame');
-}
-
-export function playerQuit(response: Function) {
-    socket.on('adminquit', () => response());
 }
 
 /**

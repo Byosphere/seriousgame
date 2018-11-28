@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
-import { startGame, playPause, listenDynamicActions, quitGame, getServerAddr } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions, getServerAddr, ejectPlayer } from '../../utils/api';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -77,7 +77,6 @@ class GameScene extends React.Component<Props, State> {
             }
 
         });
-        this.quitGame = this.quitGame.bind(this);
     }
 
     public displayGrid() {
@@ -97,11 +96,10 @@ class GameScene extends React.Component<Props, State> {
         });
     }
 
-    public quitGame(changeServer: boolean) {
-        quitGame(() => {
-            this.setState({ role: null });
-            if (changeServer) this.props.changeServer();
-        });
+    public quitGame() {
+        ejectPlayer();
+        this.setState({ role: null });
+        this.props.changeServer();
     }
 
     public render() {
@@ -110,9 +108,9 @@ class GameScene extends React.Component<Props, State> {
         if (this.state.story) isLastAction = this.state.story.actions[this.state.story.actions.length - 1].id === this.state.lastActionId;
 
         if (!this.state.role) {
-            return <RoleSelect changeServer={() => { this.quitGame(true) }} selectRole={(role: Role) => this.setState({ role })} />;
+            return <RoleSelect changeServer={() => { this.quitGame() }} selectRole={(role: Role) => this.setState({ role })} />;
         } else if (isLastAction) {
-            return (<Loader buttonAction={() => { this.quitGame(false) }} button="loader.quit" textKey="loader.endgame" />);
+            return (<Loader buttonAction={() => { this.quitGame() }} button="loader.quit" textKey="loader.endgame" />);
         } else if (this.state.gameReady) {
             return (
                 <div className="game">

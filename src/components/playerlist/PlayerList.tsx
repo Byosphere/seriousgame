@@ -5,6 +5,7 @@ import T from 'i18n-react';
 import './playerlist.css';
 import { ejectPlayer } from 'src/utils/api';
 import Role from 'src/interfaces/Role';
+import Player from 'src/interfaces/Player';
 
 interface State {
 

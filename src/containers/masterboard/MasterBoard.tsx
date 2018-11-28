@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
-import { PauseCircleOutline, PlayCircleOutline, Cached, Stop } from '@material-ui/icons';
+import { PauseCircleOutline, PlayCircleOutline, Stop } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, ejectPlayer } from '../../utils/api';
+import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, ejectPlayer } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
@@ -81,16 +81,16 @@ class MasterBoard extends React.Component<Props, State> {
 		});
 
 		loadStories((stories: Array<Story>) => {
-			this.setState({
-				stories
-			});
+			this.setState({ stories });
 		});
 
 		loadRoles((roles: Array<Role>) => {
-			this.setState({
-				roles
-			});
-		})
+			this.setState({ roles });
+		});
+
+		loadPlayers((players: Array<Player>) => {
+			this.setState({ players });
+		});
 
 		listenDynamicActions((actionId: string) => {
 			if (this.state.selectedStory) {
