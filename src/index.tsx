@@ -10,7 +10,7 @@ import { ORANGE } from './utils/constants';
 import { getNavigatorLanguage } from './utils/tools';
 import T from 'i18n-react';
 
-const lang =  'fr'; //getNavigatorLanguage(); a changer si multilingue
+const lang = 'fr'; //getNavigatorLanguage(); a changer si multilingue
 
 T.setTexts(require('./languages/' + lang + '.json'));
 
