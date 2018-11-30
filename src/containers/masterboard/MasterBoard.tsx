@@ -164,7 +164,7 @@ class MasterBoard extends React.Component<Props, State> {
 				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
 						<div style={{ display: "flex", alignItems: "center" }}>
-							<img src={logo} alt="logo" />
+							<img src={logo} style={{marginRight:"20px"}} alt="logo" />
 							<h1>{T.translate('appshort')}</h1>
 						</div>
 						{!this.state.selectedStory && <div style={{ display: "flex", alignItems: "center" }}>

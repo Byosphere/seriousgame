@@ -89,7 +89,7 @@ class ComponentCreator extends React.Component<Props, State> {
         }
     }
 
-    public checkComponent(event: any, cmp: Component) {
+    public checkComponent(cmp: Component) {
         let actionId = this.props.selectedAction.id;
         if (this.isChecked(cmp)) {
             cmp.actionToDisplay.forEach((id, i) => {
@@ -148,11 +148,12 @@ class ComponentCreator extends React.Component<Props, State> {
                 <List dense className="components-list">
                     {this.props.page.components.map((cmp: Component, i: number) => {
                         return (
-                            <ListItem key={i} button onClick={event => { this.checkComponent(event, cmp) }}>
+                            <ListItem key={i} button>
                                 <Switch
                                     checked={this.isChecked(cmp)}
                                     value="checked"
                                     color="primary"
+                                    onClick={() => { this.checkComponent(cmp) }}
                                 />
                                 <ListItemText primary={cmp.name} secondary={'Type : ' + cmp.type + ' | cols : ' + cmp.cols + ' - rows : ' + cmp.rows} />
                                 <ListItemSecondaryAction>

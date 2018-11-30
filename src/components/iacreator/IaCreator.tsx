@@ -59,27 +59,14 @@ class IaCreator extends React.Component<Props, State> {
                         id="ia-text"
                         label={T.translate('ia.text')}
                         multiline
-                        rowsMax="5"
-                        rows="5"
+                        rowsMax="8"
+                        rows="8"
                         value={message.text}
                         onChange={(evt) => { this.handleChange(evt, 'text', message) }}
                         margin="normal"
                         variant="outlined"
                         fullWidth
                     />
-                    <FormControl style={{ marginTop: "5px" }} component="fieldset">
-                        <FormLabel component="legend">{T.translate('ia.position')}</FormLabel>
-                        <RadioGroup
-                            style={{ flexDirection: "row" }}
-                            aria-label="position"
-                            name="position"
-                            value={message.position}
-                            onChange={evt => { this.handleChange(evt, 'position', message) }}
-                        >
-                            <FormControlLabel value="haut" control={<Radio color="primary" />} label={T.translate('ia.haut')} />
-                            <FormControlLabel value="bas" control={<Radio color="primary" />} label={T.translate('ia.bas')} />
-                        </RadioGroup>
-                    </FormControl>
                     <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
                         <Select
                             fullWidth
