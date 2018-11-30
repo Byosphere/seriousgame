@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { sendAction } from 'src/utils/api';
 import Component from 'src/interfaces/Component';
+import { connect } from 'react-redux';
 import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 
 interface Props {
     component: Component
     style: any
     lastAction: string
+    playerName: string
 }
 
 interface State {
@@ -22,7 +24,7 @@ class DynamicComponent extends React.Component<Props, State> {
     }
 
     public dispatchAction(actionId: string) {
-        if (actionId) sendAction(actionId);
+        if (actionId) sendAction(actionId, this.props.playerName);
     }
 
     public canRenderComponent(): boolean {
@@ -34,7 +36,7 @@ class DynamicComponent extends React.Component<Props, State> {
     public selectComponent() {
         let Cmp = DYNAMIC_COMPONENTS[this.props.component.type];
         if (Cmp) {
-            return (<Cmp component={this.props.component} lastAction={this.props.lastAction} sendAction={this.dispatchAction} />);
+            return (<Cmp component={this.props.component} lastAction={this.props.lastAction} sendAction={(actionId: string) => { this.dispatchAction(actionId) }} />);
         } else {
             throw ("Le composant " + this.props.component.type + " n'existe pas.");
         }
@@ -82,5 +84,10 @@ class DynamicComponent extends React.Component<Props, State> {
         );
     }
 }
+function mapStateToProps(state: any) {
+    return {
+        playerName: state.connector.playerName
+    }
+}
 
-export default DynamicComponent;
+export default connect(mapStateToProps, {})(DynamicComponent);

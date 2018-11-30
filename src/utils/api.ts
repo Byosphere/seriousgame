@@ -63,7 +63,7 @@ export function loadPlayers(response: Function) {
     socket.on('getplayers', (resp: Array<PlayerData>) => {
         let playerList: Array<Player> = [];
         resp.forEach(player => {
-            if(player) playerList.push(Player.fromData(player));
+            if (player) playerList.push(Player.fromData(player));
         });
         response(playerList);
     });
@@ -98,7 +98,7 @@ export function onPlayerUpdate(response: any) {
     socket.on('playerupdate', (resp: Array<Player>) => {
         let playerList: Array<Player> = [];
         resp.forEach(player => {
-            if(player) playerList.push(Player.fromData(player));
+            if (player) playerList.push(Player.fromData(player));
         })
         response(null, playerList);
     });
@@ -155,8 +155,8 @@ export function startGame(response: any) {
  * Fonction permettant de donner l'ordre au server de broadcaster une action à tout le monde
  * @param actionId string de l'action à broadcaster
  */
-export function sendAction(actionId: string) {
-    socket.emit('dynamicaction', actionId);
+export function sendAction(actionId: string, playerName?: string) {
+    socket.emit('dynamicaction', actionId, playerName);
 }
 
 /**
@@ -164,7 +164,9 @@ export function sendAction(actionId: string) {
  * @param response 
  */
 export function listenDynamicActions(response: Function) {
-    socket.on('dynamicaction', (actionId: string) => response(actionId));
+    socket.on('dynamicaction', (actionId: string, playerName: string) => {
+        response(actionId, playerName);
+    });
 }
 
 /**

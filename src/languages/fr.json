@@ -1,5 +1,5 @@
 {
-    "appname": "Orange Serious Game Builder",
+    "appname": "Orange XDLAB - Serious Game Builder",
     "appshort": "Orange XDLAB - Serious Game Builder",
     "action": {
         "name": "Intitulé",
@@ -48,7 +48,8 @@
             "2": "En partie"
         },
         "player": "Joueur",
-        "update": "Liste des joueurs mise à jour"
+        "update": "Liste des joueurs mise à jour",
+        "action": "Une action a été déclenchée par {playerName} ({roleName})"
     },
     "story": {
         "launch": "Lancer la partie",

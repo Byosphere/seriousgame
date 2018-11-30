@@ -95,13 +95,18 @@ class MasterBoard extends React.Component<Props, State> {
 			this.setState({ players });
 		});
 
-		listenDynamicActions((actionId: string) => {
+		listenDynamicActions((actionId: string, playerName: string) => {
 			if (this.state.selectedStory) {
 				let actions = this.state.selectedStory.actions;
 				let step = actions.findIndex((a: Action) => { return a.id === actionId });
 				this.setState({
 					status: step + 1 // pour passer la selection de role
 				});
+				if (playerName) {
+					let player = this.state.players.find(player => { return player.name === playerName });
+					let role = this.state.roles.find(role => { return role.id === player.roleId });
+					this.props.displaySnackbar(T.translate('player.action', { playerName, roleName: role.name }));
+				}
 			}
 		});
 
