@@ -47,7 +47,7 @@ class Interface {
 
         let pages: Array<Page> = [];
         this.pages.forEach(page => {
-            pages.push(page.duplicate());
+            pages.push(page.duplicate(page.id));
         });
         let messages: Array<Message> = [];
         this.messages.forEach(message => {

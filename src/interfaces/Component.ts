@@ -104,7 +104,7 @@ class Component {
         };
     }
     public duplicate(): Component {
-        return new Component(this.id, this.type, this.name, this.cols, this.rows, this.position, this.actionToDisplay, this.clickAction, this.params);
+        return new Component(this.id, this.type, this.name, this.cols, this.rows, this.position, [], this.clickAction, this.params);
     }
 
 }
