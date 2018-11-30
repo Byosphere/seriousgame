@@ -1,8 +1,9 @@
 {
     "appname": "Orange Serious Game Builder",
-    "appshort": "Orange Serious Game Builder",
+    "appshort": "Orange XDLAB - Serious Game Builder",
     "action": {
         "name": "Intitulé",
+        "next": "Passer à ",
         "list": "Liste des étapes",
         "description": "Description",
         "master": "Activable par le Maître du jeu",
@@ -24,7 +25,7 @@
         "play": "Reprendre la partie",
         "restart": "Recommencer la partie",
         "player": {
-            "no-role": "Sélectionne son rôle...",
+            "no-role": "Les joueurs sélectionnent un rôle...",
             "role": "Rôle : ",
             "no-player": "Aucun joueur connecté",
             "waitingstory": "En attente d'une story"

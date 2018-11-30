@@ -164,7 +164,7 @@ class MasterBoard extends React.Component<Props, State> {
 				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
 						<div style={{ display: "flex", alignItems: "center" }}>
-							<img src={logo} style={{marginRight:"20px"}} alt="logo" />
+							<img src={logo} style={{ marginRight: "20px" }} alt="logo" />
 							<h1>{T.translate('appshort')}</h1>
 						</div>
 						{!this.state.selectedStory && <div style={{ display: "flex", alignItems: "center" }}>
@@ -193,8 +193,8 @@ class MasterBoard extends React.Component<Props, State> {
 				{this.state.tabValue === 0 && <div className="content">
 					<PlayerList players={this.state.players} roles={this.state.roles} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
-					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} />}
-					{this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={sendAction} />}
+					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} sendAction={(actionId: string) => { this.sendAction(actionId) }} />}
+					{/* {this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={sendAction} />} */}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}

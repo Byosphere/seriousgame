@@ -45,16 +45,19 @@ class ActionsTimeline extends React.Component<Props, State> {
         this.setState({ step: 0 });
     }
 
-    public addAction(): any {
-        if (this.state.step === this.props.actions.length - 1) return;
-        let id = 'action';
-        if (this.props.actions.length === 2) {
-            id = 'action1';
-        } else {
-            id += parseInt(this.props.actions[this.props.actions.length - 2].id.substring(6)) + 1;
+    public addAction() {
+        let id = 1;
+        if (this.props.actions.length !== 2) {
+            let action: Action = null;
+            do {
+                id++;
+                action = this.props.actions.find(action => {
+                    let aid = parseInt(action.id.substring(6));
+                    return aid === id;
+                });
+            } while (action);
         }
-
-        this.props.actions.splice(this.state.step + 1, 0, new Action(id, T.translate('action.defaultname').toString()));
+        this.props.actions.splice(this.state.step + 1, 0, new Action("action" + id, T.translate('action.defaultname').toString()));
         this.handleStep(this.state.step + 1);
     }
 
@@ -81,7 +84,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                     {this.props.actions.map((action, i) => {
                         return (
                             <Step style={{ cursor: "pointer" }} onClick={() => { this.handleStep(i) }} key={i}>
-                                <StepLabel>{action.name}</StepLabel>
+                                <StepLabel>{action.name + "(" + action.id + ")"}</StepLabel>
                                 {(action.id !== ACTION_INITIAL && action.id !== ACTION_FINALE) && <StepContent>
                                     <div>
                                         <TextField
@@ -122,7 +125,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                         );
                     })}
                 </Stepper>
-                <Button color="primary" onClick={() => { this.addAction() }}>{T.translate('action.add')}</Button>
+                <Button disabled={this.state.step === this.props.actions.length - 1} color="primary" onClick={() => { this.addAction() }}>{T.translate('action.add')}</Button>
             </Card>
         );
     }
