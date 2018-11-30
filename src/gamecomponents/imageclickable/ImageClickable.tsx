@@ -22,7 +22,15 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
     public static getParamModel() {
         return {
             "src": "Source de l'image (chaine de caractères)",
-            "name": "Nom de l'image (chaine de caractères)"
+            "name": "Nom de l'image (chaine de caractères)",
+            "overflow": "Ajustement de la taille : width | height | null (chaine de caractères)"
+        }
+    }
+
+    public setOverflow(): React.CSSProperties {
+        return {
+            width: this.props.component.params.overflow === 'width' ? "100%" : "",
+            height: this.props.component.params.overflow === 'height' ? "100%" : "",
         }
     }
 
@@ -35,9 +43,7 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
 
     render() {
         return (
-            <div className="image-clickable">
-                <img onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
-            </div>
+            <img className="image-clickable" style={this.setOverflow()} onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
         );
     }
 }

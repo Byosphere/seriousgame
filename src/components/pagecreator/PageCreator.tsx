@@ -165,6 +165,13 @@ class PageCreator extends React.Component<Props, State> {
             <div className="page-creator">
                 {this.props.pages.map((page, i) => {
                     let selected = Boolean(this.props.selectedAction && this.props.pages[i].actionToDisplay.length && this.props.pages[i].actionToDisplay.indexOf(this.props.selectedAction.id) > -1);
+                    if (page.background) {
+                        imageExists(getServerAddr() + page.background, (resp: boolean) => {
+                            let backgroundstate = this.state.backgroundstate;
+                            backgroundstate[i] = resp;
+                            this.setState({ backgroundstate });
+                        });
+                    }
                     return (
                         <ExpansionPanel key={i} className={selected ? 'on' : 'off'}>
                             <ExpansionPanelSummary style={{ paddingLeft: '0' }} className="panel-summary" expandIcon={<ExpandMore />}>
@@ -252,7 +259,7 @@ class PageCreator extends React.Component<Props, State> {
                                     error={Boolean(page.background && !this.state.backgroundstate[i])}
                                     onChange={event => { this.onChange(event, 'background', page, i) }}
                                     InputProps={{
-                                        endAdornment: <InputAdornment position="end">{this.state.backgroundstate[i] ? <Tooltip title={T.translate('interface.bgfound')}><Link /></Tooltip> : <Tooltip title={T.translate('interface.bgnotfound')}><LinkOff style={{color: "#FF0000"}} /></Tooltip>}</InputAdornment>,
+                                        endAdornment: <InputAdornment position="end">{this.state.backgroundstate[i] ? <Tooltip title={T.translate('interface.bgfound')}><Link /></Tooltip> : <Tooltip title={T.translate('interface.bgnotfound')}><LinkOff style={{ color: "#FF0000" }} /></Tooltip>}</InputAdornment>,
                                     }}
                                 />
                                 <div className="components-wrapper">
