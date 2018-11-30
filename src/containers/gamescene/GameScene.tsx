@@ -12,6 +12,7 @@ import Interface from 'src/interfaces/Interface';
 import { ACTION_INITIAL } from 'src/utils/constants';
 import Role from 'src/interfaces/Role';
 import RoleSelect from '../roleselect/RoleSelect';
+import logo from 'src/logo.png';
 
 interface Props {
     changeServer: Function
@@ -116,6 +117,7 @@ class GameScene extends React.Component<Props, State> {
                 <div className="game">
                     <AppBar position="static" style={{ backgroundColor: this.state.role.color }}>
                         <Toolbar>
+                            <img src={logo} alt="logo" style={{ marginRight: "20px" }} />
                             <h1 className={"app-title " + this.state.role.theme}>
                                 {this.state.story.name} - {this.state.role.name}
                             </h1>

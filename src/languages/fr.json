@@ -1,5 +1,6 @@
 {
     "appname": "Orange Serious Game Builder",
+    "appshort": "Orange Serious Game Builder",
     "action": {
         "name": "Intitulé",
         "list": "Liste des étapes",
@@ -33,7 +34,10 @@
         "actionstitle": "Étapes du maître du jeu",
         "roleselect": "Sélection des rôles",
         "master": "Maître de jeu",
-        "stop": "Arrêter la partie"
+        "stop": "Arrêter la partie",
+        "quit": "quitter",
+        "titlequit": "Quitter",
+        "confirmquit": "Êtes-vous sur de vouloir quitter l'interface de maître du jeu ?"
     },
     "player": {
         "titleselect": "Sélectionne un rôle pour la partie",

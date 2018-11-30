@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './masterboard.css';
-import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab, Button } from '@material-ui/core';
-import { PauseCircleOutline, PlayCircleOutline, Stop } from '@material-ui/icons';
+import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/core';
+import { PauseCircleOutline, PlayCircleOutline, Stop, PowerSettingsNew } from '@material-ui/icons';
 import T from 'i18n-react';
 import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, ejectPlayer } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
@@ -21,6 +21,7 @@ import { ConfirmMessage } from 'src/interfaces/ConfirmMessage';
 import Role from 'src/interfaces/Role';
 import Player from 'src/interfaces/Player';
 import { ACTION_INITIAL } from 'src/utils/constants';
+import logo from 'src/logo.png';
 
 interface Props {
 	openSnackbar: boolean
@@ -41,6 +42,7 @@ interface State {
 	gameStarted: boolean
 	tabValue: number
 	roles: Array<Role>
+	confirmQuit: boolean
 }
 
 /**
@@ -59,7 +61,8 @@ class MasterBoard extends React.Component<Props, State> {
 			status: 0,
 			gameStarted: false,
 			tabValue: 0,
-			roles: null
+			roles: null,
+			confirmQuit: false
 		}
 		onPlayerUpdate((err: any, response: Array<Player>) => {
 			if (!err) {
@@ -160,25 +163,31 @@ class MasterBoard extends React.Component<Props, State> {
 			<div className="masterboard">
 				<AppBar position="static" color="primary" className={this.state.togglePause ? "pause" : "play"}>
 					<Toolbar>
-						<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
-							<Tab label={T.translate('instructor.title')} />
-							<Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />
-							<Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />
-						</Tabs>
-						<div>
-							{(this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.play')}>
+						<div style={{ display: "flex", alignItems: "center" }}>
+							<img src={logo} alt="logo" />
+							<h1>{T.translate('appshort')}</h1>
+						</div>
+						{!this.state.selectedStory && <div style={{ display: "flex", alignItems: "center" }}>
+							<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
+								<Tab label={T.translate('instructor.title')} />
+								<Tab label={T.translate('instructor.storycreator')} disabled={this.state.selectedStory !== null} />
+								<Tab label={T.translate('instructor.rolecreator')} disabled={this.state.selectedStory !== null} />
+							</Tabs>
+							<Tooltip title={T.translate('instructor.quit')}>
+								<IconButton style={{ marginRight: "-18px", marginLeft: "10px" }} onClick={() => { this.setState({ confirmQuit: true }) }} color="inherit"><PowerSettingsNew /></IconButton>
+							</Tooltip>
+						</div>}
+						{this.state.selectedStory && <div>
+							{this.state.togglePause && <Tooltip title={T.translate('instructor.play')}>
 								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PlayCircleOutline /></IconButton>
 							</Tooltip>}
-							{(!this.state.togglePause && this.state.selectedStory) && <Tooltip title={T.translate('instructor.pause')}>
+							{!this.state.togglePause && <Tooltip title={T.translate('instructor.pause')}>
 								<IconButton onClick={() => { this.togglePause() }} color="inherit"><PauseCircleOutline /></IconButton>
 							</Tooltip>}
-							{/* {this.state.selectedStory && <Tooltip title={T.translate('instructor.restart')}>
-								<IconButton onClick={() => { this.toggleRestart() }} color="inherit"><Cached /></IconButton>
-							</Tooltip>} */}
-							{this.state.selectedStory && <Tooltip title={T.translate('instructor.stop')}>
+							{<Tooltip title={T.translate('instructor.stop')}>
 								<IconButton onClick={() => { this.toggleStop() }} color="inherit"><Stop /></IconButton>
 							</Tooltip>}
-						</div>
+						</div>}
 					</Toolbar>
 				</AppBar>
 				{this.state.tabValue === 0 && <div className="content">
@@ -191,9 +200,7 @@ class MasterBoard extends React.Component<Props, State> {
 				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}
 				<MasterSnackbar open={this.props.openSnackbar} message={this.props.snackbarMessage} onClose={() => { this.snackbarClose() }} />
 				<ConfirmDialog open={this.props.openConfirmDialog} message={this.props.confirmDialogInfo} onClose={() => { this.props.closeConfirmDialog() }} />
-				{!this.state.selectedStory && <Button onClick={() => { this.props.changeServer() }} className="server-quit" color="secondary" aria-label="change-server">
-					{T.translate('server.change')}
-				</Button>}
+				<ConfirmDialog open={this.state.confirmQuit} message={{ title: T.translate('instructor.titlequit').toString(), content: T.translate('instructor.confirmquit').toString(), confirm: () => { this.props.changeServer() } }} onClose={() => { this.setState({ confirmQuit: false }) }} />
 			</div >
 		);
 	}
