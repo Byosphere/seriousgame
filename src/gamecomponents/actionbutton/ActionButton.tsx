@@ -21,8 +21,8 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
     public static getParamModel() {
         return {
             "text": "Le texte du bouton (chaine de caractères non null)",
-            "size": "Small | Big | null",
-            "color": "Primary | Default | null",
+            "size": "small | large | medium (ou null)",
+            "color": "primary | default | null",
             "variant": "contained | outlined | null"
         }
     }
@@ -36,7 +36,7 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
 
     render() {
         return (
-            <Button color={this.props.component.params.color} variant={this.props.component.params.variant} disabled={this.state.disabled} onClick={() => { this.click() }}>{this.props.component.params.text}</Button>
+            <Button color={this.props.component.params.color} size={this.props.component.params.size} variant={this.props.component.params.variant} disabled={this.state.disabled} onClick={() => { this.click() }}>{this.props.component.params.text}</Button>
         );
     }
 }
