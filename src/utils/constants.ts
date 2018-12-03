@@ -35,6 +35,11 @@ export const DYNAMIC_COMPONENTS = {
     'TextClickable': require('../gamecomponents/textclickable/TextClickable').default
 };
 
+export const NO_POS_COMP: string[] = [
+    'Quizz',
+    'PopinIa'
+];
+
 /*
  + + + + + REDUX CONSTANTS + + + + +
 */
