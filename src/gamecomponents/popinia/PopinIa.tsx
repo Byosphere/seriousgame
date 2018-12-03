@@ -18,7 +18,8 @@ class PopinIa extends React.Component<GameProps, State> implements GameComponent
     public static getParamModel() {
         return {
             "text": "Texte du message",
-            "buttonText": "Texte du bouton pour valider le message (facultatif)"
+            "buttonText": "Texte du bouton pour valider le message (facultatif)",
+            "displayAvatar": "true | false : afficher l'avatar de l'ia dans la popin (facultatif, false par défaut)"
         }
     }
 
@@ -29,7 +30,7 @@ class PopinIa extends React.Component<GameProps, State> implements GameComponent
     render() {
         return (
             <DialogCard
-                imageIa={this.props.params.imageIa}
+                imageIa={this.props.component.params.displayAvatar ? this.props.params.imageIa : null}
                 onClose={() => { this.onClose() }}
                 textMessage={this.props.component.params.text}
                 buttonText={this.props.component.params.buttonText}

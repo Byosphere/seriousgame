@@ -20,7 +20,7 @@ class DialogCard extends React.Component<Props, State> {
         return (
             <Card raised className="ia-modal">
                 <CardContent>
-                    <Avatar alt="IA" src={getServerAddr() + this.props.imageIa} />
+                    {this.props.imageIa && <Avatar alt="IA" src={getServerAddr() + this.props.imageIa} />}
                     {this.props.buttonClose && <IconButton onClick={() => { this.props.onClose() }}>
                         <Close />
                     </IconButton>}
