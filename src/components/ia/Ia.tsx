@@ -61,7 +61,6 @@ class Ia extends React.Component<Props, State> {
         if (this.state.displayMessage && currentMessage) {
             return (
                 <DialogCard
-                    position={currentMessage.position}
                     imageIa={this.props.params.imageIa}
                     onClose={() => this.handleClose(currentMessage)}
                     textMessage={currentMessage.text}

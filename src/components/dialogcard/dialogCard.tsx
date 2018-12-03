@@ -5,7 +5,6 @@ import { getServerAddr } from 'src/utils/api';
 import { Close } from '@material-ui/icons';
 
 interface Props {
-    position: string
     imageIa: string
     onClose: Function
     textMessage: string
@@ -19,7 +18,7 @@ class DialogCard extends React.Component<Props, State> {
 
     public render() {
         return (
-            <Card raised className={"ia-modal " + this.props.position}>
+            <Card raised className="ia-modal">
                 <CardContent>
                     <Avatar alt="IA" src={getServerAddr() + this.props.imageIa} />
                     {this.props.buttonClose && <IconButton onClick={() => { this.props.onClose() }}>
