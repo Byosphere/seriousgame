@@ -38,6 +38,7 @@ interface PageData {
     cols?: number
     rows?: number
     actionToDisplay?: Array<string>
+    debug: boolean
 }
 
 interface ComponentData {

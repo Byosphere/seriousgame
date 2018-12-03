@@ -152,6 +152,7 @@
         "bgfound": "Image trouvée sur le serveur",
         "bgnotfound": "Image inconnue sur le serveur",
         "deletewarning": "Êtes-vous sûr de vouloir supprimer l'interface du joueur {playerId} ?",
+        "debug": "Afficher la grille",
         "page": {
             "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",

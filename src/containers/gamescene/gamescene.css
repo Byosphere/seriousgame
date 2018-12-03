@@ -6,3 +6,20 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.game .debug-grid {
+    display: grid;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 64px);
+    border-bottom: 1px solid red;
+    border-right: 1px solid red;
+    pointer-events: none;
+}
+
+.game .debug-grid div {
+    border-top: 1px solid red;
+    border-left: 1px solid red;
+}

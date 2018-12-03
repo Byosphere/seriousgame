@@ -10,11 +10,12 @@ interface Page {
     _rows?: number
     actionToDisplay?: Array<string>
     errorMessage: string
+    debug: boolean
 }
 
 class Page {
 
-    constructor(id: number, background?: string, components?: Array<any>, cols?: number, rows?: number, actionToDisplay?: Array<string>) {
+    constructor(id: number, background?: string, components?: Array<any>, cols?: number, rows?: number, actionToDisplay?: Array<string>, debug?: boolean) {
         this.id = id;
         this.background = background || '';
         this.components = components || [];
@@ -22,6 +23,7 @@ class Page {
         this.rows = rows || 0;
         this.actionToDisplay = actionToDisplay || [];
         this.errorMessage = '';
+        this.debug = debug || false;
     }
 
     public set cols(c: any) {
@@ -53,7 +55,8 @@ class Page {
             components,
             cols: this.cols,
             rows: this.rows,
-            actionToDisplay: this.actionToDisplay
+            actionToDisplay: this.actionToDisplay,
+            debug: this.debug
         };
     }
 
@@ -85,7 +88,8 @@ class Page {
         isEqual = this.id === page.id
             && this.rows === page.rows
             && this.cols === page.cols
-            && this.background === page.background;
+            && this.background === page.background
+            && this.debug === page.debug;
 
         this.actionToDisplay.forEach((actionId, i) => {
             if (actionId !== page.actionToDisplay[i]) {
@@ -109,11 +113,11 @@ class Page {
             components.push(component.duplicate());
         });
 
-        return new Page(id, this.background, components, this.cols, this.rows, this.actionToDisplay);
+        return new Page(id, this.background, components, this.cols, this.rows, this.actionToDisplay, this.debug);
     }
 
     static fromData(data: PageData): Page {
-        let { id, background, components, cols, rows, actionToDisplay } = data;
+        let { id, background, components, cols, rows, actionToDisplay, debug } = data;
 
         let componentsData: Array<Component> = [];
         if (components) {
@@ -122,7 +126,7 @@ class Page {
             });
         }
 
-        return new this(id, background, componentsData, cols, rows, actionToDisplay);
+        return new this(id, background, componentsData, cols, rows, actionToDisplay, debug);
     }
 }
 

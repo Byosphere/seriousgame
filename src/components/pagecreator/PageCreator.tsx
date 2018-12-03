@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu, InputAdornment, Tooltip } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu, Switch, InputAdornment, Tooltip } from '@material-ui/core';
 import { ExpandMore, MoreVert, LibraryAdd, ArrowRight, Link, LinkOff } from '@material-ui/icons';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
@@ -220,7 +220,7 @@ class PageCreator extends React.Component<Props, State> {
                                 <p style={{ fontSize: "0.9rem", marginTop: "0", opacity: 0.7 }}>
                                     {T.translate('interface.page.informations')}
                                 </p>
-                                <div>
+                                <div style={{ display: "flex" }}>
                                     <TextField
                                         id="cols-number"
                                         label={T.translate('interface.cols')}
@@ -245,6 +245,18 @@ class PageCreator extends React.Component<Props, State> {
                                         margin="normal"
                                         onChange={event => { this.onChange(event, 'rows', page) }}
                                         style={{ marginLeft: "10px" }}
+                                    />
+                                    <FormControlLabel
+                                        style={{ marginLeft: "20px" }}
+                                        control={
+                                            <Switch
+                                                checked={page.debug}
+                                                onChange={() => { page.debug = !page.debug; this.forceUpdate(); }}
+                                                value="debug"
+                                                color="primary"
+                                            />
+                                        }
+                                        label={T.translate('interface.debug')}
                                     />
                                 </div>
                                 <TextField

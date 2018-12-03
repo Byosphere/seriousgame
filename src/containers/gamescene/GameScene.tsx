@@ -28,6 +28,7 @@ interface State {
     gridStyle: any
     displayIa: boolean
     lastActionId: string
+    gridSize: number
 }
 
 class GameScene extends React.Component<Props, State> {
@@ -44,7 +45,8 @@ class GameScene extends React.Component<Props, State> {
             interface: null,
             gridStyle: {},
             lastActionId: null,
-            displayIa: false
+            displayIa: false,
+            gridSize: 0
         };
 
         startGame((story: Story) => {
@@ -87,12 +89,12 @@ class GameScene extends React.Component<Props, State> {
                     lastActionId: actionId,
                     currentPage: this.state.currentPage + 1
                 });
+                this.displayGrid();
             } else {
                 this.setState({
                     lastActionId: actionId
                 });
             }
-
         });
     }
 
@@ -102,6 +104,7 @@ class GameScene extends React.Component<Props, State> {
         let cols = (currentPage && currentPage.cols) ? currentPage.cols : this.state.interface.cols;
         let rows = (currentPage && currentPage.rows) ? currentPage.rows : this.state.interface.rows;
         let bg = (currentPage && currentPage.background) ? "url('" + getServerAddr() + currentPage.background + "')" : '';
+        let gridSize = cols * rows;
 
         this.setState({
             gridStyle: {
@@ -109,7 +112,8 @@ class GameScene extends React.Component<Props, State> {
                 gridTemplateRows: gridConvertToCss(rows),
                 backgroundImage: bg
             },
-            displayIa: this.state.interface.displayIa
+            displayIa: this.state.interface.displayIa,
+            gridSize
         });
     }
 
@@ -126,6 +130,14 @@ class GameScene extends React.Component<Props, State> {
             lastActionId: null,
             displayIa: false
         });
+    }
+
+    public displayDebugGrid(size: number) {
+        var elems = [];
+        for (let i = 0; i < size; i++) {
+            elems.push(<div className="debug-elem"></div>);
+        }
+        return elems;
     }
 
     public render() {
@@ -155,6 +167,9 @@ class GameScene extends React.Component<Props, State> {
                             return (<DynamicComponent key={i} lastAction={this.state.lastActionId} component={cmp} style={positionConvertToCss(cmp.cols, cmp.rows)} />);
                         })}
                     </div>
+                    {this.state.interface.pages[this.state.currentPage].debug && <div className="debug-grid" style={this.state.gridStyle}>
+                        {this.displayDebugGrid(this.state.gridSize)}
+                    </div>}
                 </div>
             );
         } else {
