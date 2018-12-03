@@ -139,7 +139,8 @@
         "bas": "Bas",
         "add": "Ajouter un message",
         "confirmdelete": "Êtes-vous sûr de vouloir supprimer ce message ?",
-        "informations": "L'IA représente l'aide pour le joueur situé en haut à droite de l'écran. Après chaque action il est possible de définir un message à afficher, et une action à délencher après la lecture de celui-ci."
+        "informations": "L'IA représente l'aide pour le joueur situé en haut à droite de l'écran. Après chaque action il est possible de définir un message à afficher, et une action à délencher après la lecture de celui-ci.",
+        "button": "Compris !"
     },
     "interface": {
         "action": "Actif pour l'étape courante",
@@ -153,6 +154,7 @@
         "bgnotfound": "Image inconnue sur le serveur",
         "deletewarning": "Êtes-vous sûr de vouloir supprimer l'interface du joueur {playerId} ?",
         "debug": "Afficher la grille",
+        "backgroundurl": "Chercher l'image sur le serveur",
         "page": {
             "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page.",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",

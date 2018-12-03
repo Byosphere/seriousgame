@@ -45,7 +45,7 @@ class TextClickable extends React.Component<GameProps, State> implements GameCom
 
     render() {
         return (
-            <div className="text-clickable">
+            <div className={this.props.component.clickAction ? "text-clickable" : "simple-text"}>
                 <p onClick={() => this.click()} style={this.getStyle()}>{this.props.component.params.text}</p>
             </div>
         );

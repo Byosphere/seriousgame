@@ -43,7 +43,7 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
 
     render() {
         return (
-            <img className="image-clickable" style={this.setOverflow()} onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
+            <img className={this.props.component.clickAction ? "image-clickable" : "simple-image" } style={this.setOverflow()} onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
         );
     }
 }

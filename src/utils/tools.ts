@@ -48,31 +48,20 @@ export function syntaxHighlight(json: string) {
     });
 }
 
-let interval: any = null;
 
 export function imageExists(src: string, callback: Function) {
 
-    if (!interval) {
-        interval = setInterval(() => {
-            var img = new Image();
+    var img = new Image();
 
-            img.onload = function () {
-                callback(true);
-            };
+    img.onload = function () {
+        callback(true);
+    };
 
-            img.onerror = function () {
-                callback(false);
-            };
+    img.onerror = function () {
+        callback(false);
+    };
 
-            img.src = src;
-            clearInterval(interval);
-            interval = null;
-        }, 1000);
-    } else {
-        clearInterval(interval);
-        interval = null;
-        imageExists(src, callback);
-    }
+    img.src = src;
 }
 
 export function getSelectableActions(actions: Action[], action: Action): Action[] {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './pagecreator.css';
 import T from 'i18n-react';
 import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, TextField, Button, FormControl, FormControlLabel, Radio, MenuItem, IconButton, Menu, Switch, InputAdornment, Tooltip } from '@material-ui/core';
-import { ExpandMore, MoreVert, LibraryAdd, ArrowRight, Link, LinkOff } from '@material-ui/icons';
+import { ExpandMore, MoreVert, LibraryAdd, ArrowRight, Link, LinkOff, FindReplace } from '@material-ui/icons';
 import Action from 'src/interfaces/Action';
 import { connect } from 'react-redux';
 import Page from 'src/interfaces/Page';
@@ -31,6 +31,7 @@ interface State {
     menuEl: Array<any>
     submenuEl: Array<any>
     backgroundstate: Array<boolean>
+    load: boolean
 }
 
 class PageCreator extends React.Component<Props, State> {
@@ -43,8 +44,15 @@ class PageCreator extends React.Component<Props, State> {
             selectedComponent: [],
             menuEl: [],
             submenuEl: [],
-            backgroundstate: []
+            backgroundstate: [],
+            load: false
         }
+    }
+
+    public componentDidMount() {
+        this.props.pages.forEach((page, i) => {
+            this.checkBackgroundUrl(page.background, i);
+        });
     }
 
     public onChangeRadio(evt: any, index: number) {
@@ -143,20 +151,18 @@ class PageCreator extends React.Component<Props, State> {
         this.setState({ submenuEl });
     }
 
-    public onChange(event: any, name: string, page: Page, i?: number) {
-        if (name === 'background' && page.background !== event.target.value) {
-            imageExists(getServerAddr() + event.target.value, (resp: boolean) => {
-                let backgroundstate = this.state.backgroundstate;
-                backgroundstate[i] = resp;
-                this.setState({ backgroundstate });
-            });
-        }
+    public onChange(event: any, name: string, page: Page) {
         page[name] = event.target.value;
         this.forceUpdate();
     }
 
-    public timedAction() {
-
+    public checkBackgroundUrl(backgroundUrl: string, i: number) {
+        this.setState({ load: true });
+        imageExists(getServerAddr() + backgroundUrl, (resp: boolean) => {
+            let backgroundstate = this.state.backgroundstate;
+            backgroundstate[i] = resp;
+            this.setState({ backgroundstate, load: false });
+        });
     }
 
     public render() {
@@ -165,13 +171,6 @@ class PageCreator extends React.Component<Props, State> {
             <div className="page-creator">
                 {this.props.pages.map((page, i) => {
                     let selected = Boolean(this.props.selectedAction && this.props.pages[i].actionToDisplay.length && this.props.pages[i].actionToDisplay.indexOf(this.props.selectedAction.id) > -1);
-                    if (page.background) {
-                        imageExists(getServerAddr() + page.background, (resp: boolean) => {
-                            let backgroundstate = this.state.backgroundstate;
-                            backgroundstate[i] = resp;
-                            this.setState({ backgroundstate });
-                        });
-                    }
                     return (
                         <ExpansionPanel key={i} className={selected ? 'on' : 'off'}>
                             <ExpansionPanelSummary style={{ paddingLeft: '0' }} className="panel-summary" expandIcon={<ExpandMore />}>
@@ -259,21 +258,30 @@ class PageCreator extends React.Component<Props, State> {
                                         label={T.translate('interface.debug')}
                                     />
                                 </div>
-                                <TextField
-                                    id="background"
-                                    label={T.translate('interface.background')}
-                                    value={page.background}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    margin="normal"
-                                    variant="outlined"
-                                    error={Boolean(page.background && !this.state.backgroundstate[i])}
-                                    onChange={event => { this.onChange(event, 'background', page, i) }}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">{this.state.backgroundstate[i] ? <Tooltip title={T.translate('interface.bgfound')}><Link /></Tooltip> : <Tooltip title={T.translate('interface.bgnotfound')}><LinkOff style={{ color: "#FF0000" }} /></Tooltip>}</InputAdornment>,
-                                    }}
-                                />
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <TextField
+                                        id="background"
+                                        label={T.translate('interface.background')}
+                                        value={page.background}
+                                        style={{ flex: 1, marginRight: "10px" }}
+                                        disabled={this.state.load}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="normal"
+                                        variant="outlined"
+                                        error={Boolean(page.background && !this.state.backgroundstate[i])}
+                                        onChange={event => { this.onChange(event, 'background', page) }}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">{this.state.backgroundstate[i] ? <Tooltip title={T.translate('interface.bgfound')}><Link /></Tooltip> : <Tooltip title={T.translate('interface.bgnotfound')}><LinkOff style={{ color: "#FF0000" }} /></Tooltip>}</InputAdornment>,
+                                        }}
+                                    />
+                                    <Tooltip title={T.translate('interface.backgroundurl')}>
+                                        <IconButton disabled={this.state.load} onClick={() => this.checkBackgroundUrl(page.background, i)} style={{ marginTop: "5px" }} color="primary" aria-label="Add to shopping cart">
+                                            <FindReplace />
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
                                 <div className="components-wrapper">
                                     <fieldset>
                                         <legend>{T.translate('interface.components')}</legend>

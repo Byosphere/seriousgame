@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './ia.css';
-import { Card, IconButton, Avatar, Badge, CardContent } from '@material-ui/core';
-import { Close, Textsms } from '@material-ui/icons';
+import { IconButton, Avatar, Badge } from '@material-ui/core';
+import { Textsms } from '@material-ui/icons';
 import Message from 'src/interfaces/Message';
 import { sendAction, getServerAddr } from 'src/utils/api';
 import { connect } from 'react-redux';
 import DialogCard from '../dialogcard/dialogCard';
 import { Parameters } from 'src/interfaces/Parameters';
+import T from 'i18n-react';
 
 interface State {
     displayMessage: boolean
@@ -36,8 +37,8 @@ class Ia extends React.Component<Props, State> {
     }
 
     public handleClose(currentMessage: Message) {
-        this.setState({ displayMessage: false })
-        if (currentMessage.clickAction) {
+        this.setState({ displayMessage: false });
+        if (currentMessage && currentMessage.clickAction) {
             sendAction(currentMessage.clickAction);
         }
     }
@@ -62,6 +63,7 @@ class Ia extends React.Component<Props, State> {
             return (
                 <DialogCard
                     imageIa={this.props.params.imageIa}
+                    buttonText={T.translate('ia.button').toString()}
                     onClose={() => this.handleClose(currentMessage)}
                     textMessage={currentMessage.text}
                 />
@@ -104,10 +106,13 @@ class Ia extends React.Component<Props, State> {
     public render() {
 
         let currentMessage = this.getCurrentMessage();
+        if (!currentMessage && this.state.displayMessage) {
+            this.setState({ displayMessage: false });
+        }
 
         return (
             <div>
-                <IconButton onClick={() => { this.handleClick(currentMessage) }}>
+                <IconButton onClick={() => { this.state.displayMessage ? this.handleClose(currentMessage) : this.handleClick(currentMessage) }}>
                     {this.displayIaAvatar(this.state.displayMessage, currentMessage, this.state.vu)}
                 </IconButton>
                 {this.displayCardModal(currentMessage)}
