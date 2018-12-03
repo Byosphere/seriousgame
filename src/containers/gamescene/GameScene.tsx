@@ -83,17 +83,16 @@ class GameScene extends React.Component<Props, State> {
         });
 
         listenDynamicActions((actionId: string) => {
-            let nextPage = this.state.interface.pages[this.state.currentPage + 1];
-            if (nextPage && nextPage.actionToDisplay.indexOf(actionId) > -1) {
+
+            let pageToDisplayIndex = this.state.interface.pages.findIndex(page => { return page.actionToDisplay.indexOf(actionId) > -1 });
+            if (pageToDisplayIndex > -1 && this.state.currentPage !== pageToDisplayIndex) {
                 this.setState({
                     lastActionId: actionId,
-                    currentPage: this.state.currentPage + 1
+                    currentPage: pageToDisplayIndex
                 });
                 this.displayGrid();
             } else {
-                this.setState({
-                    lastActionId: actionId
-                });
+                this.setState({ lastActionId: actionId });
             }
         });
     }
@@ -135,7 +134,7 @@ class GameScene extends React.Component<Props, State> {
     public displayDebugGrid(size: number) {
         var elems = [];
         for (let i = 0; i < size; i++) {
-            elems.push(<div className="debug-elem"></div>);
+            elems.push(<div key={i} className="debug-elem"></div>);
         }
         return elems;
     }
