@@ -4,12 +4,18 @@ import { GameComponent, GameProps } from 'src/interfaces/GameComponent';
 import DialogCard from 'src/components/dialogcard/dialogCard';
 import { connect } from 'react-redux';
 
-interface State { }
+interface State {
+    display: boolean
+}
 
 class PopinIa extends React.Component<GameProps, State> implements GameComponent {
 
     constructor(props: GameProps) {
         super(props);
+
+        this.state = {
+            display: true
+        }
 
         if (!this.props.component.params || !this.props.component.params.text)
             throw ("Parameter 'text' not found");
@@ -24,20 +30,24 @@ class PopinIa extends React.Component<GameProps, State> implements GameComponent
     }
 
     public onClose(): any {
+        this.setState({ display: false });
         this.props.sendAction(this.props.component.clickAction);
     }
 
     render() {
-        return (
-            <DialogCard
-                imageIa={this.props.component.params.displayAvatar ? this.props.params.imageIa : null}
-                onClose={() => { this.onClose() }}
-                textMessage={this.props.component.params.text}
-                buttonText={this.props.component.params.buttonText}
-            />
-        );
+        if (this.state.display) {
+            return (
+                <DialogCard
+                    imageIa={this.props.component.params.displayAvatar ? this.props.params.imageIa : null}
+                    onClose={() => { this.onClose() }}
+                    textMessage={this.props.component.params.text}
+                    buttonText={this.props.component.params.buttonText}
+                />
+            );
+        } else {
+            return null;
+        }
     }
-
 }
 
 function mapStateToProps(state: any) {

@@ -42,6 +42,8 @@ class DynamicComponent extends React.Component<Props, State> {
         }
     }
 
+    public static verifyParams(): string { return '' }
+
     public render() {
         if (!this.canRenderComponent()) return null;
         this.props.style.display = "flex";

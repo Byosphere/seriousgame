@@ -113,6 +113,7 @@ class ComponentCreator extends React.Component<Props, State> {
             this.setState({ paramsError: T.translate('invalid.params').toString() });
             return;
         }
+
         if (!selectedComponent.type) {
             this.setState({ typeError: T.translate('invalid.type').toString() });
             return;
@@ -229,7 +230,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                 margin="normal"
                                 variant="outlined"
                                 style={{ marginRight: '5px' }}
-                                disabled={!Boolean(NO_POS_COMP.indexOf(this.state.selectedComponent.type))}
+                                disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                             />
                             <TextField
                                 id="outlined-posY"
@@ -239,7 +240,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                 margin="normal"
                                 variant="outlined"
                                 style={{ marginLeft: '5px' }}
-                                disabled={!Boolean(NO_POS_COMP.indexOf(this.state.selectedComponent.type))}
+                                disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                             />
                             <FormControl className="placement" variant="outlined">
                                 <InputLabel id="label-place" htmlFor="component-place">{T.translate('interface.page.modalcomponent.place')}</InputLabel>
@@ -247,7 +248,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                     displayEmpty
                                     value={this.state.selectedComponent.position}
                                     onChange={event => { this.handleChange(event, 'position') }}
-                                    disabled={!Boolean(NO_POS_COMP.indexOf(this.state.selectedComponent.type))}
+                                    disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                                     input={
                                         <OutlinedInput
                                             labelWidth={80}
