@@ -3,11 +3,10 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Stop, PowerSettingsNew } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, ejectPlayer } from '../../utils/api';
+import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, resetPlayer, onPlayerReset } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
-import ActionsDashboard from '../../components/actionsdashboard/ActionDashboard';
 import StoryCreator from '../storycreator/StoryCreator';
 import RoleCreator from '../rolecreator/RoleCreator';
 import Loader from 'src/components/loader/Loader';
@@ -64,17 +63,30 @@ class MasterBoard extends React.Component<Props, State> {
 			roles: null,
 			confirmQuit: false
 		}
-		onPlayerUpdate((err: any, response: Array<Player>) => {
+		onPlayerUpdate((err: any, players: Array<Player>) => {
 			if (!err) {
 				this.props.displaySnackbar(T.translate('player.update'));
 				this.setState({
-					players: response.filter(el => el != null)
+					players: players.filter(el => el != null)
 				});
 			} else {
 				this.props.displaySnackbar(err);
 			}
 			if (this.state.selectedStory && this.state.players.length < this.state.selectedStory.nbPlayers) {
 				this.setState({
+					selectedStory: null,
+					status: 0,
+					gameStarted: false,
+					togglePause: false
+				});
+			}
+		});
+
+		onPlayerReset((players: Player[]) => {
+			if (this.state.selectedStory) {
+				this.props.displaySnackbar(T.translate('player.update'));
+				this.setState({
+					players: players.filter(el => el != null),
 					selectedStory: null,
 					status: 0,
 					gameStarted: false,
@@ -135,7 +147,7 @@ class MasterBoard extends React.Component<Props, State> {
 	public toggleStop() {
 		if (!this.state.selectedStory) return;
 		this.state.players.forEach(player => {
-			ejectPlayer(player.id);
+			resetPlayer(player.id);
 		});
 	}
 	public toggleRestart() {
@@ -199,7 +211,6 @@ class MasterBoard extends React.Component<Props, State> {
 					<PlayerList players={this.state.players} roles={this.state.roles} />
 					{!this.state.selectedStory && <StoryList stories={this.state.stories} nbPlayers={this.state.players.length} startStory={this.startStory} />}
 					{this.state.selectedStory && <Timeline story={this.state.selectedStory} status={this.state.status} sendAction={(actionId: string) => { this.sendAction(actionId) }} />}
-					{/* {this.state.selectedStory && this.state.gameStarted && <ActionsDashboard story={this.state.selectedStory} sendAction={sendAction} />} */}
 				</div>}
 				{this.state.tabValue === 1 && <StoryCreator stories={this.state.stories} roles={this.state.roles} />}
 				{this.state.tabValue === 2 && <RoleCreator stories={this.state.stories} roles={this.state.roles} />}

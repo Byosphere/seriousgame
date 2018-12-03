@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
-import { startGame, playPause, listenDynamicActions, getServerAddr, ejectPlayer } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions, getServerAddr, resetPlayer, onPlayerReset } from '../../utils/api';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -64,6 +64,22 @@ class GameScene extends React.Component<Props, State> {
             });
         });
 
+        onPlayerReset(() => {
+            if (this.state.role) {
+                this.setState({
+                    role: null,
+                    gameReady: false,
+                    story: null,
+                    paused: false,
+                    currentPage: 0,
+                    interface: null,
+                    gridStyle: {},
+                    lastActionId: null,
+                    displayIa: false
+                });
+            }
+        });
+
         listenDynamicActions((actionId: string) => {
             let nextPage = this.state.interface.pages[this.state.currentPage + 1];
             if (nextPage && nextPage.actionToDisplay.indexOf(actionId) > -1) {
@@ -98,9 +114,18 @@ class GameScene extends React.Component<Props, State> {
     }
 
     public quitGame() {
-        ejectPlayer();
-        this.setState({ role: null });
-        this.props.changeServer();
+        resetPlayer();
+        this.setState({
+            role: null,
+            gameReady: false,
+            story: null,
+            paused: false,
+            currentPage: 0,
+            interface: null,
+            gridStyle: {},
+            lastActionId: null,
+            displayIa: false
+        });
     }
 
     public render() {

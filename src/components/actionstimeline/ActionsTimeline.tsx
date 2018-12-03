@@ -121,6 +121,20 @@ class ActionsTimeline extends React.Component<Props, State> {
                                         <Button color="primary" mini onClick={() => { this.deleteAction(i) }}>{T.translate('action.delete')}</Button>
                                     </div>
                                 </StepContent>}
+                                {(action.id === ACTION_INITIAL || action.id === ACTION_FINALE) && <StepContent>
+                                    <FormControlLabel
+                                        style={{ margin: "5px 0" }}
+                                        control={
+                                            <Checkbox
+                                                checked={action.master}
+                                                onChange={event => { this.handleChange(event, 'master') }}
+                                                value="checkmaster"
+                                                color="primary"
+                                            />
+                                        }
+                                        label={T.translate('action.master')}
+                                    />
+                                </StepContent>}
                             </Step>
                         );
                     })}

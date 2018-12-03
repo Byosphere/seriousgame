@@ -109,6 +109,21 @@ export function ejectPlayer(playerId?: number) {
     socket.emit('ejectplayer', pid);
 }
 
+export function resetPlayer(playerId?: number) {
+    let pid = playerId || 0;
+    socket.emit('resetplayer', pid);
+}
+
+export function onPlayerReset(response: Function) {
+    socket.on('resetplayer', (resp: Array<Player>) => {
+        let playerList: Array<Player> = [];
+        resp.forEach(player => {
+            if (player) playerList.push(Player.fromData(player));
+        })
+        response(playerList);
+    });
+}
+
 /**
  * Fonction de sélection d'un joueur
  * @param roleId : id du role choisi
