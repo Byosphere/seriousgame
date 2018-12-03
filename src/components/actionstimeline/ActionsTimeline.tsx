@@ -84,7 +84,7 @@ class ActionsTimeline extends React.Component<Props, State> {
                     {this.props.actions.map((action, i) => {
                         return (
                             <Step style={{ cursor: "pointer" }} onClick={() => { this.handleStep(i) }} key={i}>
-                                <StepLabel>{action.name + "(" + action.id + ")"}</StepLabel>
+                                <StepLabel>{action.name}</StepLabel>
                                 {(action.id !== ACTION_INITIAL && action.id !== ACTION_FINALE) && <StepContent>
                                     <div>
                                         <TextField

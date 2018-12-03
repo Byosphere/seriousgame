@@ -1,3 +1,5 @@
+import Action from 'src/interfaces/Action';
+
 export function getNavigatorLanguage(raw?: string) {
     let language = (navigator.languages && navigator.languages[0]) || navigator.language;
     if (language.length > 2 && !raw) {
@@ -71,4 +73,9 @@ export function imageExists(src: string, callback: Function) {
         interval = null;
         imageExists(src, callback);
     }
+}
+
+export function getSelectableActions(actions: Action[], action: Action): Action[] {
+    let index = actions.findIndex(a => { return a.id === action.id });
+    return actions.slice(index + 1);
 }

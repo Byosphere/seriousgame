@@ -9,11 +9,11 @@ import { Delete, Edit, Help } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import Action from 'src/interfaces/Action';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
-import { syntaxHighlight } from 'src/utils/tools';
+import { syntaxHighlight, getSelectableActions } from 'src/utils/tools';
 
 interface Props {
     page: Page
-    selectedAction: Action
+    currentAction: Action
     actions: Array<Action>
     displayConfirmDialog: Function
 }
@@ -82,15 +82,15 @@ class ComponentCreator extends React.Component<Props, State> {
     }
 
     public isChecked(cmp: Component) {
-        if (this.props.selectedAction) {
-            return Boolean(cmp.actionToDisplay.find(actionId => { return actionId === this.props.selectedAction.id }));
+        if (this.props.currentAction) {
+            return Boolean(cmp.actionToDisplay.find(actionId => { return actionId === this.props.currentAction.id }));
         } else {
             return false;
         }
     }
 
     public checkComponent(cmp: Component) {
-        let actionId = this.props.selectedAction.id;
+        let actionId = this.props.currentAction.id;
         if (this.isChecked(cmp)) {
             cmp.actionToDisplay.forEach((id, i) => {
                 if (actionId === id) {
@@ -261,6 +261,7 @@ class ComponentCreator extends React.Component<Props, State> {
                             </FormControl>
                         </div>
                         <FormControl style={{ marginTop: "10px" }} variant="outlined" fullWidth>
+                            <InputLabel id="label-step" htmlFor="outlined-clickAction">{T.translate('interface.page.modalcomponent.clickaction')}</InputLabel>
                             <Select
                                 fullWidth
                                 displayEmpty
@@ -269,13 +270,13 @@ class ComponentCreator extends React.Component<Props, State> {
                                 input={
                                     <OutlinedInput
                                         fullWidth
-                                        labelWidth={0}
+                                        labelWidth={100}
                                         name="clickAction"
                                         id="outlined-clickAction"
                                     />
                                 } >
                                 <MenuItem value=''><i style={{ opacity: 0.5 }}>{T.translate('action.none')}</i></MenuItem>
-                                {this.props.actions.map((action, i) => {
+                                {getSelectableActions(this.props.actions, this.props.currentAction).map((action, i) => {
                                     return (
                                         <MenuItem key={i} value={action.id}>{action.name}</MenuItem>
                                     );
@@ -313,7 +314,7 @@ class ComponentCreator extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-        selectedAction: state.story.action,
+        currentAction: state.story.action,
         actions: state.story.story.actions
     }
 }

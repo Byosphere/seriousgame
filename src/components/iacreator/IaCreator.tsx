@@ -8,6 +8,7 @@ import Action from 'src/interfaces/Action';
 import Message from 'src/interfaces/Message';
 import { Add, Delete } from '@material-ui/icons';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
+import { getSelectableActions } from 'src/utils/tools';
 
 interface State { }
 
@@ -82,7 +83,7 @@ class IaCreator extends React.Component<Props, State> {
                                 />
                             } >
                             <MenuItem value=''><i style={{ opacity: 0.5 }}>{T.translate('action.none')}</i></MenuItem>
-                            {this.props.actions.map((action, i) => {
+                            {getSelectableActions(this.props.actions, this.props.currentAction).map((action, i) => {
                                 return (
                                     <MenuItem key={i} value={action.id}>{action.name}</MenuItem>
                                 );
