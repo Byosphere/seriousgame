@@ -17,6 +17,7 @@
     border-bottom: 1px solid red;
     border-right: 1px solid red;
     pointer-events: none;
+    background-image: none !important;
 }
 
 .game .debug-grid div {
