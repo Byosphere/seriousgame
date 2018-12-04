@@ -47,7 +47,7 @@ class Timeline extends React.Component<Props, State> {
                     title={T.translate('instructor.gametitle') + this.props.story.name}
                     component="h2"
                 />
-                <Stepper orientation="vertical" activeStep={this.props.status} style={{ height: "calc(100% - 64px)", overflow: "auto" }}>
+                <Stepper orientation="vertical" activeStep={this.props.status} style={{ maxHeight: "calc(100% - 64px)", overflow: "auto" }}>
                     {this.state.steps.map((action, i) => {
                         let nextAction = this.getNext(i);
                         return (

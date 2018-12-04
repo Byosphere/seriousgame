@@ -3,7 +3,7 @@ import './componentcreator.css';
 import T from 'i18n-react';
 import Page from 'src/interfaces/Page';
 import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText, Switch } from '@material-ui/core';
-import { DYNAMIC_COMPONENTS, PLACEMENT, NO_POS_COMP } from 'src/utils/constants';
+import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 import Component from 'src/interfaces/Component';
 import { Delete, Edit, Help } from '@material-ui/icons';
 import { connect } from 'react-redux';
@@ -230,7 +230,6 @@ class ComponentCreator extends React.Component<Props, State> {
                                 margin="normal"
                                 variant="outlined"
                                 style={{ marginRight: '5px' }}
-                                disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                             />
                             <TextField
                                 id="outlined-posY"
@@ -240,7 +239,6 @@ class ComponentCreator extends React.Component<Props, State> {
                                 margin="normal"
                                 variant="outlined"
                                 style={{ marginLeft: '5px' }}
-                                disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                             />
                             <FormControl className="placement" variant="outlined">
                                 <InputLabel id="label-place" htmlFor="component-place">{T.translate('interface.page.modalcomponent.place')}</InputLabel>
@@ -248,7 +246,6 @@ class ComponentCreator extends React.Component<Props, State> {
                                     displayEmpty
                                     value={this.state.selectedComponent.position}
                                     onChange={event => { this.handleChange(event, 'position') }}
-                                    disabled={NO_POS_COMP.indexOf(this.state.selectedComponent.type) < 0}
                                     input={
                                         <OutlinedInput
                                             labelWidth={80}

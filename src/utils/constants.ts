@@ -32,13 +32,9 @@ export const DYNAMIC_COMPONENTS = {
     'ImageClickable': require('../gamecomponents/imageclickable/ImageClickable').default,
     'PopinIa': require('../gamecomponents/popinia/PopinIa').default,
     'Timer': require('../gamecomponents/timer/Timer').default,
-    'TextClickable': require('../gamecomponents/textclickable/TextClickable').default
+    'TextClickable': require('../gamecomponents/textclickable/TextClickable').default,
+    'InvisibleBlock': require('../gamecomponents/invisibleblock/InvisibleBlock').default
 };
-
-export const NO_POS_COMP: string[] = [
-    'Quizz',
-    'PopinIa'
-];
 
 /*
  + + + + + REDUX CONSTANTS + + + + +
