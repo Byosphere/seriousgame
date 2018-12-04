@@ -6,7 +6,7 @@
     display: grid;
     width: 100%;
     height: calc(100% - 64px);
-    background-size: auto 100%;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
 }
