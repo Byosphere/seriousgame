@@ -4,14 +4,15 @@ import T from 'i18n-react';
 import SimpleStoryList from 'src/components/simplestorylist/SimpleStoryList';
 import PlayerInterfaces from 'src/components/playerinterfaces/PlayerInterfaces';
 import ActionsTimeline from 'src/components/actionstimeline/ActionsTimeline';
-import { Card, TextField, Button } from '@material-ui/core';
-import { Save } from '@material-ui/icons';
+import { Card, TextField, Button, IconButton, Tooltip, Dialog, DialogContent, DialogContentText, DialogActions, DialogTitle, Input, FormControl, InputLabel, InputAdornment } from '@material-ui/core';
+import { Save, CloudDownload } from '@material-ui/icons';
 import Story from 'src/interfaces/Story';
 import { connect } from 'react-redux';
 import { selectCurrentStory } from 'src/actions/storyActions';
 import { displaySnackbar, displayConfirmDialog } from 'src/actions/snackbarActions';
 import Loader from 'src/components/loader/Loader';
 import Role from 'src/interfaces/Role';
+import { exportToJsonFile } from 'src/utils/tools';
 
 interface Props {
     stories: Array<Story>
@@ -24,6 +25,7 @@ interface Props {
 
 interface State {
     saving: boolean
+    filenameDialog: boolean
 }
 
 class StoryCreator extends React.Component<Props, State> {
@@ -32,7 +34,8 @@ class StoryCreator extends React.Component<Props, State> {
         super(props);
         this.props.selectCurrentStory(props.stories[0]);
         this.state = {
-            saving: false
+            saving: false,
+            filenameDialog: false
         }
     }
 
@@ -55,21 +58,44 @@ class StoryCreator extends React.Component<Props, State> {
         }
     }
 
+    public exportStory() {
+        let selectedStoryD = this.props.selectedStory.duplicate(1);
+        delete selectedStoryD.id;
+        delete selectedStoryD.filename;
+        exportToJsonFile(selectedStoryD, this.props.selectedStory.filename);
+    }
+
+    private _save() {
+        this.props.selectedStory.save((err: any) => {
+            this.setState({ saving: false });
+            if (err) {
+                this.props.displaySnackbar(err);
+            } else {
+                this.props.displaySnackbar(T.translate('story.saved'));
+            }
+        });
+    }
+
     public saveStory() {
 
         if (this.props.selectedStory.isValid(this.props.roles)) {
             this.setState({ saving: true });
-            this.props.selectedStory.save((err: any) => {
-                this.setState({ saving: false });
-                if (err) {
-                    this.props.displaySnackbar(err);
-                } else {
-                    this.props.displaySnackbar(T.translate('story.saved'));
-                }
-            });
+            if (this.props.selectedStory.fromData) {
+                this._save();
+                this.forceUpdate();
+            } else {
+                this.setState({ filenameDialog: true });
+            }
+
         } else {
             this.props.displaySnackbar(this.props.selectedStory.errorMessage);
         }
+    }
+
+    public confirmFilename() {
+        this.setState({ filenameDialog: false });
+        this.props.selectedStory.filename += ".json";
+        this._save();
     }
 
     public render() {
@@ -108,10 +134,40 @@ class StoryCreator extends React.Component<Props, State> {
                         </div>
                         <div>
                             <Button disabled={this.state.saving} onClick={() => { this.saveStory() }} style={{ marginRight: "10px" }} variant="outlined" color="primary" ><Save style={{ marginRight: "5px" }} /> {T.translate('generic.save')}</Button>
+                            <Tooltip title={T.translate('generic.export')}>
+                                <IconButton disabled={!this.props.selectedStory.filename} onClick={() => { this.exportStory() }} color="primary" aria-label="Export">
+                                    <CloudDownload />
+                                </IconButton>
+                            </Tooltip>
                         </div>
                     </Card>
                     <PlayerInterfaces story={this.props.selectedStory} roles={this.props.roles} />
                     <ActionsTimeline actions={this.props.selectedStory.actions} />
+                    <Dialog maxWidth="sm" open={this.state.filenameDialog} onClose={() => this.setState({ filenameDialog: false, saving: false })} aria-labelledby="filename-dialog">
+                        <DialogTitle id="filename-dialog">{T.translate('generic.filename')}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText style={{ marginBottom: "20px" }}>
+                                {T.translate('story.filenamedetails')}
+                            </DialogContentText>
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="filename">{T.translate('story.filename')}</InputLabel>
+                                <Input
+                                    fullWidth
+                                    autoFocus
+                                    id="filename"
+                                    type="text"
+                                    onChange={(evt) => { this.props.selectedStory.filename = evt.target.value; this.forceUpdate(); }}
+                                    value={this.props.selectedStory.filename}
+                                    endAdornment={<InputAdornment position="end">.json</InputAdornment>}
+                                >
+                                </Input>
+                            </FormControl>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => this.setState({ filenameDialog: false, saving: false })} color="primary">{T.translate('generic.cancel')}</Button>
+                            <Button disabled={!this.props.selectedStory.filename} onClick={() => this.confirmFilename()} color="primary">{T.translate('generic.save')}</Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             );
         } else if (this.props.stories.length === 0) {

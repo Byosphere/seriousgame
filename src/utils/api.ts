@@ -85,9 +85,9 @@ export function saveStory(story: StoryData, response: Function) {
     socket.emit('savestory', story);
 }
 
-export function deleteStory(storyId: number, response: Function) {
+export function deleteStory(story: Story, response: Function) {
     socket.on('deletestory', (err: any) => response(err));
-    socket.emit('deletestory', storyId);
+    socket.emit('deletestory', story);
 }
 
 /**

@@ -68,3 +68,15 @@ export function getSelectableActions(actions: Action[], action: Action): Action[
     let index = actions.findIndex(a => { return a.id === action.id });
     return actions.slice(index + 1);
 }
+
+export function exportToJsonFile(jsonData: any, name: string) {
+    let dataStr = JSON.stringify(jsonData, null, 2);
+    let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+    let exportFileDefaultName = name;
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+}

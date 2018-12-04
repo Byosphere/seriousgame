@@ -43,7 +43,7 @@ class App extends React.Component<Props, State> {
 			case CONNECT:
 				return (
 					<div className="app">
-						{window && window["process"] && window["process"].type && <Frame />}
+						{/* {window && window["process"] && window["process"].type && <Frame />} */}
 						<ServerConnect
 							onConnected={(connector: Connector) => { this.onConnected(connector) }}
 							connector={this.state.connector}
@@ -54,7 +54,6 @@ class App extends React.Component<Props, State> {
 			case INSTRUCTOR:
 				return (
 					<div className="app">
-						{window && window["process"] && window["process"].type && <Frame />}
 						<MasterBoard changeServer={() => { this.setState({ status: CONNECT, connector: null }) }} />
 					</div>
 				);
@@ -62,14 +61,12 @@ class App extends React.Component<Props, State> {
 			case PLAYER:
 				return (
 					<div className="app">
-						{window && window["process"] && window["process"].type && <Frame />}
 						<GameScene changeServer={() => { this.setState({ status: CONNECT, connector: null }) }} />
 					</div>
 				);
 			default:
 				return (
 					<div className="app">
-						{window && window["process"] && window["process"].type && <Frame />}
 						<Loader textKey="loader.serverwait" />
 					</div>
 				);

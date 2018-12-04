@@ -66,7 +66,9 @@
         "nostory": "Aucune story trouvée",
         "create": "Cliquez sur 'Nouvelle Story' pour commencer.",
         "nochanges": "Aucun changement n'est à sauvegarder.",
-        "deletewarning": "Êtes-vous sûr de vouloir supprimer cette story ?"
+        "deletewarning": "Êtes-vous sûr de vouloir supprimer cette story ?",
+        "filename": "Nom du fichier JSON",
+        "filenamedetails": "Le nom donné au fichier servira à le stocker avec les autres stories du server. ATTENTION de ne pas nommer deux fichiers avec le même nom, il sera automatiquement écrasé. Le nom est de préférence composé uniquement de lettres et chiffres (sans espace)."
     },
     "role": {
         "list": "Rôles",
@@ -118,6 +120,8 @@
         "delete": "Supprimer",
         "duplicate": "Dupliquer",
         "duplicatefor": "Dupliquer pour...",
+        "export": "Exporter",
+        "filename": "Nommer le fichier",
         "placement": {
             "center": "Centrer",
             "top_left": "Haut à gauche",

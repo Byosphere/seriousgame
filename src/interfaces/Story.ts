@@ -14,11 +14,12 @@ interface Story {
     interfaces: Array<Interface>
     errorMessage: string
     fromData: boolean
+    filename: string
 }
 
 class Story {
 
-    constructor(id: number, name?: string, nbPlayers?: number, actions?: Array<Action>, interfaces?: Array<Interface>, description?: string, fromData?: boolean) {
+    constructor(id: number, name?: string, nbPlayers?: number, actions?: Array<Action>, interfaces?: Array<Interface>, description?: string, fromData?: boolean, filename?: string) {
 
         this.id = id;
         this.name = name || T.translate('story.defaultname').toString() + ' ' + this.id;
@@ -28,6 +29,7 @@ class Story {
         this.description = description || '';
         this.errorMessage = '';
         this.fromData = fromData || false;
+        this.filename = filename || '';
     }
 
     public isValid(roles: Array<Role>): boolean {
@@ -86,7 +88,8 @@ class Story {
             nbPlayers: this._nbPlayers,
             actions,
             interfaces,
-            description: this.description
+            description: this.description,
+            filename: this.filename
         };
     }
 
@@ -134,7 +137,7 @@ class Story {
     }
 
     public static fromData(data: StoryData): Story {
-        let { id, name, nbPlayers, actions, interfaces, description } = data;
+        let { id, name, nbPlayers, actions, interfaces, description, filename } = data;
         let actionsObject: Array<Action> = [];
         let interfacesObject: Array<Interface> = [];
         if (actions) {
@@ -149,7 +152,7 @@ class Story {
             });
         }
 
-        return new this(id, name, nbPlayers, actionsObject, interfacesObject, description, true);
+        return new this(id, name, nbPlayers, actionsObject, interfacesObject, description, true, filename);
     }
 }
 

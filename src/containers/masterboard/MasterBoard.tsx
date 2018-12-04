@@ -31,6 +31,7 @@ interface Props {
 	confirmDialogInfo: ConfirmMessage
 	closeConfirmDialog: Function
 	changeServer: Function
+	domain: string
 }
 interface State {
 	players: Array<Player>
@@ -180,7 +181,7 @@ class MasterBoard extends React.Component<Props, State> {
 					<Toolbar>
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<img src={logo} style={{ marginRight: "20px" }} alt="logo" />
-							<h1>{T.translate('appshort')}</h1>
+							<h1>{T.translate('appshort')} / {this.props.domain}</h1>
 						</div>
 						{!this.state.selectedStory && <div style={{ display: "flex", alignItems: "center" }}>
 							<Tabs indicatorColor="secondary" value={this.state.tabValue} onChange={(event, value) => { this.handleChange(value) }}>
@@ -224,7 +225,8 @@ function mapStateToProps(state: any) {
 		snackbarMessage: state.dialog.messageSnackbar,
 		openSnackbar: state.dialog.openSnackbar,
 		confirmDialogInfo: state.dialog.confirmDialogInfo,
-		openConfirmDialog: state.dialog.openConfirmDialog
+		openConfirmDialog: state.dialog.openConfirmDialog,
+		domain: state.connector.params.domain
 	}
 }
 

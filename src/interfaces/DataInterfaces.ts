@@ -5,6 +5,7 @@ interface StoryData {
     nbPlayers: number
     actions: Array<ActionData>
     interfaces: Array<InterfaceData>
+    filename: string
 }
 
 interface ActionData {

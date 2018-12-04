@@ -81,7 +81,7 @@ class SimpleStoryList extends React.Component<Props, State> {
             content: T.translate('story.deletewarning'),
             confirm: () => {
                 if (this.props.stories[i].fromData) {
-                    deleteStory(this.props.stories[i].id, (err: any) => {
+                    deleteStory(this.props.stories[i], (err: any) => {
                         if (err) console.log(err);
                     });
                 }
@@ -91,7 +91,7 @@ class SimpleStoryList extends React.Component<Props, State> {
                 } else if (this.props.stories[i + 1]) {
                     this.selectStory(this.props.stories[i + 1]);
                 } else {
-                    this.selectStory(null);
+                    this.selectStory(this.props.stories[0]);
                 }
                 this.forceUpdate();
             }
@@ -121,7 +121,7 @@ class SimpleStoryList extends React.Component<Props, State> {
                         if (story) return (
                             <ListItem onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={i}>
                                 {!story.fromData && <span className="unsaved-story"></span>}
-                                <ListItemText primary={story.name} />
+                                <ListItemText primary={story.name} secondary={story.filename ? '(' + story.filename + ')' : ''} />
                                 <ListItemSecondaryAction>
                                     <IconButton aria-owns={this.state.menuEl ? 'menu ' + story.name : null} onClick={event => { this.openMenu(event, i) }} aria-label="More" aria-haspopup="true">
                                         <MoreVert fontSize="small" />

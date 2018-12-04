@@ -9,9 +9,10 @@ let mainWindow
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ frame: false });
+    mainWindow = new BrowserWindow();
     mainWindow.setMenu(null);
     mainWindow.maximize();
+    //mainWindow.setResizable(false);
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
