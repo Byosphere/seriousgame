@@ -109,9 +109,8 @@ export function ejectPlayer(playerId?: number) {
     socket.emit('ejectplayer', pid);
 }
 
-export function resetPlayer(playerId?: number) {
-    let pid = playerId || 0;
-    socket.emit('resetplayer', pid);
+export function resetPlayers() {
+    socket.emit('resetplayers');
 }
 
 export function onPlayerReset(response: Function) {

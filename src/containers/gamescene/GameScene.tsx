@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
-import { startGame, playPause, listenDynamicActions, getServerAddr, resetPlayer, onPlayerReset } from '../../utils/api';
+import { startGame, playPause, listenDynamicActions, getServerAddr, resetPlayers, onPlayerReset } from '../../utils/api';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
@@ -117,7 +117,7 @@ class GameScene extends React.Component<Props, State> {
     }
 
     public quitGame() {
-        resetPlayer();
+        resetPlayers();
         this.setState({
             role: null,
             gameReady: false,

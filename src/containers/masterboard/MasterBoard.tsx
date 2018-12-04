@@ -3,7 +3,7 @@ import './masterboard.css';
 import { AppBar, Tooltip, Toolbar, IconButton, Tabs, Tab } from '@material-ui/core';
 import { PauseCircleOutline, PlayCircleOutline, Stop, PowerSettingsNew } from '@material-ui/icons';
 import T from 'i18n-react';
-import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, resetPlayer, onPlayerReset } from '../../utils/api';
+import { onPlayerUpdate, loadStories, loadPlayers, startStory, setPlayPause, sendAction, listenDynamicActions, startGame, loadRoles, resetPlayers, onPlayerReset } from '../../utils/api';
 import PlayerList from '../../components/playerlist/PlayerList';
 import StoryList from '../../components/storylist/StoryList';
 import Timeline from '../../components/timeline/Timeline';
@@ -146,9 +146,7 @@ class MasterBoard extends React.Component<Props, State> {
 
 	public toggleStop() {
 		if (!this.state.selectedStory) return;
-		this.state.players.forEach(player => {
-			resetPlayer(player.id);
-		});
+		resetPlayers();
 	}
 	public toggleRestart() {
 		if (!this.state.selectedStory) return;
