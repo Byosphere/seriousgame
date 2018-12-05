@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import { startGame, playPause, listenDynamicActions, getServerAddr, resetPlayers, onPlayerReset } from '../../utils/api';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { Card, CardHeader, Avatar } from '@material-ui/core';
 import { gridConvertToCss, positionConvertToCss } from '../../utils/tools';
 import PauseOverlay from '../../components/pauseoverlay/PauseOverlay';
 import DynamicComponent from '../../components/dynamiccomponent/DynamicComponent';
@@ -14,10 +14,12 @@ import { ACTION_INITIAL } from 'src/utils/constants';
 import Role from 'src/interfaces/Role';
 import RoleSelect from '../roleselect/RoleSelect';
 import logo from 'src/logo.png';
+import T from 'i18n-react';
 
 interface Props {
     changeServer: Function
     imageFolder: string
+    domain: string
 }
 
 interface State {
@@ -153,15 +155,18 @@ class GameScene extends React.Component<Props, State> {
         } else if (this.state.gameReady) {
             return (
                 <div className="game">
-                    <AppBar position="static" style={{ backgroundColor: this.state.role.color }}>
-                        <Toolbar>
-                            <img src={logo} alt="logo" style={{ marginRight: "20px" }} />
-                            <h1 className={"app-title " + this.state.role.theme}>
-                                {this.state.story.name} - {this.state.role.name}
-                            </h1>
-                            {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}
-                        </Toolbar>
-                    </AppBar>
+                    <Card className={"gamecard-header " + this.state.role.theme} style={{ backgroundColor: this.state.role.color }}>
+                        <CardHeader
+                            avatar={<Avatar alt="logo" src={logo} />}
+                            title={this.props.domain}
+                            subheader={T.translate('appname')}
+                        />
+                        <div className="game-titles">
+                            <h1 className={"app-title " + this.state.role.theme} style={{ margin: "6px 0 0 0" }}>{this.state.story.name} - {this.state.role.name}</h1>
+                            <h2 className={"app-subtitle " + this.state.role.theme} style={{ margin: "0 0 10px 0", fontSize: "1rem" }}>{this.state.role.soustitre}</h2>
+                        </div>
+                        {this.state.displayIa && <Ia lastAction={this.state.lastActionId} messages={this.state.interface.messages} />}
+                    </Card>
                     {this.state.paused && <PauseOverlay />}
                     <div className="game-grid" style={this.state.gridStyle}>
                         {this.state.interface && this.state.interface.pages[this.state.currentPage] && this.state.interface.pages[this.state.currentPage].components.map((cmp, i) => {
@@ -181,7 +186,8 @@ class GameScene extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-        imageFolder: state.connector.params.imageFolder
+        imageFolder: state.connector.params.imageFolder,
+        domain: state.connector.params.domain
     }
 }
 

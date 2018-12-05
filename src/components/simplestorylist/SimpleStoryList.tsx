@@ -135,7 +135,7 @@ class SimpleStoryList extends React.Component<Props, State> {
                         if (story && !this.state.retracted) return (
                             <ListItem onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={i}>
                                 {!story.fromData && <span className="unsaved-story"></span>}
-                                <ListItemText primary={story.name} secondary={story.filename ? '(' + story.filename + ')' : ''} />
+                                <ListItemText primary={story.name} secondary={story.filename ? story.filename : ''} />
                                 <ListItemSecondaryAction>
                                     <IconButton aria-owns={this.state.menuEl ? 'menu ' + story.name : null} onClick={event => { this.openMenu(event, i) }} aria-label="More" aria-haspopup="true">
                                         <MoreVert fontSize="small" />
