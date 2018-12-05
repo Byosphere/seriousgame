@@ -1,13 +1,14 @@
 import * as React from 'react';
 import './simplestorylist.css';
-import { CardHeader, Card, List, ListItem, ListItemText, ListItemIcon, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, ListItemSecondaryAction, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { CardHeader, Card, List, ListItem, ListItemText, ListItemIcon, Tooltip, ListItemSecondaryAction, IconButton, Menu, MenuItem, Avatar, Divider } from '@material-ui/core';
 import T from 'i18n-react';
-import { PlaylistAdd, MoreVert } from '@material-ui/icons';
+import { PlaylistAdd, MoreVert, ClearAll } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { selectCurrentStory, selectCurrentAction } from 'src/actions/storyActions';
 import Story from 'src/interfaces/Story';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
 import { deleteStory } from '../../utils/api';
+import { ORANGE } from 'src/utils/constants';
 
 interface Props {
     stories: Array<Story>
@@ -17,10 +18,12 @@ interface Props {
     selectedStory: Story
     editedStory: Story
     saving: boolean
+    toggleRetract: Function
 }
 
 interface State {
     menuEl: Array<any>
+    retracted: boolean
 }
 
 class SimpleStoryList extends React.Component<Props, State> {
@@ -29,7 +32,8 @@ class SimpleStoryList extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            menuEl: []
+            menuEl: [],
+            retracted: false
         }
     }
 
@@ -98,6 +102,11 @@ class SimpleStoryList extends React.Component<Props, State> {
         });
     }
 
+    public toggleRetract() {
+        this.setState({ retracted: !this.state.retracted });
+        this.props.toggleRetract();
+    }
+
     public duplicateStory(event: any, story: Story) {
         event.stopPropagation();
         let newStory = story.duplicate(this.props.stories[this.props.stories.length - 1].id + 1);
@@ -108,17 +117,22 @@ class SimpleStoryList extends React.Component<Props, State> {
 
     public render() {
         return (
-            <Card className="simple-story-list">
-                <CardHeader
+            <Card className={this.state.retracted ? " simple-story-list small" : "simple-story-list large"}>
+                {!this.state.retracted && <CardHeader
                     title={T.translate('story.list')}
                     component="h2"
-                />
+                />}
+                <Tooltip title={this.state.retracted ? T.translate('generic.expand') : T.translate('generic.shrink') }>
+                    <IconButton className="shrink" onClick={() => this.toggleRetract()}>
+                        <ClearAll />
+                    </IconButton>
+                </Tooltip>
                 <List className="story-list" dense>
                     {this.props.stories.length === 0 && <ListItem style={{ opacity: 0.5 }}>
                         <ListItemText primary={T.translate('story.nostory')} />
                     </ListItem>}
                     {this.props.stories.map((story, i) => {
-                        if (story) return (
+                        if (story && !this.state.retracted) return (
                             <ListItem onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={i}>
                                 {!story.fromData && <span className="unsaved-story"></span>}
                                 <ListItemText primary={story.name} secondary={story.filename ? '(' + story.filename + ')' : ''} />
@@ -138,15 +152,26 @@ class SimpleStoryList extends React.Component<Props, State> {
                                 </ListItemSecondaryAction>
                             </ListItem>
                         )
+                        else if (story && this.state.retracted) return (
+                            <ListItem style={{ padding: "5px" }} onClick={() => { this.selectStory(story) }} selected={this.props.selectedStory && this.props.selectedStory.id === story.id} button key={i}>
+                                <Avatar style={{ backgroundColor: this.props.selectedStory && this.props.selectedStory.id === story.id ? ORANGE : "#bdbdbd" }}>{story.name.charAt(0).toUpperCase() + story.name.charAt(1).toLowerCase()}</Avatar>
+                            </ListItem>
+                        )
                         else return null;
                     })}
-                    <ListItem onClick={event => { this.createNewStory() }} button className="add-story">
+                    <Divider />
+                    {!this.state.retracted && <ListItem onClick={() => { this.createNewStory() }} button className="add-story">
                         <ListItemText
                             primary={T.translate('story.add')} />
                         <ListItemIcon>
-                            <PlaylistAdd />
+                            <PlaylistAdd color="primary" />
                         </ListItemIcon>
-                    </ListItem>
+                    </ListItem>}
+                    {this.state.retracted && <ListItem style={{ padding: "5px" }} onClick={() => { this.createNewStory() }} button className="add-story">
+                        <Avatar style={{ backgroundColor: ORANGE }}>
+                            <PlaylistAdd color="secondary" />
+                        </Avatar>
+                    </ListItem>}
                 </List>
             </Card>
         );

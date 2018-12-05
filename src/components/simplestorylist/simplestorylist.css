@@ -1,5 +1,18 @@
 .simple-story-list {
     margin-right: 5px;
+    position: relative;
+}
+
+.simple-story-list h2 span {
+    font-size: 1.3rem;
+}
+
+.simple-story-list hr {
+    margin: 5px 0;
+}
+
+.simple-story-list.small {
+    padding-top: 50px;
 }
 
 .simple-story-list ul {
@@ -7,7 +20,7 @@
     overflow: auto;
 }
 
-.simple-story-list .add-story svg, .simple-story-list .add-story span {
+.simple-story-list .add-story span {
     color: #ff7900 !important;
 }
 
@@ -22,4 +35,16 @@
     height: 7px;
     border-radius: 100%;
     background: #ff7900;
+}
+
+.simple-story-list .shrink {
+    position: absolute;
+    top: 2px;
+    left: 1px;
+}
+
+.simple-story-list.large .shrink {
+    left: auto;
+    right: 5px;
+    top: 6px;
 }

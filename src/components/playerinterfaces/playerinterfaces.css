@@ -1,7 +1,17 @@
+.player-interfaces {
+    z-index: 5;
+    transition: all 0.5s;
+}
+
 .player-interfaces h3 {
     flex: 1;
 }
 
 .player-interfaces .white {
     color: white;
+}
+
+.fullscreen-button {
+    position: absolute !important;
+    right: 0;
 }

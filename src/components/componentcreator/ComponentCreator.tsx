@@ -5,7 +5,7 @@ import Page from 'src/interfaces/Page';
 import { List, ListItem, ListItemText, Button, ListItemSecondaryAction, IconButton, Dialog, DialogTitle, DialogContent, FormControl, InputLabel, Select, MenuItem, OutlinedInput, TextField, DialogActions, FormHelperText, Switch } from '@material-ui/core';
 import { DYNAMIC_COMPONENTS, PLACEMENT } from 'src/utils/constants';
 import Component from 'src/interfaces/Component';
-import { Delete, Edit, Help } from '@material-ui/icons';
+import { Delete, Edit, Help, KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import Action from 'src/interfaces/Action';
 import { displayConfirmDialog } from 'src/actions/snackbarActions';
@@ -89,6 +89,26 @@ class ComponentCreator extends React.Component<Props, State> {
         }
     }
 
+    public moveUp(i: number) {
+        let components = this.props.page.components;
+        if (i > 0) {
+            let prevComp = components[i - 1];
+            components[i - 1] = components[i];
+            components[i] = prevComp;
+            this.forceUpdate();
+        }
+    }
+
+    public moveDown(i: number) {
+        let components = this.props.page.components;
+        if (i < (components.length - 1)) {
+            let nextComp = components[i + 1];
+            components[i + 1] = components[i];
+            components[i] = nextComp;
+            this.forceUpdate();
+        }
+    }
+
     public checkComponent(cmp: Component) {
         let actionId = this.props.currentAction.id;
         if (this.isChecked(cmp)) {
@@ -150,6 +170,10 @@ class ComponentCreator extends React.Component<Props, State> {
                     {this.props.page.components.map((cmp: Component, i: number) => {
                         return (
                             <ListItem key={i} button>
+                                <div className="move-component">
+                                    <KeyboardArrowUp className={i === 0 ? "comp-arrow-disabled" : "comp-arrow"} onClick={() => this.moveUp(i)} />
+                                    <KeyboardArrowDown className={i === this.props.page.components.length - 1 ? "comp-arrow-disabled" : "comp-arrow"} onClick={() => this.moveDown(i)} />
+                                </div>
                                 <Switch
                                     checked={this.isChecked(cmp)}
                                     value="checked"

@@ -14,23 +14,20 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
 
         if (!this.props.component.params || !this.props.component.params.src)
             throw ("Parameter 'src' not found");
-
-        if (!this.props.component.params || !this.props.component.params.name)
-            throw ("Parameter 'name' not found");
     }
 
     public static getParamModel() {
         return {
             "src": "Source de l'image (chaine de caractères)",
-            "name": "Nom de l'image (chaine de caractères)",
-            "overflow": "Ajustement de la taille : width | height | null (chaine de caractères)"
+            "overflow": "Ajustement de la taille : width | height | stretch | null (chaine de caractères)"
         }
     }
 
     public setOverflow(): React.CSSProperties {
+        let params = this.props.component.params;
         return {
-            width: this.props.component.params.overflow === 'width' ? "100%" : "",
-            height: this.props.component.params.overflow === 'height' ? "100%" : "",
+            width: (params.overflow === 'width' || params.overflow === 'stretch') ? "100%" : "",
+            height: (params.overflow === 'height' || params.overflow === 'stretch') ? "100%" : "",
         }
     }
 
@@ -43,7 +40,7 @@ class ImageClickable extends React.Component<GameProps, State> implements GameCo
 
     render() {
         return (
-            <img className={this.props.component.clickAction ? "image-clickable" : "simple-image" } style={this.setOverflow()} onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt={this.props.component.params.name} />
+            <img className={this.props.component.clickAction ? "image-clickable" : "simple-image"} style={this.setOverflow()} onClick={() => this.click()} src={getServerAddr() + this.props.component.params.src} alt="image-clickable" />
         );
     }
 }

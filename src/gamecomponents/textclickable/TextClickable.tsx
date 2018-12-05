@@ -22,6 +22,7 @@ class TextClickable extends React.Component<GameProps, State> implements GameCom
             "size": "chaine de caractère du type : 16px",
             "bold": "true | false",
             "italic": "true | false",
+            "background": "couleur sous cette forme : #FF0000 ou rgba(255,0,0,1)"
 
         }
     }
@@ -32,7 +33,8 @@ class TextClickable extends React.Component<GameProps, State> implements GameCom
             color: params.color,
             fontSize: params.size,
             fontWeight: params.bold ? 'bold' : 'normal',
-            fontStyle: params.italic ? 'italic' : 'normal'
+            fontStyle: params.italic ? 'italic' : 'normal',
+            backgroundColor: params.background
         };
     }
 

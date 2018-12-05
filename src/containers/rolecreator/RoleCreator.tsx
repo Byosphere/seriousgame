@@ -2,7 +2,7 @@ import * as React from 'react';
 import './rolecreator.css';
 import T from 'i18n-react';
 import { saveRoles } from 'src/utils/api';
-import { Card, CardHeader, TextField, IconButton, InputAdornment, List, ListItem, ListItemText, ListItemSecondaryAction, Menu, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Chip } from '@material-ui/core';
+import { Card, CardHeader, TextField, IconButton, InputAdornment, List, ListItem, ListItemText, ListItemSecondaryAction, Menu, MenuItem, FormControl, InputLabel, Select, OutlinedInput, Chip, Tooltip } from '@material-ui/core';
 import { Save, Brightness1, PersonAdd, MoreVert, PlaylistAdd } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { displaySnackbar, displayConfirmDialog } from 'src/actions/snackbarActions';
@@ -123,12 +123,16 @@ class RoleCreator extends React.Component<Props, State> {
                         component="h2"
                         action={
                             <div>
-                                <IconButton onClick={() => this.save()} disabled={this.state.saving}>
-                                    <Save />
-                                </IconButton>
-                                <IconButton onClick={() => this.addRole()}>
-                                    <PersonAdd />
-                                </IconButton>
+                                <Tooltip title={T.translate('role.save')}>
+                                    <IconButton onClick={() => this.save()} disabled={this.state.saving}>
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={T.translate('role.create')}>
+                                    <IconButton onClick={() => this.addRole()}>
+                                        <PersonAdd />
+                                    </IconButton>
+                                </Tooltip>
                             </div>
                         }
                     />

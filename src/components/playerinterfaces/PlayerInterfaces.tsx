@@ -1,7 +1,8 @@
 import * as React from 'react';
 import './playerinterfaces.css';
 import T from 'i18n-react';
-import { Card, Tabs, Tab } from '@material-ui/core';
+import { Card, Tabs, Tab, IconButton, Tooltip } from '@material-ui/core';
+import { Fullscreen, FullscreenExit } from '@material-ui/icons';
 import InterfaceCreator from '../interfacecreator/InterfaceCreator';
 import Story from 'src/interfaces/Story';
 import Interface from 'src/interfaces/Interface';
@@ -14,6 +15,8 @@ interface Props {
 
 interface State {
     tab: number
+    fullscreen: boolean
+    tooltip: boolean
 }
 
 class PlayerInterfaces extends React.Component<Props, State> {
@@ -22,8 +25,14 @@ class PlayerInterfaces extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            tab: 0
+            tab: 0,
+            fullscreen: false,
+            tooltip: false
         }
+    }
+
+    public toggleFullscreen() {
+        this.setState({ fullscreen: !this.state.fullscreen, tooltip: false });
     }
 
     public handleChange(value: number) {
@@ -71,9 +80,21 @@ class PlayerInterfaces extends React.Component<Props, State> {
         }
 
         return (
-            <div className="player-interfaces">
-                <Card>
+            <div className="player-interfaces" style={this.state.fullscreen ? { gridRow: "1 / 4", gridColumn: "1 / 4" } : {}}>
+                <Card style={{ position: "relative" }}>
+                    <Tooltip
+                        open={this.state.tooltip}
+                        onOpen={() => this.setState({ tooltip: true })}
+                        onClose={() => this.setState({ tooltip: false })}
+                        title={this.state.fullscreen ? T.translate('generic.shrink') : T.translate('generic.fullscreen')}>
+
+                        <IconButton onClick={() => this.toggleFullscreen()} className="fullscreen-button">
+                            {!this.state.fullscreen && <Fullscreen />}
+                            {this.state.fullscreen && <FullscreenExit />}
+                        </IconButton>
+                    </Tooltip>
                     <Tabs
+                        style={{ width: "calc(100% - 48px)" }}
                         onChange={(event, value) => { this.handleChange(value) }}
                         value={this.state.tab}
                         indicatorColor="primary"

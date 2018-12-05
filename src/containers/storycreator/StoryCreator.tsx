@@ -26,6 +26,7 @@ interface Props {
 interface State {
     saving: boolean
     filenameDialog: boolean
+    retract: boolean
 }
 
 class StoryCreator extends React.Component<Props, State> {
@@ -35,7 +36,8 @@ class StoryCreator extends React.Component<Props, State> {
         this.props.selectCurrentStory(props.stories[0]);
         this.state = {
             saving: false,
-            filenameDialog: false
+            filenameDialog: false,
+            retract: false
         }
     }
 
@@ -102,8 +104,8 @@ class StoryCreator extends React.Component<Props, State> {
 
         if (this.props.selectedStory) {
             return (
-                <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
+                <div className="story-creator" style={this.state.retract ? { gridTemplateColumns: "55px calc(100% - 355px) 300px" } : {}}>
+                    <SimpleStoryList toggleRetract={() => this.setState({ retract: !this.state.retract })} stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
                     <Card className="story-details">
                         <div style={{ display: "flex", alignItems: "center", flex: "1", marginRight: "20px" }}>
                             <TextField
@@ -173,7 +175,7 @@ class StoryCreator extends React.Component<Props, State> {
         } else if (this.props.stories.length === 0) {
             return (
                 <div className="story-creator">
-                    <SimpleStoryList stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
+                    <SimpleStoryList toggleRetract={() => this.setState({ retract: !this.state.retract })} stories={this.props.stories} editedStory={this.props.selectedStory} saving={this.state.saving} />
                     <Card className="no-stories">
                         <p>{T.translate("story.create")}</p>
                     </Card>

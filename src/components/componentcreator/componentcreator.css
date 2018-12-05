@@ -39,3 +39,22 @@
 .component-input-inline .placement {
     margin: 15px 0 0 10px;
 }
+
+.move-component {
+    position: absolute;
+    left: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comp-arrow {
+    transition: all 0.2s !important;
+}
+
+.comp-arrow:hover {
+    transform: scale(1.4);
+}
+
+.comp-arrow-disabled {
+    opacity: 0.2;
+}
