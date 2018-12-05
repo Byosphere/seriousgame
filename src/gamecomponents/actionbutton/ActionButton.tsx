@@ -21,10 +21,27 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
     public static getParamModel() {
         return {
             "text": "Le texte du bouton (chaine de caractères non null)",
-            "size": "small | large | medium (ou null)",
-            "color": "primary | default | null",
+            "size": "small | large | medium (ou null) | fill",
+            "textColor": "Couleur du texte de la forme : #FF0000 ou rgba(0,0,0,1) (blanc par défaut)",
+            "backColor": "Couleur du fond de la forme : #FF0000 ou rgba(0,0,0,1) (orange par défaut)",
             "variant": "contained | outlined | null"
         }
+    }
+
+    public getSize(): any {
+        let size = this.props.component.params.size;
+        if (!size || size === "fill") return "medium";
+        return size;
+    }
+
+    public getStyle(): React.CSSProperties {
+        let params = this.props.component.params;
+        return {
+            width: params.size === "fill" ? "100%" : "",
+            height: params.size === "fill" ? "100%" : "",
+            color: params.textColor,
+            backgroundColor: params.backColor
+        };
     }
 
     public click() {
@@ -36,7 +53,15 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
 
     render() {
         return (
-            <Button color={this.props.component.params.color} size={this.props.component.params.size} variant={this.props.component.params.variant} disabled={this.state.disabled} onClick={() => { this.click() }}>{this.props.component.params.text}</Button>
+            <Button
+                color="primary"
+                style={this.getStyle()}
+                size={this.getSize()}
+                variant={this.props.component.params.variant}
+                disabled={this.state.disabled}
+                onClick={() => { this.click() }}>
+                {this.props.component.params.text}
+            </Button>
         );
     }
 }

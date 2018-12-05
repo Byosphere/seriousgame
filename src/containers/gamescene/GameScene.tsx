@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import './gamescene.css';
 import Loader from '../../components/loader/Loader';
 import { startGame, playPause, listenDynamicActions, getServerAddr, resetPlayers, onPlayerReset } from '../../utils/api';
@@ -16,6 +17,7 @@ import logo from 'src/logo.png';
 
 interface Props {
     changeServer: Function
+    imageFolder: string
 }
 
 interface State {
@@ -102,7 +104,7 @@ class GameScene extends React.Component<Props, State> {
         let currentPage = this.state.interface.pages[this.state.currentPage];
         let cols = (currentPage && currentPage.cols) ? currentPage.cols : this.state.interface.cols;
         let rows = (currentPage && currentPage.rows) ? currentPage.rows : this.state.interface.rows;
-        let bg = (currentPage && currentPage.background) ? "url('" + getServerAddr() + currentPage.background + "')" : '';
+        let bg = (currentPage && currentPage.background && currentPage.background !== this.props.imageFolder) ? "url('" + getServerAddr() + currentPage.background + "')" : '';
         let gridSize = cols * rows;
 
         this.setState({
@@ -177,4 +179,10 @@ class GameScene extends React.Component<Props, State> {
     }
 }
 
-export default GameScene;
+function mapStateToProps(state: any) {
+    return {
+        imageFolder: state.connector.params.imageFolder
+    }
+}
+
+export default connect(mapStateToProps, {})(GameScene);
