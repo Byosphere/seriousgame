@@ -293,7 +293,9 @@ class PageCreator extends React.Component<Props, State> {
                     );
                 })}
                 <div className={this.props.hasIa ? "float-button withIa" : "float-button"}>
-                    <Button onClick={() => { this.addPage() }} variant="fab" color="primary"><LibraryAdd /></Button>
+                    <Tooltip title={T.translate('interface.page.add')}>
+                        <Button onClick={() => { this.addPage() }} variant="fab" color="primary"><LibraryAdd /></Button>
+                    </Tooltip>
                 </div>
             </div>
         );

@@ -164,6 +164,7 @@
         "debug": "Afficher la grille",
         "backgroundurl": "Chercher l'image sur le serveur",
         "page": {
+            "add": "Ajouter une page",
             "informations": "Dans cette partie, vous pouvez configurer la page courante à chaque étape. Les lignes et colonnes sont une surcharge possible de l'interface. Le fond d'écran est un lien d'image (png ou jpg) qui s'affichera derrière la grille. Enfin, les Composants sont la liste des éléments affichables ou déclenchable sur cette page (ils s'affichent dans l'ordre de la liste en cas de superposition).",
             "deletewarning": "Êtes-vous sûr de vouloir supprimer cette page ?",
             "pageadded": "Une page a été ajoutée.",

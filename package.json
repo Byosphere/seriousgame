@@ -1,7 +1,7 @@
 {
   "name": "seriousgame",
   "displayName": "Orange XDLAB - Serious Game Builder",
-  "version": "0.9.9",
+  "version": "1.0.0",
   "description": "Créateur de jeu Orange",
   "author": "Yohann CAILLON",
   "private": true,
