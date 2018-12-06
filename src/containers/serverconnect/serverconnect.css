@@ -8,17 +8,7 @@
     align-items: center;
 }
 
-.server-connect .game-header {
-    position: absolute;
-    top: 20px;
-    color: white;
-    text-align: center;
-    width: 100%;
-}
-
 .server-connect .server-join {
-    width: 38%;
-    padding-top: 38%;
     position: relative;
     border-radius: 50%;
     background-color: white;
@@ -38,17 +28,12 @@
     margin-top: -10px;
 }
 
-.server-connect .server-join .inner>div {
-    width: 80%;
-    margin: 5px 10%;
-}
-
-.server-connect button {
-    height: 56px;
-}
-
-.server-connect h2 {
-    margin-bottom: 20px;
+.server-connect .game-header {
+    position: absolute;
+    top: 20px;
+    color: white;
+    text-align: center;
+    width: 100%;
 }
 
 .server-connect .inner .version {
@@ -56,4 +41,42 @@
     position: absolute;
     bottom: 10px;
     opacity: 0.5;
+    width: 100%;
+    left: 0;
+}
+
+.server-connect h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@media screen and (min-width: 1080px) {
+
+
+    .server-connect .server-join {
+        width: 38%;
+        padding-top: 38%;
+    }
+
+    .server-connect .server-join .inner>div {
+        width: 80%;
+        margin: 5px 10%;
+    }
+    .server-connect button {
+        height: 56px;
+    }
+
+}
+
+@media screen and (max-width: 1080px) {
+
+    .server-connect .server-join {
+        width: 80%;
+        padding-top: 80%;
+    }
+
+    .server-connect .server-join .inner {
+        padding: 0 50px;
+        align-items: stretch;
+    }
 }

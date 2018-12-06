@@ -4,7 +4,7 @@ import { TextField, InputAdornment, Button, FormControl, InputLabel, Select, Out
 import T from 'i18n-react';
 import { PLAYER, INSTRUCTOR, ORANGE } from 'src/utils/constants';
 import Connector from 'src/interfaces/Connector';
-import Loader from 'src/components/loader/Loader';
+import { GridLoader } from 'halogenium';
 import { setConnector } from 'src/actions/connectorActions';
 import { connect } from 'react-redux';
 
@@ -32,14 +32,14 @@ class ServerConnect extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            addr: '',
-            port: 0,
+            addr: this.props.connector ? this.props.connector.addr : '',
+            port: this.props.connector ? this.props.connector.port : 0,
             errorMessages: {},
-            type: PLAYER,
-            password: '',
+            type: this.props.connector ? this.props.connector.type : PLAYER,
+            password: this.props.connector ? this.props.connector.password : '',
             disabled: false,
             checked: false,
-            name: '',
+            name: this.props.connector ? this.props.connector.playerName : '',
             connected: Boolean(this.props.connector)
         }
 
@@ -67,7 +67,7 @@ class ServerConnect extends React.Component<Props, State> {
                         let errors: string[] = [];
                         errors['password'] = T.translate('invalid.password').toString();
                         localStorage.removeItem('server');
-                        this.setState({ errorMessages: errors, disabled: false, connected: false, type: co.type });
+                        this.setState({ errorMessages: errors, disabled: false, connected: false, type: co.type, addr: co.addr, port: co.port });
                     }
                 },
                 reject => {
@@ -80,8 +80,6 @@ class ServerConnect extends React.Component<Props, State> {
     }
 
     public render() {
-
-        if (this.state.connected) return (<Loader textKey="loader.serverwait" />);
 
         return (
             <div className="server-connect" style={{ background: ORANGE }}>
@@ -171,7 +169,7 @@ class ServerConnect extends React.Component<Props, State> {
                                 helperText={this.state.errorMessages['name']}
                             />}
                         </div>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                        {!this.state.disabled && <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
                             <Button onClick={() => this.tryConnect()} variant="outlined" color="primary">
                                 {T.translate('server.connect')}
                             </Button>
@@ -188,7 +186,10 @@ class ServerConnect extends React.Component<Props, State> {
                                 label={T.translate('server.save')}
                                 style={{ marginLeft: "20px" }}
                             />
-                        </div>
+                        </div>}
+                        {this.state.disabled && <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "25px" }}>
+                            <GridLoader className="small-loader" color={ORANGE} size="10px" />
+                        </div>}
                         <p className="version">Version {process.env.REACT_APP_VERSION}</p>
                     </div>
                 </div>
