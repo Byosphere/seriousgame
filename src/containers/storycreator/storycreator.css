@@ -6,6 +6,7 @@
     height: calc(100% - 48px);
     width: 100%;
     background-color: #EFEFEF;
+    overflow: hidden;
 }
 
 .story-details {

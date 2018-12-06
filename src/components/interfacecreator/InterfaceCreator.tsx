@@ -65,7 +65,7 @@ class InterfaceCreator extends React.Component<Props, State> {
 
         return (
             <div className="interface-creator">
-                <AppBar position="static" style={{ backgroundColor: "#424242", boxShadow: 'none' }}>
+                <AppBar position="static" style={{ backgroundColor: "#424242", boxShadow: 'none', maxHeight: " 60px" }}>
                     <Toolbar variant="dense">
                         <h3 style={{ margin: "6px" }}>
                             {T.translate('generic.interfaceof')} {selectedRole ? selectedRole.name : '?????'}
