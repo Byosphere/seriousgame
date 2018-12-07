@@ -22,8 +22,8 @@ class ActionButton extends React.Component<GameProps, State> implements GameComp
         return {
             "text": "Le texte du bouton (chaine de caractères non null)",
             "size": "small | large | medium (ou null) | fill",
-            "textColor": "Couleur du texte de la forme : #FF0000 ou rgba(0,0,0,1) (blanc par défaut)",
-            "backColor": "Couleur du fond de la forme : #FF0000 ou rgba(0,0,0,1) (orange par défaut)",
+            "textColor": "Couleur du texte : #FF0000 ou rgba(0,0,0,1) (blanc par défaut)",
+            "backColor": "Couleur du fond : #FF0000 ou rgba(0,0,0,1) (orange par défaut)",
             "variant": "contained | outlined | null"
         }
     }

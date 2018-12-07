@@ -18,11 +18,11 @@ class TextClickable extends React.Component<GameProps, State> implements GameCom
     public static getParamModel() {
         return {
             "text": "text (chaine de caractères)",
-            "color": "couleur sous cette forme : #FF0000 ou rgba(255,0,0,1)",
+            "color": "couleur du texte : #FF0000 ou rgba(0,0,0,1)",
             "size": "chaine de caractère du type : 16px",
             "bold": "true | false",
             "italic": "true | false",
-            "background": "couleur sous cette forme : #FF0000 ou rgba(255,0,0,1)"
+            "background": "couleur de fond : #FF0000 ou rgba(0,0,0,1)"
 
         }
     }
