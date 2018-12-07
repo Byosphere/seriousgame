@@ -226,7 +226,7 @@ class RoleCreator extends React.Component<Props, State> {
                             onChange={evt => this.handleChange(evt, 'theme')}
                             input={
                                 <OutlinedInput
-                                    labelWidth={130}
+                                    labelWidth={120}
                                     name="age"
                                     id="outlined-theme"
                                     fullWidth

@@ -1,19 +1,22 @@
 import * as React from 'react';
 import './interfacecreator.css';
 import T from 'i18n-react';
+import { connect } from 'react-redux';
 import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField, Button, Input } from '@material-ui/core';
-import { Edit, Add, Label } from '@material-ui/icons';
-import { ORANGE } from 'src/utils/constants';
+import { Edit } from '@material-ui/icons';
+import { ORANGE, ACTION_FINALE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
 import PageCreator from '../pagecreator/PageCreator';
 import Interface from 'src/interfaces/Interface';
 import Role from 'src/interfaces/Role';
+import Action from 'src/interfaces/Action';
 
 interface Props {
     interface: Interface
     roles: Array<Role>
     selectedRoles: Array<number>
     update: Function
+    currentAction: Action
 }
 interface State {
     roleDialogOpen: boolean
@@ -103,10 +106,13 @@ class InterfaceCreator extends React.Component<Props, State> {
                         />
                     </Toolbar>
                 </AppBar>
-                <div className="interface-creator-content" style={contentStyle}>
+                {(this.props.currentAction && this.props.currentAction.id !== ACTION_FINALE) && <div className="interface-creator-content" style={contentStyle}>
                     {this.props.interface.displayIa && <IaCreator messages={this.props.interface.messages} />}
                     <PageCreator pages={this.props.interface.pages} hasIa={this.props.interface.displayIa} roles={roles} />
-                </div>
+                </div>}
+                {(this.props.currentAction && this.props.currentAction.id === ACTION_FINALE) && <div className="interface-creator-empty">
+                    <span style={{ marginTop: "-20px" }}>{T.translate('generic.finished')}</span>
+                </div>}
                 <Dialog onClose={() => { this.handleClose() }} aria-labelledby="select-role-dialog" open={this.state.roleDialogOpen}>
                     <DialogTitle id="select-role-dialog">{T.translate('role.choose')}</DialogTitle>
                     <div>
@@ -126,5 +132,10 @@ class InterfaceCreator extends React.Component<Props, State> {
         );
     }
 }
+function mapStateToProps(state: any) {
+    return {
+        currentAction: state.story.action
+    }
+}
 
-export default InterfaceCreator;
+export default connect(mapStateToProps, {})(InterfaceCreator);

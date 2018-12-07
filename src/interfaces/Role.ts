@@ -19,7 +19,7 @@ class Role {
         this.name = name;
         this.description = description || '';
         this.soustitre = soustitre || '';
-        this.image = image || '';
+        this.image = image || 'images/';
         this.color = color || '';
         this.theme = theme || DARK;
         this.disabled = false;

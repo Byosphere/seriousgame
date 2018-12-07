@@ -121,7 +121,15 @@ class ActionsTimeline extends React.Component<Props, State> {
                                         <Button color="primary" mini onClick={() => { this.deleteAction(i) }}>{T.translate('action.delete')}</Button>
                                     </div>
                                 </StepContent>}
-                                {(action.id === ACTION_INITIAL || action.id === ACTION_FINALE) && <StepContent>
+                                {action.id === ACTION_FINALE && <StepContent>
+                                    <TextField
+                                        id="action-finale-description"
+                                        label={T.translate('action.fin')}
+                                        value={action.description}
+                                        onChange={event => { this.handleChange(event, 'description') }}
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
                                     <FormControlLabel
                                         style={{ margin: "5px 0" }}
                                         control={

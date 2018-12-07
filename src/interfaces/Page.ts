@@ -113,7 +113,7 @@ class Page {
             components.push(component.duplicate());
         });
 
-        return new Page(id, this.background, components, this.cols, this.rows, this.actionToDisplay, this.debug);
+        return new Page(id, this.background, components, this.cols, this.rows, [], this.debug);
     }
 
     static fromData(data: PageData): Page {

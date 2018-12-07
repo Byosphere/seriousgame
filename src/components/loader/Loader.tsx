@@ -7,6 +7,7 @@ import { Button } from '@material-ui/core';
 
 interface Props {
     textKey: string
+    text?: string
     color?: string
     button?: string
     buttonAction?: Function
@@ -23,7 +24,7 @@ class Loader extends React.Component<Props, State> {
         return (
             <div className="loader-wrapper">
                 <GridLoader className="loader" color={this.props.color || ORANGE} size="50px" />
-                <p className="sub-loader">{T.translate(this.props.textKey)}</p>
+                <p className="sub-loader">{this.props.text ? this.props.text : T.translate(this.props.textKey)}</p>
                 {this.props.button && <div className="load-button"><Button variant="contained" onClick={() => { this.props.buttonAction() }} color="primary" >{T.translate(this.props.button)}</Button></div>}
             </div>
         );

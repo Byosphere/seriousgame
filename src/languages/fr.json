@@ -13,7 +13,8 @@
         "defaultname": "Nouvelle étape",
         "confirmdelete": "Êtes-vous sûr de vouloir supprimer cette étape ?",
         "none": "Aucune étape",
-        "informations": "Ci-dessous sont affichées les étapes configurées pour votre story. Le passage d'une étape à une autre peut être définie via un composant, l'IA, ou le maître du jeu."
+        "informations": "Ci-dessous sont affichées les étapes configurées pour votre story. Le passage d'une étape à une autre peut être définie via un composant, l'IA, ou le maître du jeu.",
+        "fin": "Titre de fin"
     },
     "instructor": {
         "title": "Interface de jeu",
@@ -82,7 +83,7 @@
         "none": "Retirer le rôle",
         "saved": "Rôles sauvegardés !",
         "edit": "Modifier {name}",
-        "theme": "Accent de couleur",
+        "theme": "Couleur du texte",
         "surtitre": "Dans la peau de",
         "new": "Nouveau rôle",
         "save": "Sauvegarder les rôles",
@@ -125,6 +126,7 @@
         "filename": "Nommer le fichier",
         "fullscreen": "Afficher en plein écran",
         "shrink": "Réduire",
+        "finished": "Ecran de fin de partie",
         "placement": {
             "center": "Centrer",
             "top_left": "Haut à gauche",
@@ -134,8 +136,8 @@
             "top_center": "Haut centré",
             "bottom_center": "Bas centré"
         },
-        "dark": "Sombre",
-        "light": "Lumineux",
+        "dark": "Noir",
+        "light": "Blanc",
         "expand": "Agrandir"
     },
     "ia": {
@@ -209,5 +211,14 @@
         "save": "connexion automatique",
         "pname": "Nom de joueur",
         "timeout": "Le serveur n'a pas répondu"
+    },
+    "gamecomponent": {
+        "Quizz": "Quizz",
+        "ActionButton": "Bouton cliquable",
+        "ImageClickable": "Image cliquable",
+        "PopinIa": "Message d'IA",
+        "Timer": "Décompte",
+        "TextClickable": "Texte cliquable",
+        "InvisibleBlock": "Élément cliquable invisible"
     }
 }

@@ -35,8 +35,12 @@
 
 .interface-creator-content .form-top>div>div {
     max-width: 150px;
-} 
+}
 
-.interface-creator-content .form-top>button {
-
+.interface-creator-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

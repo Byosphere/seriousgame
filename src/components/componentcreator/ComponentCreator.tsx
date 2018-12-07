@@ -58,8 +58,12 @@ class ComponentCreator extends React.Component<Props, State> {
 
     public newComponent() {
         let newComponent = null;
+        let newId = 1;
         if (this.props.page.components.length) {
-            newComponent = new Component(this.props.page.components[this.props.page.components.length - 1].id + 1, "");
+            while (this.props.page.components.find(cmp => { return cmp.id === newId })) {
+                newId++;
+            }
+            newComponent = new Component(newId, "");
         } else {
             newComponent = new Component(1, "");
         }
@@ -180,7 +184,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                     color="primary"
                                     onClick={() => { this.checkComponent(cmp) }}
                                 />
-                                <ListItemText primary={cmp.name} secondary={'Type : ' + cmp.type + ' | cols : ' + cmp.cols + ' - rows : ' + cmp.rows} />
+                                <ListItemText primary={cmp.name} secondary={'Type : ' + T.translate('gamecomponent.' + cmp.type) + ' | colonnes : ' + cmp.cols + ' - lignes : ' + cmp.rows} />
                                 <ListItemSecondaryAction>
                                     <IconButton onClick={() => { this.editComponent(i) }} aria-label="Delete">
                                         <Edit />
@@ -239,7 +243,7 @@ class ComponentCreator extends React.Component<Props, State> {
                                 } >
                                 {Object.keys(DYNAMIC_COMPONENTS).map((cmpType, i) => {
                                     return (
-                                        <MenuItem key={i} value={cmpType}>{cmpType}</MenuItem>
+                                        <MenuItem key={i} value={cmpType}>{T.translate('gamecomponent.' + cmpType)}</MenuItem>
                                     );
                                 })}
                             </Select>

@@ -44,7 +44,8 @@ class Timer extends React.Component<GameProps, State> implements GameComponent {
     public static getParamModel() {
         return {
             "duration": "Durée du timer en secondes",
-            "size": "Taille du texte du timer (en px)",
+            "size": "Taille du texte du timer (par exemple '16px')",
+            "color": "Couleur du texte du timer #FF0000 ou rgba(0,0,0,0)",
             "hidden": "true | false (montrer le timer ou non)"
         }
     }
@@ -56,7 +57,7 @@ class Timer extends React.Component<GameProps, State> implements GameComponent {
     render() {
         return (
             <div className="game-timer">
-                {!this.props.component.params.hidden && <p style={{ fontSize: this.props.component.params.size + "px" }}>
+                {!this.props.component.params.hidden && <p style={{ fontSize: this.props.component.params.size, color: this.props.component.params.color }}>
                     {this.state.minutes < 10 && "0"}{this.state.minutes} : {this.state.seconds < 10 && "0"}{this.state.seconds}
                 </p>}
             </div>
