@@ -4,7 +4,7 @@ import T from 'i18n-react';
 import { Card, CardHeader, Stepper, Step, StepLabel, StepContent, Button } from '@material-ui/core';
 import Story from 'src/interfaces/Story';
 import Action from 'src/interfaces/Action';
-import { Person, PersonPin } from '@material-ui/icons';
+import { PersonPin } from '@material-ui/icons';
 import { ROLE_SELECT } from 'src/utils/constants';
 
 interface Props {

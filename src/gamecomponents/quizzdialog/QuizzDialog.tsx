@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './quizzdialog.css';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Slide, List, ListItem, ListItemIcon, ListItemText, Divider, DialogActions, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, Slide, List, ListItem, ListItemIcon, ListItemText, DialogActions, Button } from '@material-ui/core';
 import { LooksOne, LooksTwo, Looks3, Looks4, Looks5, Looks6, Lens } from '@material-ui/icons';
 import T from 'i18n-react';
 import { GameProps, GameComponent } from 'src/interfaces/GameComponent';

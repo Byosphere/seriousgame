@@ -7,10 +7,9 @@ import configureStore from './store.jsx';
 import registerServiceWorker from './utils/registerServiceWorker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { ORANGE } from './utils/constants';
-import { getNavigatorLanguage } from './utils/tools';
 import T from 'i18n-react';
 
-const lang = 'fr'; //getNavigatorLanguage(); a changer si multilingue
+const lang = 'fr';
 
 T.setTexts(require('./languages/' + lang + '.json'));
 

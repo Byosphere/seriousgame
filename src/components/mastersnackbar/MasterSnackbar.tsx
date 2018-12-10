@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './mastersnackbar.css';
-import { Snackbar, Button, IconButton } from '@material-ui/core';
+import { Snackbar, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
 interface State {}

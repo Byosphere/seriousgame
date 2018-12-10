@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './roleselect.css';
-import { Card, CardHeader } from '@material-ui/core';
 import T from 'i18n-react';
 import { selectRole, getPlayerStory, updateRole } from '../../utils/api';
 import Loader from '../../components/loader/Loader';
@@ -80,8 +79,6 @@ class RoleSelect extends React.Component<Props, State> {
                 <Loader button="server.change" buttonAction={() => { this.props.changeServer() }} textKey="loader.gamemasterwait" />
             );
         } else if (this.state.roles.length && this.state.story) {
-
-            let cardWidth = Math.floor(100 / this.state.roles.length) + '%';
 
             return (
                 <div className="player">

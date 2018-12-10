@@ -2,7 +2,7 @@ import * as React from 'react';
 import './interfacecreator.css';
 import T from 'i18n-react';
 import { connect } from 'react-redux';
-import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, TextField, Button, Input } from '@material-ui/core';
+import { AppBar, Toolbar, FormControlLabel, Switch, IconButton, Dialog, DialogTitle, List, ListItem, ListItemText, Input } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 import { ORANGE, ACTION_FINALE } from 'src/utils/constants';
 import IaCreator from '../iacreator/IaCreator';
