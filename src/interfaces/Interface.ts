@@ -64,7 +64,8 @@ class Interface {
         isValid = roles.findIndex(role => { return role.id === this.roleId }) > -1
             && isBoolean(this.displayIa)
             && this.cols > 0
-            && this.rows > 0;
+            && this.rows > 0
+            && this.pages.length > 0;
 
         if (!isValid) {
             this.errorMessage = T.translate('invalid.interface', { interfaceId: index + 1 }).toString();

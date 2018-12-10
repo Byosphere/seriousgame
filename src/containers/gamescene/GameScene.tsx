@@ -149,7 +149,7 @@ class GameScene extends React.Component<Props, State> {
         if (this.state.story) isLastAction = this.state.story.actions[this.state.story.actions.length - 1].id === this.state.lastActionId;
 
         if (!this.state.role) {
-            return <RoleSelect changeServer={() => { this.quitGame() }} selectRole={(role: Role) => this.setState({ role })} />;
+            return <RoleSelect changeServer={() => { this.props.changeServer() }} selectRole={(role: Role) => this.setState({ role })} />;
         } else if (isLastAction) {
             return (<Loader buttonAction={() => { this.quitGame() }} button="loader.quit" textKey="loader.endgame" text={this.state.story.actions[this.state.story.actions.length - 1].description} />);
         } else if (this.state.gameReady) {
