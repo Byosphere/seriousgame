@@ -15,7 +15,7 @@ class InvisibleBlock extends React.Component<GameProps, State> implements GameCo
 
     public static getParamModel() {
         return {
-            "border":"montre les bordures du block invisible (pour debug)"
+            "border": "montre les bordures du block invisible (pour debug)"
         };
     }
 
@@ -29,7 +29,7 @@ class InvisibleBlock extends React.Component<GameProps, State> implements GameCo
 
     render() {
         return (
-            <div style={{border: this.props.component.params.border ? "1px dashed green" : ""}} className={this.props.component.clickAction ? "invisible-block" : "invisible"}></div>
+            <div onClick={() => this.click()} style={{ border: this.props.component.params.border ? "1px dashed green" : "" }} className={this.props.component.clickAction ? "invisible-block" : "invisible"}></div>
         );
     }
 }
